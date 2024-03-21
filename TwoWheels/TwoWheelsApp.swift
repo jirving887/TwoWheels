@@ -25,16 +25,16 @@ struct TwoWheelsApp: App {
                         Image(systemName: "magnifyingglass")
                         Text("Search Map")
                     }
-                WeatherView()
-                    .tabItem {
-                        Image(systemName: "sun.max")
-                        Text("Weather")
-                    }
-                ProfileView()
-                    .tabItem {
-                        Image(systemName: "person")
-                        Text("Profile")
-                    }
+//                WeatherView()
+//                    .tabItem {
+//                        Image(systemName: "sun.max")
+//                        Text("Weather")
+//                    }
+//                ProfileView()
+//                    .tabItem {
+//                        Image(systemName: "person")
+//                        Text("Profile")
+//                    }
             }
             .environmentObject(destinations)
         }
