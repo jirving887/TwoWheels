@@ -46,6 +46,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB3DC1972BBF60E900DD3585 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		AB3DC1982BBF610000DD3585 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AB1F00082B4A09910034ECCD /* Destination.swift */,
+				AB1F000C2B4A0B280034ECCD /* Destinations.swift */,
+				AB1F000A2B4A0A100034ECCD /* DestinationType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AB3DC1992BBF612E00DD3585 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AB8BCFD22B48AE29003AE1DC /* ContentView.swift */,
+				AB8BCFDE2B48AE48003AE1DC /* MapView.swift */,
+				ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */,
+				ABC291612B61CE7900EC1393 /* MapSheetView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AB8BCFC42B48AE29003AE1DC = {
 			isa = PBXGroup;
 			children = (
@@ -65,15 +94,10 @@
 		AB8BCFCF2B48AE29003AE1DC /* TwoWheels */ = {
 			isa = PBXGroup;
 			children = (
-				AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */,
-				AB8BCFD22B48AE29003AE1DC /* ContentView.swift */,
-				AB8BCFDE2B48AE48003AE1DC /* MapView.swift */,
-				ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */,
-				ABC291612B61CE7900EC1393 /* MapSheetView.swift */,
+				AB3DC1992BBF612E00DD3585 /* Views */,
+				AB3DC1982BBF610000DD3585 /* Model */,
+				AB3DC1972BBF60E900DD3585 /* App */,
 				ABC291632B61CFCA00EC1393 /* LocationService.swift */,
-				AB1F00082B4A09910034ECCD /* Destination.swift */,
-				AB1F000C2B4A0B280034ECCD /* Destinations.swift */,
-				AB1F000A2B4A0A100034ECCD /* DestinationType.swift */,
 				AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */,
 				AB8BCFD62B48AE2A003AE1DC /* Preview Content */,
 			);
