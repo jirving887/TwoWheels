@@ -3,11 +3,13 @@
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
+//  Reference: https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
 //
 
 import SwiftUI
 
 struct MapSheetView: View {
+    
     
     @State private var locationService = LocationService(completer: .init())
     @State private var search: String = ""
@@ -57,7 +59,8 @@ struct MapSheetView: View {
             locationService.update(queryFragment: search)
         }
         .padding()
-        .interactiveDismissDisabled()
+        .presentationDetents([.fraction(0.20), .medium, .large])
+//        .interactiveDismissDisabled()
 //        .presentationDetents([.height(200), .large])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled(upThrough: .large))

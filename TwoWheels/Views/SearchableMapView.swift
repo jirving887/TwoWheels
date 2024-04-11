@@ -15,66 +15,74 @@ struct SearchableMapView: View {
     @State private var selectedLocation: SearchResult?
     @State private var isSheetPresented: Bool = false
     @State private var scene: MKLookAroundScene?
+    @State private var searchText: String = ""
     
     var body: some View {
-        Map(position: $position, selection: $selectedLocation) {
-            ForEach(searchResults) { result in
-                Marker(coordinate: result.location) {
-                    Image(systemName: "mappin")
-                }
-                .tag(result)
-            }
-        }
-//        .mapStyle(.standard(elevation: .realistic))
-        .mapControls {
-            MapScaleView()
-//            MapPitchButton()
-            MapUserLocationButton()
-            MapCompass()
-//            MapScaleView()
+//        ZStack {
             
-//                .buttonBorderShape(.circular)
-            Button {
-                print("pressed")
-            } label: {
-                VStack {
-                    Image(systemName: "magnifyingglass")
-                        .colorMultiply(.red)
-                    
-                    Text("Search")
+            Map(position: $position, selection: $selectedLocation) {
+                ForEach(searchResults) { result in
+                    Marker(coordinate: result.location) {
+                        Image(systemName: "mappin")
+                    }
+                    .tag(result)
+                }
+                UserAnnotation()
+            }
+            .mapControls {
+                MapScaleView()
+                MapUserLocationButton()
+                MapCompass()
+                MapPitchToggle()
+            }
+            .mapControlVisibility(.visible)
+            .onChange(of: selectedLocation) {
+                if let selectedLocation {
+                    Task {
+                        scene = try? await fetchScene(for: selectedLocation.location)
+                    }
+                }
+                isSheetPresented = selectedLocation == nil
+            }
+            .onChange(of: searchResults) {
+                if let firstResult = searchResults.first, searchResults.count == 1 {
+                    selectedLocation = firstResult
                 }
             }
-        }
-        .mapControlVisibility(.visible)
-        
-//        .overlay(alignment: .bottom) {
-//            if selectedLocation != nil {
-//                LookAroundPreview(scene: $scene, allowsNavigation: false, badgePosition: .bottomTrailing)
-//                    .frame(height: 150)
-//                    .clipShape(RoundedRectangle(cornerRadius: 12))
-//                    .safeAreaPadding(.bottom, 40)
-//                    .padding(.horizontal, 20)
+            
+            .searchable(text: $searchText)
+            .overlay(alignment: .bottomTrailing) {
+                Button {
+                    isSheetPresented.toggle()
+                } label: {
+                        Image(systemName: "magnifyingglass")
+                }
+                .sheet(isPresented: $isSheetPresented, content: {
+                    MapSheetView(searchResults: $searchResults)
+    //                    .presentationDetents([.fraction(0.20), .medium, .large])
+                })
+                .frame(minWidth: 50, minHeight: 50)
+                .background(Color(UIColor.systemBackground))
+                .cornerRadius(5)
+                .padding(.trailing, 20)
+                .padding(.bottom, 20)
+//                .background(Color(UIColor.systemBackground))
+//                .buttonStyle(.bordered)
+                
+                
+            }
+            
+//            VStack {
+//                Button {
+//                    isSheetPresented.toggle()
+//                } label: {
+//                    Image(systemName: "magnifyingglass")
+//                }
+//                .frame(alignment: .leading)
+//                
+//                Spacer()
 //            }
 //        }
-//        .ignoresSafeArea()
-        .onChange(of: selectedLocation) {
-            if let selectedLocation {
-                Task {
-                    scene = try? await fetchScene(for: selectedLocation.location)
-                }
-            }
-            isSheetPresented = selectedLocation == nil
-        }
-        .onChange(of: searchResults) {
-            if let firstResult = searchResults.first, searchResults.count == 1 {
-                selectedLocation = firstResult
-            }
-        }
-        .sheet(isPresented: $isSheetPresented) {
-            MapSheetView(searchResults: $searchResults)
-        }
-        
-
         
         
         
