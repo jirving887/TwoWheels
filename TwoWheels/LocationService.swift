@@ -5,6 +5,11 @@
 //  Created by Jonathan Irving on 1/24/24.
 //
 
+
+//Where did I get this code?
+//Okay it's referenced in MapSheetView
+//Here it is.. https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
+
 import MapKit
 
 struct SearchCompletions: Identifiable {

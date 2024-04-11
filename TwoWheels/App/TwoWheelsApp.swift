@@ -15,12 +15,12 @@ struct TwoWheelsApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-                MapView()
-                    .tabItem {
-                        Image(systemName: "map")
-                        Text("Map")
-                    }
-                SearchableMapView()
+//                MapView()
+//                    .tabItem {
+//                        Image(systemName: "map")
+//                        Text("Map")
+//                    }
+                ContentView()
                     .tabItem {
                         Image(systemName: "magnifyingglass")
                         Text("Search Map")
