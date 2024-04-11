@@ -10,10 +10,10 @@ import SwiftUI
 
 struct SearchableMapView: View {
     
-    @State private var position = MapCameraPosition.automatic
+    @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
     @State private var searchResults = [SearchResult]()
     @State private var selectedLocation: SearchResult?
-    @State private var isSheetPresented: Bool = false
+    @State private var isSearchSheetPresented: Bool = false
     @State private var scene: MKLookAroundScene?
     @State private var searchText: String = ""
     
@@ -42,7 +42,7 @@ struct SearchableMapView: View {
                         scene = try? await fetchScene(for: selectedLocation.location)
                     }
                 }
-                isSheetPresented = selectedLocation == nil
+                isSearchSheetPresented = selectedLocation == nil
             }
             .onChange(of: searchResults) {
                 if let firstResult = searchResults.first, searchResults.count == 1 {
@@ -53,18 +53,18 @@ struct SearchableMapView: View {
             .searchable(text: $searchText)
             .overlay(alignment: .bottomTrailing) {
                 Button {
-                    isSheetPresented.toggle()
+                    isSearchSheetPresented.toggle()
                 } label: {
                         Image(systemName: "magnifyingglass")
                 }
-                .sheet(isPresented: $isSheetPresented, content: {
+                .sheet(isPresented: $isSearchSheetPresented, content: {
                     MapSheetView(searchResults: $searchResults)
     //                    .presentationDetents([.fraction(0.20), .medium, .large])
                 })
-                .frame(minWidth: 50, minHeight: 50)
+                .frame(minWidth: 45, minHeight: 45)
                 .background(Color(UIColor.systemBackground))
                 .cornerRadius(5)
-                .padding(.trailing, 20)
+                .padding(.trailing,5)
                 .padding(.bottom, 20)
 //                .background(Color(UIColor.systemBackground))
 //                .buttonStyle(.bordered)
