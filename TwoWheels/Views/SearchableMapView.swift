@@ -11,14 +11,14 @@ import SwiftUI
 struct SearchableMapView: View {
     
     @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
+    @State private var visibleRegion: MKCoordinateRegion?
     @State private var searchResults = [SearchResult]()
     @State private var selectedLocation: SearchResult?
     @State private var isSearchSheetPresented: Bool = false
-    @State private var scene: MKLookAroundScene?
-    @State private var searchText: String = ""
+    @State private var isInfoSheetPresented: Bool = false
+
     
     var body: some View {
-//        ZStack {
             
             Map(position: $position, selection: $selectedLocation) {
                 ForEach(searchResults) { result in
@@ -38,19 +38,25 @@ struct SearchableMapView: View {
             .mapControlVisibility(.visible)
             .onChange(of: selectedLocation) {
                 if let selectedLocation {
-                    Task {
-                        scene = try? await fetchScene(for: selectedLocation.location)
-                    }
+                    isInfoSheetPresented = true
+                    isSearchSheetPresented = false
+                    
+                    position = MapCameraPosition.item(MKMapItem(placemark: MKPlacemark(coordinate: selectedLocation.location)))
+                } else {
+                    isInfoSheetPresented = false
                 }
-                isSearchSheetPresented = selectedLocation == nil
             }
             .onChange(of: searchResults) {
                 if let firstResult = searchResults.first, searchResults.count == 1 {
                     selectedLocation = firstResult
                 }
+                if (!searchResults.isEmpty) {
+                    position = .automatic
+                } else {
+                    position = MapCameraPosition.userLocation(fallback: .automatic)
+                }
             }
-            
-            .searchable(text: $searchText)
+
             .overlay(alignment: .bottomTrailing) {
                 Button {
                     isSearchSheetPresented.toggle()
@@ -59,41 +65,21 @@ struct SearchableMapView: View {
                 }
                 .sheet(isPresented: $isSearchSheetPresented, content: {
                     MapSheetView(searchResults: $searchResults)
-    //                    .presentationDetents([.fraction(0.20), .medium, .large])
                 })
                 .frame(minWidth: 45, minHeight: 45)
                 .background(Color(UIColor.systemBackground))
                 .cornerRadius(5)
-                .padding(.trailing,5)
+                .padding(.trailing, 5)
                 .padding(.bottom, 20)
-//                .background(Color(UIColor.systemBackground))
-//                .buttonStyle(.bordered)
-                
-                
             }
-            
-//            VStack {
-//                Button {
-//                    isSheetPresented.toggle()
-//                } label: {
-//                    Image(systemName: "magnifyingglass")
-//                }
-//                .frame(alignment: .leading)
-//                
-//                Spacer()
-//            }
-//        }
-        
-        
-        
-    }
-    
-    private func fetchScene(for coordinate: CLLocationCoordinate2D) async throws -> MKLookAroundScene? {
-        let lookAroundScene = MKLookAroundSceneRequest(coordinate: coordinate)
-        return try await lookAroundScene.scene
+            .sheet(isPresented: $isInfoSheetPresented, content: {
+                LocationInfoView(location: selectedLocation ?? SearchResult(location: CLLocationCoordinate2D(latitude: 37.65729684192488, longitude: -77.1791187289185), title: "Preview Title", subTitle: "Preview subtitle", url: URL(string: "URL")))
+            })
     }
 }
 
 #Preview {
     SearchableMapView()
 }
+
+

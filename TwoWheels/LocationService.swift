@@ -22,6 +22,9 @@ struct SearchCompletions: Identifiable {
 struct SearchResult: Identifiable, Hashable {
     let id = UUID()
     let location: CLLocationCoordinate2D
+    let title: String?
+    let subTitle: String?
+    let url: URL?
     
     static func == (lhs: SearchResult, rhs: SearchResult) -> Bool {
         lhs.id == rhs.id
@@ -77,7 +80,7 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
         return response.mapItems.compactMap { mapItem in
             guard let location = mapItem.placemark.location?.coordinate else { return nil }
             
-            return .init(location: location)
+            return .init(location: location, title: mapItem.placemark.title, subTitle: mapItem.placemark.subtitle, url: mapItem.url)
         }
     }
     
