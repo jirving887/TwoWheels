@@ -22,10 +22,16 @@ struct SearchableMapView: View {
             
             Map(position: $position, selection: $selectedLocation) {
                 ForEach(searchResults) { result in
-                    Marker(coordinate: result.location) {
-                        Image(systemName: "mappin")
-                    }
-                    .tag(result)
+
+                    if let poi = result.mapItem.pointOfInterestCategory {}
+                        
+//                    } else {
+                    //force unwrap of location ok because a SearchResult object is never initialized without one
+                    Marker(coordinate: result.mapItem.placemark.location!.coordinate) {
+                            Image(systemName: "mappin")
+                        }
+                        .tag(result)
+//                    }
                 }
                 UserAnnotation()
             }
@@ -37,11 +43,13 @@ struct SearchableMapView: View {
             }
             .mapControlVisibility(.visible)
             .onChange(of: selectedLocation) {
+                print("changed selectedlocation")
                 if let selectedLocation {
                     isInfoSheetPresented = true
                     isSearchSheetPresented = false
                     
-                    position = MapCameraPosition.item(MKMapItem(placemark: MKPlacemark(coordinate: selectedLocation.location)))
+                    //force unwrap of location ok because a SearchResult object is never initialized without one
+                    position = MapCameraPosition.item(MKMapItem(placemark: MKPlacemark(coordinate: selectedLocation.mapItem.placemark.location!.coordinate)))
                 } else {
                     isInfoSheetPresented = false
                 }
@@ -73,7 +81,10 @@ struct SearchableMapView: View {
                 .padding(.bottom, 20)
             }
             .sheet(isPresented: $isInfoSheetPresented, content: {
-                LocationInfoView(location: selectedLocation ?? SearchResult(location: CLLocationCoordinate2D(latitude: 37.65729684192488, longitude: -77.1791187289185), title: "Preview Title", subTitle: "Preview subtitle", url: URL(string: "URL")))
+                if let selectedLocation {
+                    LocationInfoView(location: selectedLocation.mapItem)
+                }
+                
             })
     }
 }
