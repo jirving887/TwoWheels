@@ -21,10 +21,10 @@ struct TwoWheelsApp: App {
 //                        Text("Map")
 //                    }
                 ContentView()
-                    .tabItem {
-                        Image(systemName: "magnifyingglass")
-                        Text("Search Map")
-                    }
+//                    .tabItem {
+//                        Image(systemName: "magnifyingglass")
+//                        Text("Search Map")
+//                    }
 //                WeatherView()
 //                    .tabItem {
 //                        Image(systemName: "sun.max")
