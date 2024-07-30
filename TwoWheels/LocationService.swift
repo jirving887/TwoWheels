@@ -3,14 +3,13 @@
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
+//  Reference: https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
 //
 
 
-//Where did I get this code?
-//Okay it's referenced in MapSheetView
-//Here it is.. https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
 
 import MapKit
+import SwiftUI
 
 struct SearchCompletions: Identifiable {
     let id = UUID()
@@ -80,8 +79,6 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
         
         return response.mapItems.compactMap { mapItem in
             guard mapItem.placemark.location != nil else { return nil }// do not add mapItem if no location 
-            
-//            return .init(location: location, title: mapItem.placemark.title, subTitle: mapItem.placemark.subtitle, url: mapItem.url)
             return .init(mapItem: mapItem)
         }
     }
