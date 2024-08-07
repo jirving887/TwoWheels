@@ -71,7 +71,7 @@ struct SearchableMapView: View {
                     Image(systemName: "magnifyingglass")
             }
             .sheet(isPresented: $isSearchSheetPresented, content: {
-                MapSheetView(searchResults: $searchResults)
+                MapSheetView(searchRegion: visibleRegion, searchResults: $searchResults)
             })
             .frame(minWidth: 45, minHeight: 45)
             .background(Color(UIColor.systemBackground))
@@ -85,6 +85,9 @@ struct SearchableMapView: View {
             }
             
         })
+        .onMapCameraChange { newPos in
+            visibleRegion = newPos.region
+        }
     }
 }
 

@@ -37,14 +37,17 @@ struct SearchResult: Identifiable, Hashable {
 
 @Observable
 class LocationService: NSObject, MKLocalSearchCompleterDelegate {
-    private let completer: MKLocalSearchCompleter
-    
+    private var completer: MKLocalSearchCompleter
     var completions = [SearchCompletions]()
     
     init(completer: MKLocalSearchCompleter) {
         self.completer = completer
         super.init()
         self.completer.delegate = self
+    }
+    
+    func updateCompleterRegion(_ region: MKCoordinateRegion) {
+        self.completer.region = region
     }
     
     func update(queryFragment: String) {
@@ -65,14 +68,15 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
         }
     }
     
-    func search(with query: String, coordinate: CLLocationCoordinate2D? = nil) async throws -> [SearchResult] {
+    func search(with query: String, region: MKCoordinateRegion? = nil) async throws -> [SearchResult] {
         let mapKitRequest = MKLocalSearch.Request()
         mapKitRequest.naturalLanguageQuery = query
         mapKitRequest.resultTypes = .pointOfInterest
         
-        if let coordinate {
-            mapKitRequest.region = .init(.init(origin: .init(coordinate), size: .init(width: 1, height: 1)))
+        if let region {
+            mapKitRequest.region = region
         }
+        
         let search = MKLocalSearch(request: mapKitRequest)
         
         let response = try await search.start()
