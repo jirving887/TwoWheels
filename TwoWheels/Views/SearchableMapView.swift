@@ -14,8 +14,8 @@ struct SearchableMapView: View {
     @State private var visibleRegion: MKCoordinateRegion?
     @State private var searchResults = [SearchResult]()
     @State private var selectedLocation: SearchResult?
-    @State private var isSearchSheetPresented: Bool = false
-    @State private var isInfoSheetPresented: Bool = false
+    @State private var isSearchSheetPresented = false
+    @State private var isInfoSheetPresented = false
     
     var body: some View {
         
