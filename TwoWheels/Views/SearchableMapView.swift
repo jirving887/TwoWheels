@@ -58,7 +58,7 @@ struct SearchableMapView: View {
             if let firstResult = searchResults.first, searchResults.count == 1 {
                 selectedLocation = firstResult
             }
-            if (!searchResults.isEmpty) {
+            if !searchResults.isEmpty {
                 position = .automatic
             } else {
                 position = .userLocation(fallback: .automatic)
