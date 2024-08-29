@@ -70,9 +70,9 @@ struct SearchableMapView: View {
             } label: {
                     Image(systemName: "magnifyingglass")
             }
-            .sheet(isPresented: $isSearchSheetPresented, content: {
+            .sheet(isPresented: $isSearchSheetPresented) {
                 MapSheetView(searchRegion: visibleRegion, searchResults: $searchResults)
-            })
+            }
             .frame(minWidth: 45, minHeight: 45)
             .background(Color(UIColor.systemBackground))
             .cornerRadius(5)
