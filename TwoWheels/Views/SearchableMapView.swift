@@ -79,12 +79,11 @@ struct SearchableMapView: View {
             .padding(.trailing, 5)
             .padding(.bottom, 20)
         }
-        .sheet(isPresented: $isInfoSheetPresented, content: {
+        .sheet(isPresented: $isInfoSheetPresented) {
             if let selectedLocation {
                 LocationInfoView(location: selectedLocation.mapItem)
-            }
-            
-        })
+            }   
+        }
         .onMapCameraChange { newPos in
             visibleRegion = newPos.region
         }
