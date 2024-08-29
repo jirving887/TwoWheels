@@ -61,7 +61,7 @@ struct SearchableMapView: View {
             if (!searchResults.isEmpty) {
                 position = .automatic
             } else {
-                position = MapCameraPosition.userLocation(fallback: .automatic)
+                position = .userLocation(fallback: .automatic)
             }
         }
         .overlay(alignment: .bottomTrailing) {
