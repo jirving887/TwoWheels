@@ -14,12 +14,12 @@ struct SearchableMapView: View {
     @State private var visibleRegion: MKCoordinateRegion?
     @State private var searchResults = [SearchResult]()
     @State private var selectedLocation: SearchResult?
-    @State private var isSearchSheetPresented: Bool = false
-    @State private var isInfoSheetPresented: Bool = false
+    @State private var isSearchSheetPresented  = false
+    @State private var isInfoSheetPresented = false
     
     var body: some View {
         
-//      should make it so selection can be both selectedLocation and built-in mapFeatures
+//      TODO: should make it so selection can be both selectedLocation and built-in mapFeatures
         Map(position: $position, selection: $selectedLocation) {
             ForEach(searchResults) { result in
                 //force unwrap of location ok because a SearchResult object is never initialized without one
@@ -68,7 +68,7 @@ struct SearchableMapView: View {
             Button {
                 isSearchSheetPresented.toggle()
             } label: {
-                    Image(systemName: "magnifyingglass")
+                Image(systemName: "magnifyingglass")
             }
             .sheet(isPresented: $isSearchSheetPresented, content: {
                 MapSheetView(searchRegion: visibleRegion, searchResults: $searchResults)
