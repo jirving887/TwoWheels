@@ -21,10 +21,6 @@ struct SearchCompletions: Identifiable {
 struct SearchResult: Identifiable, Hashable {
     let id = UUID()
     let mapItem: MKMapItem
-//    let location: CLLocationCoordinate2D
-//    let title: String?
-//    let subTitle: String?
-//    let url: URL?
     
     static func == (lhs: SearchResult, rhs: SearchResult) -> Bool {
         lhs.id == rhs.id
@@ -46,7 +42,7 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
         self.completer.delegate = self
     }
     
-    func updateCompleterRegion(_ region: MKCoordinateRegion) {
+    func update(region: MKCoordinateRegion) {
         self.completer.region = region
     }
     

@@ -59,7 +59,7 @@ struct MapSheetView: View {
         }
         .onChange(of: search) {
             if (searchRegion != nil && search.count < 1) {
-                locationService.updateCompleterRegion(searchRegion!)
+                locationService.update(region: searchRegion!)
             }
             locationService.update(queryFragment: search)
         }
