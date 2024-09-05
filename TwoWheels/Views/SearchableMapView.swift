@@ -58,10 +58,10 @@ struct SearchableMapView: View {
             if let firstResult = searchResults.first, searchResults.count == 1 {
                 selectedLocation = firstResult
             }
-            if (!searchResults.isEmpty) {
+            if !searchResults.isEmpty {
                 position = .automatic
             } else {
-                position = MapCameraPosition.userLocation(fallback: .automatic)
+                position = .userLocation(fallback: .automatic)
             }
         }
         .overlay(alignment: .bottomTrailing) {
@@ -70,21 +70,20 @@ struct SearchableMapView: View {
             } label: {
                 Image(systemName: "magnifyingglass")
             }
-            .sheet(isPresented: $isSearchSheetPresented, content: {
+            .sheet(isPresented: $isSearchSheetPresented) {
                 MapSheetView(searchRegion: visibleRegion, searchResults: $searchResults)
-            })
+            }
             .frame(minWidth: 45, minHeight: 45)
             .background(Color(UIColor.systemBackground))
             .cornerRadius(5)
             .padding(.trailing, 5)
             .padding(.bottom, 20)
         }
-        .sheet(isPresented: $isInfoSheetPresented, content: {
+        .sheet(isPresented: $isInfoSheetPresented) {
             if let selectedLocation {
                 LocationInfoView(location: selectedLocation.mapItem)
-            }
-            
-        })
+            }   
+        }
         .onMapCameraChange { newPos in
             visibleRegion = newPos.region
         }
