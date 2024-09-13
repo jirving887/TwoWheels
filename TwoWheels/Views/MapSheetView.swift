@@ -58,15 +58,13 @@ struct MapSheetView: View {
             .scrollContentBackground(.hidden)
         }
         .onChange(of: search) {
-            if (searchRegion != nil && search.count < 1) {
-                locationService.update(region: searchRegion!)
+            if let searchRegion, search.count < 1 {
+                locationService.update(region: searchRegion)
             }
             locationService.update(queryFragment: search)
         }
         .padding()
         .presentationDetents([.fraction(0.20), .medium, .large])
-//        .interactiveDismissDisabled()
-//        .presentationDetents([.height(200), .large])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled(upThrough: .large))
     }
@@ -89,7 +87,3 @@ struct TextFieldGrayBackgroundColor: ViewModifier {
             .foregroundColor(.primary)
     }
 }
-
-//#Preview {
-//    MapSheetView()
-//}
