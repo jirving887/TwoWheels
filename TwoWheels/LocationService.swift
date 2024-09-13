@@ -3,9 +3,13 @@
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
+//  Reference: https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
 //
 
+
+
 import MapKit
+import SwiftUI
 
 struct SearchCompletions: Identifiable {
     let id = UUID()
@@ -16,7 +20,7 @@ struct SearchCompletions: Identifiable {
 
 struct SearchResult: Identifiable, Hashable {
     let id = UUID()
-    let location: CLLocationCoordinate2D
+    let mapItem: MKMapItem
     
     static func == (lhs: SearchResult, rhs: SearchResult) -> Bool {
         lhs.id == rhs.id
@@ -30,13 +34,16 @@ struct SearchResult: Identifiable, Hashable {
 @Observable
 class LocationService: NSObject, MKLocalSearchCompleterDelegate {
     private let completer: MKLocalSearchCompleter
-    
     var completions = [SearchCompletions]()
     
     init(completer: MKLocalSearchCompleter) {
         self.completer = completer
         super.init()
         self.completer.delegate = self
+    }
+    
+    func update(region: MKCoordinateRegion) {
+        completer.region = region
     }
     
     func update(queryFragment: String) {
@@ -57,23 +64,22 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
         }
     }
     
-    func search(with query: String, coordinate: CLLocationCoordinate2D? = nil) async throws -> [SearchResult] {
+    func search(with query: String, region: MKCoordinateRegion? = nil) async throws -> [SearchResult] {
         let mapKitRequest = MKLocalSearch.Request()
         mapKitRequest.naturalLanguageQuery = query
         mapKitRequest.resultTypes = .pointOfInterest
         
-        if let coordinate {
-            mapKitRequest.region = .init(.init(origin: .init(coordinate), size: .init(width: 1, height: 1)))
+        if let region {
+            mapKitRequest.region = region
         }
+        
         let search = MKLocalSearch(request: mapKitRequest)
         
         let response = try await search.start()
         
-        return response.mapItems.compactMap { mapItem in
-            guard let location = mapItem.placemark.location?.coordinate else { return nil }
-            
-            return .init(location: location)
-        }
+        return response.mapItems
+                    .filter { $0.placemark.location != nil }
+                    .compactMap(SearchResult.init(mapItem:))
     }
     
 }

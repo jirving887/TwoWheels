@@ -10,79 +10,82 @@ import SwiftUI
 
 struct SearchableMapView: View {
     
-    @State private var position = MapCameraPosition.automatic
+    @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
+    @State private var visibleRegion: MKCoordinateRegion?
     @State private var searchResults = [SearchResult]()
     @State private var selectedLocation: SearchResult?
-    @State private var isSheetPresented: Bool = false
-    @State private var scene: MKLookAroundScene?
+    @State private var isSearchSheetPresented  = false
+    @State private var isInfoSheetPresented = false
     
     var body: some View {
+        
+//      TODO: should make it so selection can be both selectedLocation and built-in mapFeatures
         Map(position: $position, selection: $selectedLocation) {
             ForEach(searchResults) { result in
-                Marker(coordinate: result.location) {
-                    Image(systemName: "mappin")
-                }
-                .tag(result)
+                //force unwrap of location ok because a SearchResult object is never initialized without one
+                Marker(coordinate: result.mapItem.placemark.location!.coordinate) {
+                        Image(systemName: "mappin")
+                    }
+                    .tag(result)
             }
+            UserAnnotation()
         }
-//        .mapStyle(.standard(elevation: .realistic))
         .mapControls {
             MapScaleView()
-//            MapPitchButton()
             MapUserLocationButton()
             MapCompass()
-//            MapScaleView()
-            
-//                .buttonBorderShape(.circular)
-            Button {
-                print("pressed")
-            } label: {
-                VStack {
-                    Image(systemName: "magnifyingglass")
-                        .colorMultiply(.red)
-                    
-                    Text("Search")
-                }
-            }
+            MapPitchToggle()
+        }
+        .mapFeatureSelectionDisabled { _ in false }
+        .mapFeatureSelectionContent { feature in
+            Marker(feature.title ?? "", coordinate: feature.coordinate)
+                .tag(feature)
         }
         .mapControlVisibility(.visible)
-        
-//        .overlay(alignment: .bottom) {
-//            if selectedLocation != nil {
-//                LookAroundPreview(scene: $scene, allowsNavigation: false, badgePosition: .bottomTrailing)
-//                    .frame(height: 150)
-//                    .clipShape(RoundedRectangle(cornerRadius: 12))
-//                    .safeAreaPadding(.bottom, 40)
-//                    .padding(.horizontal, 20)
-//            }
-//        }
-//        .ignoresSafeArea()
         .onChange(of: selectedLocation) {
+            print("changed selectedlocation")
             if let selectedLocation {
-                Task {
-                    scene = try? await fetchScene(for: selectedLocation.location)
-                }
+                isInfoSheetPresented = true
+                isSearchSheetPresented = false
+                
+                position = MapCameraPosition.item(MKMapItem(placemark: MKPlacemark(coordinate: selectedLocation.mapItem.placemark.location!.coordinate)))
+            } else {
+                isInfoSheetPresented = false
             }
-            isSheetPresented = selectedLocation == nil
         }
         .onChange(of: searchResults) {
             if let firstResult = searchResults.first, searchResults.count == 1 {
                 selectedLocation = firstResult
             }
+            if !searchResults.isEmpty {
+                position = .automatic
+            } else {
+                position = .userLocation(fallback: .automatic)
+            }
         }
-        .sheet(isPresented: $isSheetPresented) {
-            MapSheetView(searchResults: $searchResults)
+        .overlay(alignment: .bottomTrailing) {
+            Button {
+                isSearchSheetPresented.toggle()
+            } label: {
+                Image(systemName: "magnifyingglass")
+            }
+            .sheet(isPresented: $isSearchSheetPresented) {
+                MapSheetView(searchRegion: visibleRegion, searchResults: $searchResults)
+            }
+            .frame(minWidth: 45, minHeight: 45)
+            .background(Color(UIColor.systemBackground))
+            .cornerRadius(5)
+            .padding(.trailing, 5)
+            .padding(.bottom, 20)
         }
-        
-
-        
-        
-        
-    }
-    
-    private func fetchScene(for coordinate: CLLocationCoordinate2D) async throws -> MKLookAroundScene? {
-        let lookAroundScene = MKLookAroundSceneRequest(coordinate: coordinate)
-        return try await lookAroundScene.scene
+        .sheet(isPresented: $isInfoSheetPresented) {
+            if let selectedLocation {
+                LocationInfoView(location: selectedLocation.mapItem)
+            }   
+        }
+        .onMapCameraChange { newPos in
+            visibleRegion = newPos.region
+        }
     }
 }
 

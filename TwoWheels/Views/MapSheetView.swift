@@ -3,11 +3,15 @@
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
+//  Reference: https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
 //
 
 import SwiftUI
+import MapKit
 
 struct MapSheetView: View {
+    
+    let searchRegion: MKCoordinateRegion?
     
     @State private var locationService = LocationService(completer: .init())
     @State private var search: String = ""
@@ -23,7 +27,7 @@ struct MapSheetView: View {
                     .autocorrectionDisabled()
                     .onSubmit {
                         Task {
-                            searchResults = (try? await locationService.search(with: search)) ?? []
+                            searchResults = (try? await locationService.search(with: search, region: searchRegion)) ?? []
                         }
                     }
             }
@@ -54,18 +58,20 @@ struct MapSheetView: View {
             .scrollContentBackground(.hidden)
         }
         .onChange(of: search) {
+            if let searchRegion, search.count < 1 {
+                locationService.update(region: searchRegion)
+            }
             locationService.update(queryFragment: search)
         }
         .padding()
-        .interactiveDismissDisabled()
-//        .presentationDetents([.height(200), .large])
+        .presentationDetents([.fraction(0.20), .medium, .large])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled(upThrough: .large))
     }
     
     private func didTapOnCompletion(_ completion: SearchCompletions) {
         Task {
-            if let singleLocation = try? await locationService.search(with: "\(completion.title) \(completion.subTitle)").first {
+            if let singleLocation = try? await locationService.search(with: "\(completion.title) \(completion.subTitle)", region: searchRegion).first {
                 searchResults = [singleLocation]
             }
         }
@@ -81,7 +87,3 @@ struct TextFieldGrayBackgroundColor: ViewModifier {
             .foregroundColor(.primary)
     }
 }
-
-//#Preview {
-//    MapSheetView()
-//}
