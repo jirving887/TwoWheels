@@ -10,10 +10,6 @@ import Foundation
 class Destinations: ObservableObject {
     let places: [Destination]
     
-    var primary: Destination {
-        places[0]
-    }
-    
     init() {
         places = []
     }

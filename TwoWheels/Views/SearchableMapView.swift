@@ -48,7 +48,6 @@ struct SearchableMapView: View {
                 isInfoSheetPresented = true
                 isSearchSheetPresented = false
                 
-                //force unwrap of location ok because a SearchResult object is never initialized without one
                 position = MapCameraPosition.item(MKMapItem(placemark: MKPlacemark(coordinate: selectedLocation.mapItem.placemark.location!.coordinate)))
             } else {
                 isInfoSheetPresented = false
@@ -93,5 +92,3 @@ struct SearchableMapView: View {
 #Preview {
     SearchableMapView()
 }
-
-

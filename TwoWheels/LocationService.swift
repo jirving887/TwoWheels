@@ -33,7 +33,7 @@ struct SearchResult: Identifiable, Hashable {
 
 @Observable
 class LocationService: NSObject, MKLocalSearchCompleterDelegate {
-    private var completer: MKLocalSearchCompleter
+    private let completer: MKLocalSearchCompleter
     var completions = [SearchCompletions]()
     
     init(completer: MKLocalSearchCompleter) {
@@ -43,7 +43,7 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
     }
     
     func update(region: MKCoordinateRegion) {
-        self.completer.region = region
+        completer.region = region
     }
     
     func update(queryFragment: String) {
@@ -77,10 +77,9 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
         
         let response = try await search.start()
         
-        return response.mapItems.compactMap { mapItem in
-            guard mapItem.placemark.location != nil else { return nil }// do not add mapItem if no location 
-            return .init(mapItem: mapItem)
-        }
+        return response.mapItems
+                    .filter { $0.placemark.location != nil }
+                    .compactMap(SearchResult.init(mapItem:))
     }
     
 }
