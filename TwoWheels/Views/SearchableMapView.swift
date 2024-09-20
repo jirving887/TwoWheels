@@ -10,6 +10,8 @@ import SwiftUI
 
 struct SearchableMapView: View {
     
+    let manager = CLLocationManager()
+    
     @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
     @State private var visibleRegion: MKCoordinateRegion?
     @State private var searchResults = [SearchResult]()
@@ -35,6 +37,9 @@ struct SearchableMapView: View {
             MapUserLocationButton()
             MapCompass()
             MapPitchToggle()
+        }
+        .onAppear {
+            manager.requestWhenInUseAuthorization()
         }
         .mapFeatureSelectionDisabled { _ in false }
         .mapFeatureSelectionContent { feature in
