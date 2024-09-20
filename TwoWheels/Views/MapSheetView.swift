@@ -11,7 +11,7 @@ import MapKit
 
 struct MapSheetView: View {
     
-    let searchRegion: MKCoordinateRegion?
+    @Binding var searchRegion: MKCoordinateRegion?
     
     @State private var locationService = LocationService(completer: .init())
     @State private var search: String = ""
@@ -58,7 +58,7 @@ struct MapSheetView: View {
             .scrollContentBackground(.hidden)
         }
         .onChange(of: search) {
-            if let searchRegion, search.count < 1 {
+            if let searchRegion, search.count > 1 {
                 locationService.update(region: searchRegion)
             }
             locationService.update(queryFragment: search)
