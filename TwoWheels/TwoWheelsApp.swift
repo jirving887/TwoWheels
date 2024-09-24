@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct TwoWheelsApp: App {
@@ -14,5 +15,6 @@ struct TwoWheelsApp: App {
         WindowGroup {
                 SearchableMapView()
         }
+        .modelContainer(for: Destination.self)
     }
 }
