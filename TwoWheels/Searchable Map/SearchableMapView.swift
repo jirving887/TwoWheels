@@ -6,11 +6,14 @@
 //
 
 import MapKit
+import SwiftData
 import SwiftUI
 
 struct SearchableMapView: View {
     
     let manager = CLLocationManager()
+    
+    @Query private var destinations: [Destination]
     
     @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
     @State private var visibleRegion: MKCoordinateRegion?
@@ -23,6 +26,14 @@ struct SearchableMapView: View {
         
 //      TODO: should make it so selection can be both selectedLocation and built-in mapFeatures
         Map(position: $position, selection: $selectedLocation) {
+            
+            ForEach(destinations) { destination in
+                Marker(coordinate: destination.coordinate) {
+                    Label(destination.name, systemImage: "star")
+                            }
+                            .tint(.yellow)
+            }
+            
             ForEach(searchResults) { result in
                 //force unwrap of location ok because a SearchResult object is never initialized without one
                 Marker(coordinate: result.mapItem.placemark.location!.coordinate) {
