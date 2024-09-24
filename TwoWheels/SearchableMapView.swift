@@ -41,14 +41,8 @@ struct SearchableMapView: View {
         .onAppear {
             manager.requestWhenInUseAuthorization()
         }
-        .mapFeatureSelectionDisabled { _ in false }
-        .mapFeatureSelectionContent { feature in
-            Marker(feature.title ?? "", coordinate: feature.coordinate)
-                .tag(feature)
-        }
         .mapControlVisibility(.visible)
         .onChange(of: selectedLocation) {
-            print("changed selectedlocation")
             if let selectedLocation {
                 isInfoSheetPresented = true
                 isSearchSheetPresented = false
@@ -88,7 +82,7 @@ struct SearchableMapView: View {
                 LocationInfoView(location: selectedLocation.mapItem)
             }   
         }
-        .onMapCameraChange { newPos in
+        .onMapCameraChange(frequency: .onEnd) { newPos in
             visibleRegion = newPos.region
         }
     }
