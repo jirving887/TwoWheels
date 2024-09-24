@@ -13,7 +13,7 @@ struct SearchableMapView: View {
     
     let manager = CLLocationManager()
     
-    @Query private var destinations: [Destination]
+    @Query(sort: \Destination.name) var destinations: [Destination]
     
     @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
     @State private var visibleRegion: MKCoordinateRegion?

@@ -27,6 +27,6 @@ struct TwoWheelsApp: App {
                 }
             }
         }
-        .modelContainer(for: Destination.self)
+        .modelContainer(for: [Destination.self])
     }
 }
