@@ -13,7 +13,19 @@ struct TwoWheelsApp: App {
     
     var body: some Scene {
         WindowGroup {
-                SearchableMapView()
+            TabView {
+                Group {
+                    SearchableMapView()
+                        .tabItem {
+                            Label("Map", systemImage: "map")
+                        }
+                    
+                    DestinationsListView()
+                        .tabItem {
+                            Label("Destinations", systemImage: "list.bullet")
+                        }
+                }
+            }
         }
         .modelContainer(for: Destination.self)
     }
