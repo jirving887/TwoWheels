@@ -12,12 +12,14 @@ import SwiftData
 class Destination {
     var name: String
     var adddress: String
+    var type: String
     var latitude: Double
     var longitude: Double
     
-    init(name: String, adddress: String, latitude: Double, longitude: Double) {
+    init(name: String, adddress: String, type: String, latitude: Double, longitude: Double) {
         self.name = name
         self.adddress = adddress
+        self.type = type    
         self.latitude = latitude
         self.longitude = longitude
     }
