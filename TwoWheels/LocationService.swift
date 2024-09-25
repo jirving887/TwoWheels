@@ -59,26 +59,22 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
         mapKitRequest.naturalLanguageQuery = query
         mapKitRequest.region = region
         
-        let search = MKLocalSearch(request: mapKitRequest)
-        
-        let response = try await search.start()
-        
-        return response.mapItems
-                    .filter { $0.placemark.location != nil }
-                    .compactMap(SearchResult.init(mapItem:))
+        return try await search(mapKitRequest)
     }
     
     func search(for completion: MKLocalSearchCompletion, region: MKCoordinateRegion) async throws -> [SearchResult] {
         let mapKitRequest = MKLocalSearch.Request(completion: completion)
         mapKitRequest.region = region
         
-        let search = MKLocalSearch(request: mapKitRequest)
-        
+        return try await search(mapKitRequest)
+    }
+    
+    func search( _ request: MKLocalSearch.Request) async throws -> [SearchResult] {
+        request.resultTypes = [.pointOfInterest, .address]
+        let search = MKLocalSearch(request: request)
         let response = try await search.start()
         
-        return response.mapItems
-                    .filter { $0.placemark.location != nil }
-                    .compactMap(SearchResult.init(mapItem:))
+        return response.mapItems.compactMap(SearchResult.init(mapItem:))
     }
     
 }
