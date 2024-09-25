@@ -11,12 +11,11 @@ import MapKit
 
 struct MapSheetView: View {
     
-    @Binding var searchRegion: MKCoordinateRegion?
+    @Binding var searchRegion: MKCoordinateRegion
+    @Binding var searchResults: [SearchResult]
     
     @State private var locationService = LocationService(completer: .init())
     @State private var search: String = ""
-    
-    @Binding var searchResults: [SearchResult]
     
     var body: some View {
         VStack {
@@ -25,6 +24,9 @@ struct MapSheetView: View {
                 
                 TextField("Search for a new destination", text: $search)
                     .autocorrectionDisabled()
+                    .onAppear {
+                        searchResults = []
+                    }
                     .onSubmit {
                         Task {
                             searchResults = (try? await locationService.search(with: search, region: searchRegion)) ?? []
@@ -35,30 +37,28 @@ struct MapSheetView: View {
             
             Spacer()
             
-            List {
-                ForEach(locationService.completions) { completion in
-                    Button(action: { didTapOnCompletion(completion) }) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(completion.title)
-                                .font(.headline)
-                                .fontDesign(.rounded)
-                            
-                            Text(completion.subTitle)
-                            
-                            if let url = completion.url {
-                                Link(url.absoluteString, destination: url)
-                                    .lineLimit(1)
+            if !locationService.completions.isEmpty {
+                List {
+                    ForEach($locationService.completions, id: \.self) { completion in
+                        Button(action: { didTapOnCompletion(completion.wrappedValue) }) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(completion.wrappedValue.title)
+                                    .font(.headline)
+                                    .fontDesign(.rounded)
+                                
+                                Text(completion.wrappedValue.subtitle)
                             }
                         }
+                        .listRowBackground(Color.clear)
                     }
-                    .listRowBackground(Color.clear)
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
+            
         }
         .onChange(of: search) {
-            if let searchRegion, search.count > 1 {
+            if search.count == 1 {
                 locationService.update(region: searchRegion)
             }
             locationService.update(queryFragment: search)
@@ -69,11 +69,9 @@ struct MapSheetView: View {
         .presentationBackgroundInteraction(.enabled(upThrough: .large))
     }
     
-    private func didTapOnCompletion(_ completion: SearchCompletions) {
+    private func didTapOnCompletion(_ completion: MKLocalSearchCompletion) {
         Task {
-            if let singleLocation = try? await locationService.search(with: "\(completion.title) \(completion.subTitle)", region: searchRegion).first {
-                searchResults = [singleLocation]
-            }
+            searchResults = (try? await locationService.search(for: completion, region: searchRegion)) ?? []
         }
     }
 }
