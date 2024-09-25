@@ -16,7 +16,7 @@ struct SearchableMapView: View {
     @Query(sort: \Destination.name) var destinations: [Destination]
     
     @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
-    @State private var visibleRegion: MKCoordinateRegion?
+    @State private var visibleRegion = MKCoordinateRegion.init()
     @State private var searchResults = [SearchResult]()
     @State private var selectedLocation: SearchResult?
     @State private var isSearchSheetPresented  = false
@@ -69,22 +69,35 @@ struct SearchableMapView: View {
             }
             if !searchResults.isEmpty {
                 position = .automatic
-            } else {
-                position = .userLocation(fallback: .automatic)
-            }
+                isSearchSheetPresented = false
+            } 
         }
         .overlay(alignment: .bottomTrailing) {
-            Button {
-                isSearchSheetPresented.toggle()
-            } label: {
-                Image(systemName: "magnifyingglass")
+            VStack(spacing: 10) {
+                if !searchResults.isEmpty {
+                    Button {
+                        searchResults = []
+                        selectedLocation = nil
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .frame(minWidth: 45, minHeight: 45)
+                    .background(Color(UIColor.systemBackground))
+                    .cornerRadius(5)
+                }
+                
+                Button {
+                    isSearchSheetPresented.toggle()
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                }
+                .sheet(isPresented: $isSearchSheetPresented) {
+                    MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
+                }
+                .frame(minWidth: 45, minHeight: 45)
+                .background(Color(UIColor.systemBackground))
+                .cornerRadius(5)
             }
-            .sheet(isPresented: $isSearchSheetPresented) {
-                MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
-            }
-            .frame(minWidth: 45, minHeight: 45)
-            .background(Color(UIColor.systemBackground))
-            .cornerRadius(5)
             .padding(.trailing, 5)
             .padding(.bottom, 20)
         }
