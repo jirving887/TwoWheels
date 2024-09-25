@@ -59,7 +59,7 @@ struct SearchableMapView: View {
                 isInfoSheetPresented = true
                 isSearchSheetPresented = false
                 
-                position = MapCameraPosition.item(MKMapItem(placemark: MKPlacemark(coordinate: selectedLocation.mapItem.placemark.location!.coordinate)))
+                position = MapCameraPosition.item(MKMapItem(placemark: selectedLocation.mapItem.placemark))
             } else {
                 isInfoSheetPresented = false
             }
