@@ -35,11 +35,12 @@ struct SearchableMapView: View {
             }
             
             ForEach(searchResults) { result in
-                //force unwrap of location ok because a SearchResult object is never initialized without one
-                Marker(coordinate: result.mapItem.placemark.location!.coordinate) {
-                        Image(systemName: "mappin")
-                    }
-                    .tag(result)
+                if let location = result.mapItem.placemark.location {
+                    Marker(coordinate: location.coordinate) {
+                            Image(systemName: "mappin")
+                        }
+                        .tag(result)
+                }
             }
             UserAnnotation()
         }
