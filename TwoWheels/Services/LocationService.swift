@@ -3,20 +3,12 @@
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
-//  Reference: https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
 //
 
 
 
 import MapKit
 import SwiftUI
-
-struct SearchCompletions: Identifiable {
-    let id = UUID()
-    let title: String
-    let subTitle: String
-    var url: URL?
-}
 
 struct SearchResult: Identifiable, Hashable {
     let id = UUID()
@@ -34,7 +26,7 @@ struct SearchResult: Identifiable, Hashable {
 @Observable
 class LocationService: NSObject, MKLocalSearchCompleterDelegate {
     private let completer: MKLocalSearchCompleter
-    var completions = [SearchCompletions]()
+    var completions = [MKLocalSearchCompletion]()
     
     init(completer: MKLocalSearchCompleter) {
         self.completer = completer
@@ -47,39 +39,34 @@ class LocationService: NSObject, MKLocalSearchCompleterDelegate {
     }
     
     func update(queryFragment: String) {
-        completer.resultTypes = .pointOfInterest
         completer.queryFragment = queryFragment
     }
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        completions = completer.results.map { completion in
-            
-            let mapItem = completion.value(forKey: "_mapItem") as? MKMapItem
-            
-            return .init(
-                title: completion.title,
-                subTitle: completion.subtitle,
-                url: mapItem?.url
-            )
-        }
+        completions = completer.results
     }
     
-    func search(with query: String, region: MKCoordinateRegion? = nil) async throws -> [SearchResult] {
+    func search(with query: String, region: MKCoordinateRegion) async throws -> [SearchResult] {
         let mapKitRequest = MKLocalSearch.Request()
         mapKitRequest.naturalLanguageQuery = query
-        mapKitRequest.resultTypes = .pointOfInterest
+        mapKitRequest.region = region
         
-        if let region {
-            mapKitRequest.region = region
-        }
+        return try await search(mapKitRequest)
+    }
+    
+    func search(for completion: MKLocalSearchCompletion, region: MKCoordinateRegion) async throws -> [SearchResult] {
+        let mapKitRequest = MKLocalSearch.Request(completion: completion)
+        mapKitRequest.region = region
         
-        let search = MKLocalSearch(request: mapKitRequest)
-        
+        return try await search(mapKitRequest)
+    }
+    
+    func search( _ request: MKLocalSearch.Request) async throws -> [SearchResult] {
+        request.resultTypes = [.pointOfInterest, .address]
+        let search = MKLocalSearch(request: request)
         let response = try await search.start()
         
-        return response.mapItems
-                    .filter { $0.placemark.location != nil }
-                    .compactMap(SearchResult.init(mapItem:))
+        return response.mapItems.compactMap(SearchResult.init(mapItem:))
     }
     
 }

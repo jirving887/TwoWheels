@@ -65,7 +65,7 @@
 				ABD94A862CA3362800ED21D3 /* Searchable Map */,
 				ABD94A8C2CA33E9B00ED21D3 /* Destinations List View */,
 				ABD94A872CA3364600ED21D3 /* Models */,
-				ABC291632B61CFCA00EC1393 /* LocationService.swift */,
+				ABD94A962CA596BD00ED21D3 /* Services */,
 				AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */,
 				AB8BCFD62B48AE2A003AE1DC /* Preview Content */,
 			);
@@ -104,6 +104,14 @@
 				ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */,
 			);
 			path = "Destinations List View";
+			sourceTree = "<group>";
+		};
+		ABD94A962CA596BD00ED21D3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				ABC291632B61CFCA00EC1393 /* LocationService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
