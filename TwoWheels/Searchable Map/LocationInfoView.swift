@@ -12,6 +12,8 @@ struct LocationInfoView: View {
     
     let location: MKMapItem
     
+    @Environment(\.modelContext) private var modelContext
+    
     var name: String {
         return location.name ?? "No Name"
     }
@@ -53,7 +55,9 @@ struct LocationInfoView: View {
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 Button {
-                    // TODO: Implement destination addition
+                    let destination = Destination(name: name, address: title, type: "", latitude: location.placemark.coordinate.latitude, longitude: location.placemark.coordinate.longitude)
+                    
+                    modelContext.insert(destination)
                 } label: {
                     VStack {
                         Image(systemName: "plus.circle")
