@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB1F00092B4A09910034ECCD /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1F00082B4A09910034ECCD /* Destination.swift */; };
-		AB1F000B2B4A0A100034ECCD /* DestinationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1F000A2B4A0A100034ECCD /* DestinationType.swift */; };
-		AB1F000D2B4A0B280034ECCD /* Destinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1F000C2B4A0B280034ECCD /* Destinations.swift */; };
 		AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3406102BE32C550061BB16 /* LocationInfoView.swift */; };
 		AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */; };
 		AB8BCFD52B48AE2A003AE1DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */; };
@@ -17,12 +14,11 @@
 		ABC291602B61CDF400EC1393 /* SearchableMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */; };
 		ABC291622B61CE7900EC1393 /* MapSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC291612B61CE7900EC1393 /* MapSheetView.swift */; };
 		ABC291642B61CFCA00EC1393 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC291632B61CFCA00EC1393 /* LocationService.swift */; };
+		ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A882CA3366000ED21D3 /* Destination.swift */; };
+		ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AB1F00082B4A09910034ECCD /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
-		AB1F000A2B4A0A100034ECCD /* DestinationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationType.swift; sourceTree = "<group>"; };
-		AB1F000C2B4A0B280034ECCD /* Destinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destinations.swift; sourceTree = "<group>"; };
 		AB3406102BE32C550061BB16 /* LocationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoView.swift; sourceTree = "<group>"; };
 		AB8BCFCD2B48AE29003AE1DC /* TwoWheels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwoWheels.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheelsApp.swift; sourceTree = "<group>"; };
@@ -31,6 +27,8 @@
 		ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableMapView.swift; sourceTree = "<group>"; };
 		ABC291612B61CE7900EC1393 /* MapSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSheetView.swift; sourceTree = "<group>"; };
 		ABC291632B61CFCA00EC1393 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		ABD94A882CA3366000ED21D3 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
+		ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationsListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,34 +42,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AB3DC1972BBF60E900DD3585 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		AB3DC1982BBF610000DD3585 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				AB1F00082B4A09910034ECCD /* Destination.swift */,
-				AB1F000C2B4A0B280034ECCD /* Destinations.swift */,
-				AB1F000A2B4A0A100034ECCD /* DestinationType.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		AB3DC1992BBF612E00DD3585 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */,
-				ABC291612B61CE7900EC1393 /* MapSheetView.swift */,
-				AB3406102BE32C550061BB16 /* LocationInfoView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		AB8BCFC42B48AE29003AE1DC = {
 			isa = PBXGroup;
 			children = (
@@ -91,10 +61,11 @@
 		AB8BCFCF2B48AE29003AE1DC /* TwoWheels */ = {
 			isa = PBXGroup;
 			children = (
-				AB3DC1992BBF612E00DD3585 /* Views */,
-				AB3DC1982BBF610000DD3585 /* Model */,
-				AB3DC1972BBF60E900DD3585 /* App */,
-				ABC291632B61CFCA00EC1393 /* LocationService.swift */,
+				AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */,
+				ABD94A862CA3362800ED21D3 /* Searchable Map */,
+				ABD94A8C2CA33E9B00ED21D3 /* Destinations List View */,
+				ABD94A872CA3364600ED21D3 /* Models */,
+				ABD94A962CA596BD00ED21D3 /* Services */,
 				AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */,
 				AB8BCFD62B48AE2A003AE1DC /* Preview Content */,
 			);
@@ -107,6 +78,40 @@
 				AB8BCFD72B48AE2A003AE1DC /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		ABD94A862CA3362800ED21D3 /* Searchable Map */ = {
+			isa = PBXGroup;
+			children = (
+				ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */,
+				ABC291612B61CE7900EC1393 /* MapSheetView.swift */,
+				AB3406102BE32C550061BB16 /* LocationInfoView.swift */,
+			);
+			path = "Searchable Map";
+			sourceTree = "<group>";
+		};
+		ABD94A872CA3364600ED21D3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				ABD94A882CA3366000ED21D3 /* Destination.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		ABD94A8C2CA33E9B00ED21D3 /* Destinations List View */ = {
+			isa = PBXGroup;
+			children = (
+				ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */,
+			);
+			path = "Destinations List View";
+			sourceTree = "<group>";
+		};
+		ABD94A962CA596BD00ED21D3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				ABC291632B61CFCA00EC1393 /* LocationService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,10 +185,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABC291602B61CDF400EC1393 /* SearchableMapView.swift in Sources */,
-				AB1F000B2B4A0A100034ECCD /* DestinationType.swift in Sources */,
-				AB1F00092B4A09910034ECCD /* Destination.swift in Sources */,
-				AB1F000D2B4A0B280034ECCD /* Destinations.swift in Sources */,
 				AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */,
+				ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */,
+				ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */,
 				AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */,
 				ABC291642B61CFCA00EC1393 /* LocationService.swift in Sources */,
 				ABC291622B61CE7900EC1393 /* MapSheetView.swift in Sources */,
@@ -334,7 +338,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JITech.TwoWheels;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -369,7 +373,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JITech.TwoWheels;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
