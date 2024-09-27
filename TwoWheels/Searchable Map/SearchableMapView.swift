@@ -92,9 +92,6 @@ struct SearchableMapView: View {
                 } label: {
                     Image(systemName: "magnifyingglass")
                 }
-                .sheet(isPresented: $isSearchSheetPresented) {
-                    MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
-                }
                 .frame(minWidth: 45, minHeight: 45)
                 .background(Color(UIColor.systemBackground))
                 .cornerRadius(5)
@@ -102,10 +99,17 @@ struct SearchableMapView: View {
             .padding(.trailing, 5)
             .padding(.bottom, 20)
         }
-        .sheet(isPresented: $isInfoSheetPresented) {
-            if let selectedLocation {
-                LocationInfoView(location: selectedLocation.mapItem)
-            }   
+        .sheet(isPresented: $isSearchSheetPresented) {
+            MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
+        }
+        .sheet(
+            isPresented: $isInfoSheetPresented,
+            onDismiss: {
+                selectedLocation = nil
+            }) {
+                if let selectedLocation {
+                    LocationInfoView(location: selectedLocation.mapItem)
+                }
         }
         .onMapCameraChange(frequency: .onEnd) { newPos in
             visibleRegion = newPos.region

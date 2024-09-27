@@ -3,7 +3,6 @@
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
-//  Reference: https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
 //
 
 import SwiftUI
