@@ -6,14 +6,17 @@
 //
 
 import MapKit
+import SwiftData
 import SwiftUI
 
 struct SearchableMapView: View {
     
     let manager = CLLocationManager()
     
+    @Query(sort: \Destination.name) var destinations: [Destination]
+    
     @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
-    @State private var visibleRegion: MKCoordinateRegion?
+    @State private var visibleRegion = MKCoordinateRegion.init()
     @State private var searchResults = [SearchResult]()
     @State private var selectedLocation: SearchResult?
     @State private var isSearchSheetPresented  = false
@@ -23,12 +26,21 @@ struct SearchableMapView: View {
         
 //      TODO: should make it so selection can be both selectedLocation and built-in mapFeatures
         Map(position: $position, selection: $selectedLocation) {
+            
+            ForEach(destinations) { destination in
+                Marker(coordinate: destination.coordinate) {
+                    Label(destination.name, systemImage: "star")
+                            }
+                            .tint(.yellow)
+            }
+            
             ForEach(searchResults) { result in
-                //force unwrap of location ok because a SearchResult object is never initialized without one
-                Marker(coordinate: result.mapItem.placemark.location!.coordinate) {
-                        Image(systemName: "mappin")
-                    }
-                    .tag(result)
+                if let location = result.mapItem.placemark.location {
+                    Marker(coordinate: location.coordinate) {
+                            Image(systemName: "mappin")
+                        }
+                        .tag(result)
+                }
             }
             UserAnnotation()
         }
@@ -41,19 +53,13 @@ struct SearchableMapView: View {
         .onAppear {
             manager.requestWhenInUseAuthorization()
         }
-        .mapFeatureSelectionDisabled { _ in false }
-        .mapFeatureSelectionContent { feature in
-            Marker(feature.title ?? "", coordinate: feature.coordinate)
-                .tag(feature)
-        }
         .mapControlVisibility(.visible)
         .onChange(of: selectedLocation) {
-            print("changed selectedlocation")
             if let selectedLocation {
                 isInfoSheetPresented = true
                 isSearchSheetPresented = false
                 
-                position = MapCameraPosition.item(MKMapItem(placemark: MKPlacemark(coordinate: selectedLocation.mapItem.placemark.location!.coordinate)))
+                position = MapCameraPosition.item(MKMapItem(placemark: selectedLocation.mapItem.placemark))
             } else {
                 isInfoSheetPresented = false
             }
@@ -64,22 +70,35 @@ struct SearchableMapView: View {
             }
             if !searchResults.isEmpty {
                 position = .automatic
-            } else {
-                position = .userLocation(fallback: .automatic)
-            }
+                isSearchSheetPresented = false
+            } 
         }
         .overlay(alignment: .bottomTrailing) {
-            Button {
-                isSearchSheetPresented.toggle()
-            } label: {
-                Image(systemName: "magnifyingglass")
+            VStack(spacing: 10) {
+                if !searchResults.isEmpty {
+                    Button {
+                        searchResults = []
+                        selectedLocation = nil
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .frame(minWidth: 45, minHeight: 45)
+                    .background(Color(UIColor.systemBackground))
+                    .cornerRadius(5)
+                }
+                
+                Button {
+                    isSearchSheetPresented.toggle()
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                }
+                .sheet(isPresented: $isSearchSheetPresented) {
+                    MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
+                }
+                .frame(minWidth: 45, minHeight: 45)
+                .background(Color(UIColor.systemBackground))
+                .cornerRadius(5)
             }
-            .sheet(isPresented: $isSearchSheetPresented) {
-                MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
-            }
-            .frame(minWidth: 45, minHeight: 45)
-            .background(Color(UIColor.systemBackground))
-            .cornerRadius(5)
             .padding(.trailing, 5)
             .padding(.bottom, 20)
         }
@@ -88,7 +107,7 @@ struct SearchableMapView: View {
                 LocationInfoView(location: selectedLocation.mapItem)
             }   
         }
-        .onMapCameraChange { newPos in
+        .onMapCameraChange(frequency: .onEnd) { newPos in
             visibleRegion = newPos.region
         }
     }
