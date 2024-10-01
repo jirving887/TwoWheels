@@ -7,24 +7,28 @@
 
 import MapKit
 import SwiftData
+import SwiftUI
 
 @Model
-class Destination {
-    var name: String
-    var adddress: String
-    var type: String
-    var latitude: Double
-    var longitude: Double
+class Destination : MapSelectable {
     
-    init(name: String, adddress: String, type: String, latitude: Double, longitude: Double) {
-        self.name = name
-        self.adddress = adddress
-        self.type = type    
-        self.latitude = latitude
-        self.longitude = longitude
+    @Transient
+    var feature: MapFeature?
+    @Transient
+    var mapItem: MKMapItem?
+    var title: String
+    var address: String
+    
+    init(_ mapItem: MKMapItem) {
+        self.mapItem = mapItem
+        self.title = mapItem.name ?? ""
+        self.address = mapItem.placemark.thoroughfare ?? mapItem.placemark.title ?? ""
     }
     
-    var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    required init(_ feature: MapFeature?) {
+        let placemark = MKPlacemark(coordinate: feature?.coordinate ?? CLLocationCoordinate2D())
+        mapItem = MKMapItem(placemark: placemark)
+        title = feature?.title ?? ""
+        address = placemark.thoroughfare ?? placemark.title ?? ""
     }
 }

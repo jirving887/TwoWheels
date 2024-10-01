@@ -13,12 +13,12 @@ struct SearchableMapView: View {
     
     let manager = CLLocationManager()
     
-    @Query(sort: \Destination.name) var destinations: [Destination]
+    @Query(sort: \Destination.title) var destinations: [Destination]
     
     @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
     @State private var visibleRegion = MKCoordinateRegion.init()
-    @State private var searchResults = [SearchResult]()
-    @State private var selectedLocation: SearchResult?
+    @State private var searchResults = [Destination]()
+    @State private var selectedLocation: Destination?
     @State private var isSearchSheetPresented  = false
     @State private var isInfoSheetPresented = false
     
@@ -28,15 +28,17 @@ struct SearchableMapView: View {
         Map(position: $position, selection: $selectedLocation) {
             
             ForEach(destinations) { destination in
-                Marker(coordinate: destination.coordinate) {
-                    Label(destination.name, systemImage: "star")
-                            }
-                            .tint(.yellow)
+                if let item = destination.mapItem {
+                    Marker(coordinate: item.placemark.coordinate) {
+                        Label(destination.title, systemImage: "star")
+                    }
+                    .tint(.yellow)
+                }
             }
             
             ForEach(searchResults) { result in
-                if let location = result.mapItem.placemark.location {
-                    Marker(coordinate: location.coordinate) {
+                if let item = result.mapItem {
+                    Marker(coordinate: item.placemark.coordinate) {
                             Image(systemName: "mappin")
                         }
                         .tag(result)
@@ -59,7 +61,11 @@ struct SearchableMapView: View {
                 isInfoSheetPresented = true
                 isSearchSheetPresented = false
                 
-                position = MapCameraPosition.item(MKMapItem(placemark: selectedLocation.mapItem.placemark))
+                if let item = selectedLocation.mapItem {
+                    position = MapCameraPosition.item(item)
+                } else {
+                    // could be MapFeature
+                }
             } else {
                 isInfoSheetPresented = false
             }
@@ -103,9 +109,9 @@ struct SearchableMapView: View {
             .padding(.bottom, 20)
         }
         .sheet(isPresented: $isInfoSheetPresented) {
-            if let selectedLocation {
-                LocationInfoView(location: selectedLocation.mapItem)
-            }   
+            if let location = selectedLocation, let item = location.mapItem {
+                LocationInfoView(location: item)
+            }
         }
         .onMapCameraChange(frequency: .onEnd) { newPos in
             visibleRegion = newPos.region
