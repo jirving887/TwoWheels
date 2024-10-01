@@ -19,7 +19,6 @@ struct LocationInfoView: View {
         }
         .presentationDetents([.fraction(0.20), .fraction(0.33)])
         .presentationBackground(.regularMaterial)
-        .interactiveDismissDisabled()
         .presentationBackgroundInteraction(.enabled)
     }
 }

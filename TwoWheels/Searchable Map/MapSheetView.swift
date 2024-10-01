@@ -3,7 +3,6 @@
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
-//  Reference: https://www.polpiella.dev/mapkit-and-swiftui-searchable-map/
 //
 
 import SwiftUI
@@ -12,9 +11,9 @@ import MapKit
 struct MapSheetView: View {
     
     @Binding var searchRegion: MKCoordinateRegion
-    @Binding var searchResults: [SearchResult]
+    @Binding var searchResults: [Destination]
     
-    @State private var locationService = LocationService(completer: .init())
+    @State private var mapService = MapService(completer: .init())
     @State private var search: String = ""
     
     var body: some View {
@@ -29,7 +28,7 @@ struct MapSheetView: View {
                     }
                     .onSubmit {
                         Task {
-                            searchResults = (try? await locationService.search(with: search, region: searchRegion)) ?? []
+                            searchResults = (try? await mapService.search(with: search, region: searchRegion)) ?? []
                         }
                     }
             }
@@ -37,9 +36,9 @@ struct MapSheetView: View {
             
             Spacer()
             
-            if !locationService.completions.isEmpty {
+            if !mapService.completions.isEmpty {
                 List {
-                    ForEach($locationService.completions, id: \.self) { completion in
+                    ForEach($mapService.completions, id: \.self) { completion in
                         Button(action: { didTapOnCompletion(completion.wrappedValue) }) {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(completion.wrappedValue.title)
@@ -59,9 +58,9 @@ struct MapSheetView: View {
         }
         .onChange(of: search) {
             if search.count == 1 {
-                locationService.update(region: searchRegion)
+                mapService.update(region: searchRegion)
             }
-            locationService.update(queryFragment: search)
+            mapService.update(queryFragment: search)
         }
         .padding()
         .presentationDetents([.fraction(0.20), .medium, .large])
@@ -71,7 +70,7 @@ struct MapSheetView: View {
     
     private func didTapOnCompletion(_ completion: MKLocalSearchCompletion) {
         Task {
-            searchResults = (try? await locationService.search(for: completion, region: searchRegion)) ?? []
+            searchResults = (try? await mapService.search(for: completion, region: searchRegion)) ?? []
         }
     }
 }
