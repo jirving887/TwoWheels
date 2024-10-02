@@ -24,7 +24,6 @@ struct SearchableMapView: View {
     
     var body: some View {
         
-//      TODO: should make it so selection can be both selectedLocation and built-in mapFeatures
         Map(position: $position, selection: $selectedLocation) {
             
             ForEach(destinations) { destination in
@@ -57,14 +56,12 @@ struct SearchableMapView: View {
         }
         .mapControlVisibility(.visible)
         .onChange(of: selectedLocation) {
-            if let selectedLocation {
+            if let selectedLocation, itemIsValid(selectedLocation.mapItem) {
                 isInfoSheetPresented = true
                 isSearchSheetPresented = false
                 
                 if let item = selectedLocation.mapItem {
                     position = MapCameraPosition.item(item)
-                } else {
-                    // could be MapFeature
                 }
             } else {
                 isInfoSheetPresented = false
@@ -116,6 +113,19 @@ struct SearchableMapView: View {
         .onMapCameraChange(frequency: .onEnd) { newPos in
             visibleRegion = newPos.region
         }
+    }
+    
+    private func itemIsValid(_ item: MKMapItem?) -> Bool {
+        
+        let emptyCoordinates = CLLocationCoordinate2D.init()
+        
+        if let item {
+            if item.placemark.coordinate.latitude != emptyCoordinates.latitude ||
+                item.placemark.coordinate.longitude != emptyCoordinates.longitude {
+                return true
+            }
+        }
+        return false
     }
 }
 

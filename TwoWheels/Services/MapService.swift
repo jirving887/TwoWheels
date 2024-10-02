@@ -5,8 +5,6 @@
 //  Created by Jonathan Irving on 1/24/24.
 //
 
-
-
 import MapKit
 import SwiftUI
 
