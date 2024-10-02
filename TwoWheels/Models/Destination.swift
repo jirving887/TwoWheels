@@ -26,6 +26,7 @@ class Destination : MapSelectable {
     }
     
     required init(_ feature: MapFeature?) {
+        self.feature = feature
         let placemark = MKPlacemark(coordinate: feature?.coordinate ?? CLLocationCoordinate2D())
         mapItem = MKMapItem(placemark: placemark)
         title = feature?.title ?? ""
