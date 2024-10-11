@@ -11,7 +11,7 @@ import SwiftData
 struct DestinationsListView: View {
     
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Destination.name) private var destinations: [Destination]
+    @Query(sort: \Destination.title) private var destinations: [Destination]
     
     var body: some View {
         NavigationStack {
@@ -22,11 +22,7 @@ struct DestinationsListView: View {
                             .imageScale(.large)
                         
                         VStack(alignment: .leading) {
-                            Text(destination.name)
-                                
-                            Text(destination.type)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                            Text(destination.title)
                         }
                     }
                     .swipeActions(edge: .trailing) {
