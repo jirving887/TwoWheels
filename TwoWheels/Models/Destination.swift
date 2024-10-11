@@ -18,6 +18,7 @@ class Destination : MapSelectable {
     var mapItem: MKMapItem?
     var title: String
     var address: String
+    var url: URL?
     
     init(_ mapItem: MKMapItem) {
         self.mapItem = mapItem
@@ -31,5 +32,6 @@ class Destination : MapSelectable {
         mapItem = MKMapItem(placemark: placemark)
         title = feature?.title ?? ""
         address = placemark.thoroughfare ?? placemark.title ?? ""
+        
     }
 }

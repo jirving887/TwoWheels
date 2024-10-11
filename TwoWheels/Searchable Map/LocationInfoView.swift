@@ -10,28 +10,16 @@ import SwiftUI
 
 struct LocationInfoView: View {
     
-    let location: MKMapItem
-    
-    var name: String {
-        return location.name ?? "No Name"
-    }
-    
-    var title: String {
-        return location.placemark.title ?? "No Title"
-    }
-    
-    var url: URL? {
-        return location.url
-    }
+    let location: Destination
     
     var body: some View {
         VStack() {
             VStack(alignment: .leading) {
-                Text(name)
+                Text(location.title)
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
-                Text(location.placemark.title ?? "No Title")
+                Text(location.address)
                     .font(.title2)
                     .multilineTextAlignment(.leading)
             }
@@ -66,7 +54,7 @@ struct LocationInfoView: View {
                 .tint(Color.green)
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
-                if let url {
+                if let url = location.url {
                     Button {
                         UIApplication.shared.open(url)
                     } label: {
@@ -93,6 +81,6 @@ struct LocationInfoView: View {
 }
 
 #Preview {
-    LocationInfoView(location: .init(placemark: .init(coordinate: .init(latitude: 40.7127636, longitude: -74.00598))))
+    LocationInfoView(location: .init(MKMapItem(placemark: .init(coordinate: .init(latitude: 40.7127636, longitude: -74.00598)))))
 }
 
