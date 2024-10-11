@@ -111,7 +111,7 @@ struct SearchableMapView: View {
                 selectedLocation = nil
             }) {
                 if let selectedLocation {
-                    LocationInfoView(location: selectedLocation.mapItem)
+                    LocationInfoView(location: selectedLocation)
                 }
         }
         .onMapCameraChange(frequency: .onEnd) { newPos in
