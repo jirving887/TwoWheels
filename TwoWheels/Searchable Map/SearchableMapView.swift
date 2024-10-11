@@ -27,12 +27,10 @@ struct SearchableMapView: View {
         Map(position: $position, selection: $selectedLocation) {
             
             ForEach(destinations) { destination in
-                if let item = destination.mapItem {
-                    Marker(coordinate: item.placemark.coordinate) {
+                Marker(coordinate: destination.coordinate) {
                         Label(destination.title, systemImage: "star")
                     }
                     .tint(.yellow)
-                }
             }
             
             ForEach(searchResults) { result in
@@ -95,9 +93,6 @@ struct SearchableMapView: View {
                 } label: {
                     Image(systemName: "magnifyingglass")
                 }
-                .sheet(isPresented: $isSearchSheetPresented) {
-                    MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
-                }
                 .frame(minWidth: 45, minHeight: 45)
                 .background(Color(UIColor.systemBackground))
                 .cornerRadius(5)
@@ -105,10 +100,17 @@ struct SearchableMapView: View {
             .padding(.trailing, 5)
             .padding(.bottom, 20)
         }
-        .sheet(isPresented: $isInfoSheetPresented) {
-            if let location = selectedLocation, let item = location.mapItem {
-                LocationInfoView(location: item)
-            }
+        .sheet(isPresented: $isSearchSheetPresented) {
+            MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
+        }
+        .sheet(
+            isPresented: $isInfoSheetPresented,
+            onDismiss: {
+                selectedLocation = nil
+            }) {
+                if let selectedLocation {
+                    LocationInfoView(location: selectedLocation)
+                }
         }
         .onMapCameraChange(frequency: .onEnd) { newPos in
             visibleRegion = newPos.region
