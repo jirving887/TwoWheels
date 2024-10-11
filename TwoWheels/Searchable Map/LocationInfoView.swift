@@ -12,6 +12,8 @@ struct LocationInfoView: View {
     
     let location: Destination
     
+    @Environment(\.modelContext) var modelContext
+    
     var body: some View {
         VStack() {
             VStack(alignment: .leading) {
@@ -41,7 +43,7 @@ struct LocationInfoView: View {
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 Button {
-                    // TODO: Implement destination addition
+                    modelContext.insert(location)
                 } label: {
                     VStack {
                         Image(systemName: "plus.circle")
