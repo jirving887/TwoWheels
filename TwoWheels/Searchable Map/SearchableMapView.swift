@@ -27,12 +27,10 @@ struct SearchableMapView: View {
         Map(position: $position, selection: $selectedLocation) {
             
             ForEach(destinations) { destination in
-                if let item = destination.mapItem {
-                    Marker(coordinate: item.placemark.coordinate) {
+                Marker(coordinate: destination.coordinate) {
                         Label(destination.title, systemImage: "star")
                     }
                     .tint(.yellow)
-                }
             }
             
             ForEach(searchResults) { result in
