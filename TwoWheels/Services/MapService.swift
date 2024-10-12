@@ -56,4 +56,12 @@ class MapService: NSObject, MKLocalSearchCompleterDelegate {
         }
     }
     
+    static func address(from location: CLLocation) async throws -> String {
+        let geocoder = CLGeocoder()
+        
+        let placemarks = try await geocoder.reverseGeocodeLocation(location)
+        let placemark = placemarks.first
+        
+        return "\(placemark?.subThoroughfare ?? "") \(placemark?.thoroughfare ?? "") \(placemark?.locality ?? ""), \(placemark?.administrativeArea ?? "") \(placemark?.postalCode ?? "") \(placemark?.country ?? "")"
+    }
 }

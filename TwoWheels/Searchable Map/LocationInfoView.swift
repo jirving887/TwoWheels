@@ -11,6 +11,7 @@ import SwiftUI
 struct LocationInfoView: View {
     
     let location: Destination
+    @State private var address = ""
     
     @Environment(\.modelContext) var modelContext
     
@@ -21,7 +22,7 @@ struct LocationInfoView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
-                Text(location.address)
+                Text(address)
                     .font(.title2)
                     .multilineTextAlignment(.leading)
             }
@@ -79,6 +80,11 @@ struct LocationInfoView: View {
         .presentationDetents([.fraction(0.33)])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled)
+        .onAppear {
+            Task {
+                address = try await MapService.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
+            }
+        }
     }
 }
 
