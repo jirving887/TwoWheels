@@ -17,7 +17,6 @@ class Destination : MapSelectable {
     @Transient
     var mapItem: MKMapItem?
     var title: String
-    var address: String
     var longitude: Double
     var latitude: Double
     var url: URL?
@@ -31,19 +30,16 @@ class Destination : MapSelectable {
     init(_ mapItem: MKMapItem) {
         self.mapItem = mapItem
         self.title = mapItem.name ?? ""
-        self.address = mapItem.placemark.thoroughfare ?? mapItem.placemark.title ?? ""
         self.latitude = mapItem.placemark.coordinate.latitude
         self.longitude = mapItem.placemark.coordinate.longitude
         self.url = mapItem.url
     }
     
-    required init(_ feature: MapFeature?) {
-        self.feature = feature
+    required convenience init(_ feature: MapFeature?) {
         let placemark = MKPlacemark(coordinate: feature?.coordinate ?? CLLocationCoordinate2D())
-        mapItem = MKMapItem(placemark: placemark)
-        title = feature?.title ?? ""
-        address = ""
-        latitude = feature?.coordinate.latitude ?? 0
-        longitude = feature?.coordinate.longitude ?? 0
+        let item = MKMapItem(placemark: placemark)
+        item.name = feature?.title ?? ""
+        self.init(item)
+        self.feature = feature
     }
 }
