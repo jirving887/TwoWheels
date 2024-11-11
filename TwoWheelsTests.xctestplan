@@ -17,7 +17,7 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:TwoWheels.xcodeproj",
         "identifier" : "AB2F577E2CCA7A1F00ADB10E",
