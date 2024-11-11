@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "EBDEA216-ACC5-4CB1-850F-0699EF11A3D3",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:TwoWheels.xcodeproj",
+      "identifier" : "AB8BCFCC2B48AE29003AE1DC",
+      "name" : "TwoWheels"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:TwoWheels.xcodeproj",
+        "identifier" : "AB2F577E2CCA7A1F00ADB10E",
+        "name" : "TwoWheelsTests"
+      }
+    }
+  ],
+  "version" : 1
+}

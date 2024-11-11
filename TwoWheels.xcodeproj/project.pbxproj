@@ -40,6 +40,7 @@
 		ABC291632B61CFCA00EC1393 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
 		ABD94A882CA3366000ED21D3 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationsListView.swift; sourceTree = "<group>"; };
+		ABEE50D62CE18E3600F1753A /* TwoWheelsTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TwoWheelsTests.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -67,6 +68,7 @@
 		AB8BCFC42B48AE29003AE1DC = {
 			isa = PBXGroup;
 			children = (
+				ABEE50D62CE18E3600F1753A /* TwoWheelsTests.xctestplan */,
 				AB8BCFCF2B48AE29003AE1DC /* TwoWheels */,
 				AB2F57802CCA7A1F00ADB10E /* TwoWheelsTests */,
 				AB8BCFCE2B48AE29003AE1DC /* Products */,
