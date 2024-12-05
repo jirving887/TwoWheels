@@ -9,6 +9,7 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : false,
     "targetForVariableExpansion" : {
       "containerPath" : "container:TwoWheels.xcodeproj",
       "identifier" : "AB8BCFCC2B48AE29003AE1DC",
