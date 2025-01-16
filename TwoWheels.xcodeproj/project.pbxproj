@@ -79,6 +79,15 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		AB18B3A42D39C51100C8D417 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */,
+				ABD94A862CA3362800ED21D3 /* Searchable Map */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AB8BCFC42B48AE29003AE1DC = {
 			isa = PBXGroup;
 			children = (
@@ -101,9 +110,8 @@
 		AB8BCFCF2B48AE29003AE1DC /* TwoWheels */ = {
 			isa = PBXGroup;
 			children = (
+				AB18B3A42D39C51100C8D417 /* Views */,
 				AB0FEAD12CF532FC00524E8D /* Main */,
-				ABD94A862CA3362800ED21D3 /* Searchable Map */,
-				ABD94A8C2CA33E9B00ED21D3 /* Destinations List View */,
 				ABD94A872CA3364600ED21D3 /* Models */,
 				ABD94A962CA596BD00ED21D3 /* Services */,
 				AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */,
@@ -136,14 +144,6 @@
 				ABD94A882CA3366000ED21D3 /* Destination.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		ABD94A8C2CA33E9B00ED21D3 /* Destinations List View */ = {
-			isa = PBXGroup;
-			children = (
-				ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */,
-			);
-			path = "Destinations List View";
 			sourceTree = "<group>";
 		};
 		ABD94A962CA596BD00ED21D3 /* Services */ = {
