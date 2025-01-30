@@ -15,16 +15,11 @@ struct SearchableMapView: View {
     
     @Query(sort: \Destination.title) var destinations: [Destination]
     
-    @State private var position = MapCameraPosition.userLocation(fallback: .automatic)
-    @State private var visibleRegion = MKCoordinateRegion.init()
-    @State private var searchResults = [Destination]()
-    @State private var selectedLocation: Destination?
-    @State private var isSearchSheetPresented  = false
-    @State private var isInfoSheetPresented = false
+    @State private var viewModel = SearchableMapViewModel()
     
     var body: some View {
         
-        Map(position: $position, selection: $selectedLocation) {
+        Map(position: $viewModel.position, selection: $viewModel.selectedLocation) {
             
             ForEach(destinations) { destination in
                 Marker(coordinate: destination.coordinate) {
@@ -33,7 +28,7 @@ struct SearchableMapView: View {
                     .tint(.yellow)
             }
             
-            ForEach(searchResults) { result in
+            ForEach(viewModel.searchResults) { result in
                 if let item = result.mapItem {
                     Marker(coordinate: item.placemark.coordinate) {
                             Image(systemName: "mappin")
@@ -53,33 +48,36 @@ struct SearchableMapView: View {
             manager.requestWhenInUseAuthorization()
         }
         .mapControlVisibility(.visible)
-        .onChange(of: selectedLocation) {
-            if let selectedLocation, itemIsValid(selectedLocation.mapItem) {
-                isInfoSheetPresented = true
-                isSearchSheetPresented = false
+        .onChange(of: viewModel.selectedLocation) {
+            // TODO: Move to ViewModel
+            if let selectedLocation = viewModel.selectedLocation, itemIsValid(selectedLocation.mapItem) {
+                viewModel.isInfoSheetPresented = true
+                viewModel.isSearchSheetPresented = false
                 
                 if let item = selectedLocation.mapItem {
-                    position = MapCameraPosition.item(item)
+                    viewModel.position = MapCameraPosition.item(item)
                 }
             } else {
-                isInfoSheetPresented = false
+                viewModel.isInfoSheetPresented = false
             }
         }
-        .onChange(of: searchResults) {
-            if let firstResult = searchResults.first, searchResults.count == 1 {
-                selectedLocation = firstResult
+        .onChange(of: viewModel.searchResults) {
+            // TODO: Move to ViewModel
+            if let firstResult = viewModel.searchResults.first, viewModel.searchResults.count == 1 {
+                viewModel.selectedLocation = firstResult
             }
-            if !searchResults.isEmpty {
-                position = .automatic
-                isSearchSheetPresented = false
-            } 
+            if !viewModel.searchResults.isEmpty {
+                viewModel.position = .automatic
+                viewModel.isSearchSheetPresented = false
+            }
         }
         .overlay(alignment: .bottomTrailing) {
             VStack(spacing: 10) {
-                if !searchResults.isEmpty {
+                if !viewModel.searchResults.isEmpty {
                     Button {
-                        searchResults = []
-                        selectedLocation = nil
+                        // TODO: Move to ViewModel
+                        viewModel.searchResults = []
+                        viewModel.selectedLocation = nil
                     } label: {
                         Image(systemName: "xmark")
                     }
@@ -89,7 +87,8 @@ struct SearchableMapView: View {
                 }
                 
                 Button {
-                    isSearchSheetPresented.toggle()
+                    // TODO: Move to ViewModel?
+                    viewModel.isSearchSheetPresented.toggle()
                 } label: {
                     Image(systemName: "magnifyingglass")
                 }
@@ -100,25 +99,28 @@ struct SearchableMapView: View {
             .padding(.trailing, 5)
             .padding(.bottom, 20)
         }
-        .sheet(isPresented: $isSearchSheetPresented) {
-            MapSheetView(searchRegion: $visibleRegion, searchResults: $searchResults)
+        .sheet(isPresented: $viewModel.isSearchSheetPresented) {
+            MapSheetView(searchRegion: $viewModel.visibleRegion, searchResults: $viewModel.searchResults)
         }
         .sheet(
-            isPresented: $isInfoSheetPresented,
+            isPresented: $viewModel.isInfoSheetPresented,
             onDismiss: {
-                selectedLocation = nil
+                // TODO: Move to ViewModel?
+                viewModel.selectedLocation = nil
             }) {
-                if let selectedLocation {
+                if let selectedLocation = viewModel.selectedLocation {
                     LocationInfoView(location: selectedLocation)
                 }
         }
         .onMapCameraChange(frequency: .onEnd) { newPos in
-            visibleRegion = newPos.region
+            // TODO: Move to ViewModel?
+            viewModel.visibleRegion = newPos.region
         }
     }
     
+    
+    // TODO: Move to ViewModel
     private func itemIsValid(_ item: MKMapItem?) -> Bool {
-        
         let emptyCoordinates = CLLocationCoordinate2D.init()
         
         if let item {

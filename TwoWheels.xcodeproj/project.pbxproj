@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB09B8A32D39CB850074FC28 /* SearchableMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB09B8A22D39CB850074FC28 /* SearchableMapViewModel.swift */; };
 		AB0FEACE2CF52ED800524E8D /* MainEntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACD2CF52ED800524E8D /* MainEntryPoint.swift */; };
 		AB0FEAD02CF5324200524E8D /* TwoWheelsTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACF2CF5324200524E8D /* TwoWheelsTestApp.swift */; };
 		AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3406102BE32C550061BB16 /* LocationInfoView.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB09B8A22D39CB850074FC28 /* SearchableMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableMapViewModel.swift; sourceTree = "<group>"; };
 		AB0FEACD2CF52ED800524E8D /* MainEntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainEntryPoint.swift; sourceTree = "<group>"; };
 		AB0FEACF2CF5324200524E8D /* TwoWheelsTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheelsTestApp.swift; sourceTree = "<group>"; };
 		AB2F577F2CCA7A1F00ADB10E /* TwoWheelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwoWheelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB09B8A12D39CB690074FC28 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AB09B8A22D39CB850074FC28 /* SearchableMapViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		AB0FEAD12CF532FC00524E8D /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +120,7 @@
 		AB8BCFCF2B48AE29003AE1DC /* TwoWheels */ = {
 			isa = PBXGroup;
 			children = (
+				AB09B8A12D39CB690074FC28 /* ViewModels */,
 				AB18B3A42D39C51100C8D417 /* Views */,
 				AB0FEAD12CF532FC00524E8D /* Main */,
 				ABD94A872CA3364600ED21D3 /* Models */,
@@ -271,6 +282,7 @@
 				ABC291602B61CDF400EC1393 /* SearchableMapView.swift in Sources */,
 				AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */,
 				ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */,
+				AB09B8A32D39CB850074FC28 /* SearchableMapViewModel.swift in Sources */,
 				ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */,
 				AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */,
 				ABC291642B61CFCA00EC1393 /* MapService.swift in Sources */,
