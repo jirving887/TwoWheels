@@ -6,7 +6,6 @@
 //
 
 import MapKit
-import SwiftUI
 
 @Observable
 class MapService: NSObject, MKLocalSearchCompleterDelegate {
