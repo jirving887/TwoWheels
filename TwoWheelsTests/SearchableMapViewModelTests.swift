@@ -15,6 +15,7 @@ struct SearchableMapViewModelTests {
     @Test
     func selectedLocationUpdated_isNil_infoSheetIsntPresented() {
         let sut = SearchableMapViewModel()
+        sut.isInfoSheetPresented = true
         
         sut.selectedLocation = nil
         
@@ -25,6 +26,7 @@ struct SearchableMapViewModelTests {
     func selectedLocationUpdated_withEmptyDestination_infoSheetIsNotPresented() {
         let sut = SearchableMapViewModel()
         let loc = Destination(MKMapItem.init())
+        sut.isInfoSheetPresented = true
         
         sut.selectedLocation = loc
         
@@ -38,6 +40,7 @@ struct SearchableMapViewModelTests {
         let loc = Destination(laneStadiumItem)
         let sut = SearchableMapViewModel()
         sut.isSearchSheetPresented = true
+        sut.isInfoSheetPresented = false
         
         sut.selectedLocation = loc
         
