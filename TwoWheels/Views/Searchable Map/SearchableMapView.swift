@@ -48,19 +48,6 @@ struct SearchableMapView: View {
             manager.requestWhenInUseAuthorization()
         }
         .mapControlVisibility(.visible)
-        .onChange(of: viewModel.selectedLocation) {
-            // TODO: Move to ViewModel
-            if let selectedLocation = viewModel.selectedLocation, itemIsValid(selectedLocation.mapItem) {
-                viewModel.isInfoSheetPresented = true
-                viewModel.isSearchSheetPresented = false
-                
-                if let item = selectedLocation.mapItem {
-                    viewModel.position = MapCameraPosition.item(item)
-                }
-            } else {
-                viewModel.isInfoSheetPresented = false
-            }
-        }
         .onChange(of: viewModel.searchResults) {
             // TODO: Move to ViewModel
             if let firstResult = viewModel.searchResults.first, viewModel.searchResults.count == 1 {
@@ -116,20 +103,6 @@ struct SearchableMapView: View {
             // TODO: Move to ViewModel?
             viewModel.visibleRegion = newPos.region
         }
-    }
-    
-    
-    // TODO: Move to ViewModel
-    private func itemIsValid(_ item: MKMapItem?) -> Bool {
-        let emptyCoordinates = CLLocationCoordinate2D.init()
-        
-        if let item {
-            if item.placemark.coordinate.latitude != emptyCoordinates.latitude ||
-                item.placemark.coordinate.longitude != emptyCoordinates.longitude {
-                return true
-            }
-        }
-        return false
     }
 }
 
