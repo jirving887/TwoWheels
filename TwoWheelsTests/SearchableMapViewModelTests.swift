@@ -37,15 +37,50 @@ struct SearchableMapViewModelTests {
     func selectedLocationUpdated_withValidDestination_showsLocationInfoAndMovesCamera() {
         let laneStadium = CLLocationCoordinate2D(latitude: 37.219716, longitude: -80.418147)
         let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-        let loc = Destination(laneStadiumItem)
+        let laneStadiumDestination = Destination(laneStadiumItem)
         let sut = SearchableMapViewModel()
-        sut.isSearchSheetPresented = true
         sut.isInfoSheetPresented = false
         
-        sut.selectedLocation = loc
+        sut.selectedLocation = laneStadiumDestination
         
         #expect(sut.isInfoSheetPresented)
+        #expect(sut.position == MapCameraPosition.item(laneStadiumItem))
+    }
+
+    @Test
+    func searchResultsUpdated_withEmptyResults_searchSheetIsNotPresented() {
+        let sut = SearchableMapViewModel()
+        sut.isSearchSheetPresented = true
+        
+        sut.searchResults = []
+        
         #expect(!sut.isSearchSheetPresented)
+    }
+    
+    @Test func searchResultsUpdated_withOneResult_setsSelectedLocation() {
+        let laneStadium = CLLocationCoordinate2D(latitude: 37.219716, longitude: -80.418147)
+        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
+        let laneStadiumDestination = Destination(laneStadiumItem)
+        let sut = SearchableMapViewModel()
+        
+        sut.searchResults = [laneStadiumDestination]
+        
+        #expect(sut.selectedLocation == laneStadiumDestination)
+    }
+    
+    @Test func searchResultsUpdated_withMultipleResults_cameraPositionIsFirstReult() {
+        let laneStadium = CLLocationCoordinate2D(latitude: 37.219716, longitude: -80.418147)
+        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
+        let laneStadiumDestination = Destination(laneStadiumItem)
+
+        let burussHall = CLLocationCoordinate2D(latitude: 37.229000, longitude: -80.423710)
+        let burrussHallItem = MKMapItem(placemark: MKPlacemark(coordinate: burussHall))
+        let burussHallDestination = Destination(burrussHallItem)
+        
+        let sut = SearchableMapViewModel()
+        
+        sut.searchResults = [laneStadiumDestination, burussHallDestination]
+        
         #expect(sut.position == MapCameraPosition.item(laneStadiumItem))
     }
 }

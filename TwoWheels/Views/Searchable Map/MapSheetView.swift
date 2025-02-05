@@ -23,9 +23,6 @@ struct MapSheetView: View {
                 
                 TextField("Search for a new destination", text: $search)
                     .autocorrectionDisabled()
-                    .onAppear {
-                        searchResults = []
-                    }
                     .onSubmit {
                         Task {
                             searchResults = (try? await mapService.search(with: search, region: searchRegion)) ?? []

@@ -48,16 +48,6 @@ struct SearchableMapView: View {
             manager.requestWhenInUseAuthorization()
         }
         .mapControlVisibility(.visible)
-        .onChange(of: viewModel.searchResults) {
-            // TODO: Move to ViewModel
-            if let firstResult = viewModel.searchResults.first, viewModel.searchResults.count == 1 {
-                viewModel.selectedLocation = firstResult
-            }
-            if !viewModel.searchResults.isEmpty {
-                viewModel.position = .automatic
-                viewModel.isSearchSheetPresented = false
-            }
-        }
         .overlay(alignment: .bottomTrailing) {
             VStack(spacing: 10) {
                 if !viewModel.searchResults.isEmpty {
