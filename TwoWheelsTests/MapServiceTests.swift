@@ -5,55 +5,69 @@
 //  Created by Jonathan Irving on 10/24/24.
 //
 
-import XCTest
+import Testing
 import MapKit
 @testable import TwoWheels
 
-final class MapServiceTests: XCTestCase {
+final class MapServiceTests {
     
-    let latitude = 37.22001
-    let longitude = 80.41804
+    var latitude: CLLocationDegrees
+    var longitude: CLLocationDegrees
     
-    func test_onInit_completerDelegateIsSet() {
-        let completer = MKLocalSearchCompleter()
-        let service = MapService(completer: completer)
-        
-        XCTAssert(completer.delegate === service)
+    init() {
+        latitude = 37.22001
+        longitude = 80.41804
     }
     
-    func test_update_regionIsSet() {
+    deinit {
+        latitude = 0
+        longitude = 0
+    }
+    
+    @Test
+    func onInit_shouldSetCompleterDelegate() {
         let completer = MKLocalSearchCompleter()
-        let service = MapService(completer: completer)
+        
+        let sut = MapService(completer: completer)
+        
+        #expect(completer.delegate === sut)
+    }
+    
+    @Test
+    func update_withRegion_shouldSetCompleterRegion() {
+        let completer = MKLocalSearchCompleter()
+        let sut = MapService(completer: completer)
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         
         let region = MKCoordinateRegion(center: location, span: .init(latitudeDelta: 20, longitudeDelta: 20))
         
-        service.update(region: region)
+        sut.update(region: region)
         
-        XCTAssertEqual(completer.region, region)
+        #expect(completer.region == region)
     }
     
-    func test_update_queryFragmentIsSet() {
+    @Test
+    func update_withQueryFragment_shouldSetQueryFragment() {
         let completer = MKLocalSearchCompleter()
-        let service = MapService(completer: completer)
+        let sut = MapService(completer: completer)
         
         let queryFragment = "test"
         
-        service.update(queryFragment: queryFragment)
+        sut.update(queryFragment: queryFragment)
         
-        XCTAssert(completer.queryFragment == queryFragment)
+        #expect(completer.queryFragment == queryFragment)
     }
     
-    func test_search_withQuery() async throws {
+    @Test
+    func search_withQueryAndRegion_shouldReturnDestinations() async throws {
         let completer = MKLocalSearchCompleter()
-        let service = MapService(completer: completer)
+        let sut = MapService(completer: completer)
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let region = MKCoordinateRegion(center: location, span: .init(latitudeDelta: 20, longitudeDelta: 20))
         let query = "coffee"
         
-        let results = try await service.search(with: query, region: completer.region)
+        let results = try await sut.search(with: query, region: completer.region)
         print(results.count)
-        
     }
 
 }
