@@ -21,10 +21,11 @@ class SearchableMapViewModel {
     
     var selectedLocation: Destination? {
         didSet {
-            selectedLocationUpdated()        }
+            selectedLocationUpdated()
+        }
     }
     
-    var isSearchSheetPresented  = false
+    var isSearchSheetPresented = false
     var isInfoSheetPresented = false
     
     func selectedLocationUpdated() {
@@ -48,5 +49,10 @@ class SearchableMapViewModel {
         } else if let first = searchResults.first, let item = first.mapItem {
             position = MapCameraPosition.item(item)
         }
+    }
+    
+    func reset() {
+        searchResults = []
+        selectedLocation = nil
     }
 }

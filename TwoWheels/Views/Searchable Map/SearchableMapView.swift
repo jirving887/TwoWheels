@@ -52,9 +52,7 @@ struct SearchableMapView: View {
             VStack(spacing: 10) {
                 if !viewModel.searchResults.isEmpty {
                     Button {
-                        // TODO: Move to ViewModel
-                        viewModel.searchResults = []
-                        viewModel.selectedLocation = nil
+                        viewModel.reset()
                     } label: {
                         Image(systemName: "xmark")
                     }
@@ -64,7 +62,6 @@ struct SearchableMapView: View {
                 }
                 
                 Button {
-                    // TODO: Move to ViewModel?
                     viewModel.isSearchSheetPresented.toggle()
                 } label: {
                     Image(systemName: "magnifyingglass")
@@ -85,7 +82,6 @@ struct SearchableMapView: View {
             }
         }
         .onMapCameraChange(frequency: .onEnd) { newPos in
-            // TODO: Move to ViewModel?
             viewModel.visibleRegion = newPos.region
         }
         .environment(viewModel)

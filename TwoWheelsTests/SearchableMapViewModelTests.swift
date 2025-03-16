@@ -90,4 +90,25 @@ struct SearchableMapViewModelTests {
         
         #expect(sut.position == MapCameraPosition.item(laneStadiumItem))
     }
+    
+    @Test
+    func reset_shouldClearSearchResultsAndMakeSelectedLocationNil() {
+        let laneStadium = CLLocationCoordinate2D(latitude: 37.219716, longitude: -80.418147)
+        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
+        let laneStadiumDestination = Destination(laneStadiumItem)
+
+        let burussHall = CLLocationCoordinate2D(latitude: 37.229000, longitude: -80.423710)
+        let burrussHallItem = MKMapItem(placemark: MKPlacemark(coordinate: burussHall))
+        let burussHallDestination = Destination(burrussHallItem)
+        
+        let sut = SearchableMapViewModel()
+        
+        sut.searchResults = [laneStadiumDestination, burussHallDestination]
+        sut.selectedLocation = laneStadiumDestination
+        
+        sut.reset()
+        
+        #expect(sut.searchResults == [])
+        #expect(sut.selectedLocation == nil)
+    }
 }
