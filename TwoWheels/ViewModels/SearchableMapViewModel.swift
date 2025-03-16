@@ -9,7 +9,13 @@ import MapKit
 import SwiftUI
 
 @Observable
-class SearchableMapViewModel {
+class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
+    private let completer: MKLocalSearchCompleter
+    private let searchProvider: MapSearchable
+    
+    var completions = [MKLocalSearchCompletion]()
+    var isSearchSheetPresented = false
+    var isInfoSheetPresented = false
     var position = MapCameraPosition.userLocation(fallback: .automatic)
     var visibleRegion = MKCoordinateRegion.init()
     
@@ -25,8 +31,44 @@ class SearchableMapViewModel {
         }
     }
     
-    var isSearchSheetPresented = false
-    var isInfoSheetPresented = false
+    init(completer: MKLocalSearchCompleter = MKLocalSearchCompleter(),
+         searchProvider: MapSearchable = MapSearchService()) {
+        self.completer = completer
+        self.searchProvider = searchProvider
+        super.init()
+        self.completer.delegate = self
+    }
+    
+    func address(from location: CLLocation) async throws -> String {
+        let placemarks = try await searchProvider.address(from: location)
+        let placemark = placemarks.first
+        
+        return "\(placemark?.subThoroughfare ?? "") \(placemark?.thoroughfare ?? "") \(placemark?.locality ?? ""), \(placemark?.administrativeArea ?? "") \(placemark?.postalCode ?? "") \(placemark?.country ?? "")"
+    }
+    
+    func reset() {
+        searchResults = []
+        selectedLocation = nil
+    }
+    
+    func search(for query: String, in region: MKCoordinateRegion) async throws -> [Destination] {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = query
+        request.region = region
+        
+        return try await searchProvider.search(with: request).compactMap { item in
+            Destination(item)
+        }
+    }
+    
+    func search(for completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) async throws -> [Destination] {
+        let request = MKLocalSearch.Request(completion: completion)
+        request.region = region
+        
+        return try await searchProvider.search(with: request).compactMap { item in
+            Destination(item)
+        }
+    }
     
     func selectedLocationUpdated() {
         if let selectedLocation,
@@ -51,8 +93,11 @@ class SearchableMapViewModel {
         }
     }
     
-    func reset() {
-        searchResults = []
-        selectedLocation = nil
+    func update(queryFragment: String) {
+        completer.queryFragment = queryFragment
+    }
+    
+    func update(region: MKCoordinateRegion) {
+        completer.region = region
     }
 }
