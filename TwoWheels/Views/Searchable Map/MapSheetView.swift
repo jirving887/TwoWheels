@@ -27,14 +27,21 @@ struct MapSheetView: View {
                         }
                     }
             }
-            .modifier(TextFieldGrayBackgroundColor())
+            .padding(12)
+            .background(.gray.opacity(0.1))
+            .cornerRadius(8)
+            .foregroundColor(.primary)
             
             Spacer()
             
             if !mapService.completions.isEmpty {
                 List {
                     ForEach($mapService.completions, id: \.self) { completion in
-                        Button(action: { didTapOnCompletion(completion.wrappedValue) }) {
+                        Button {
+                            Task {
+                                viewModel.searchResults = (try? await mapService.search(for: completion.wrappedValue, in: viewModel.visibleRegion)) ?? []
+                            }
+                        } label: {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(completion.wrappedValue.title)
                                     .font(.headline)
@@ -61,21 +68,5 @@ struct MapSheetView: View {
         .presentationDetents([.fraction(0.20), .medium, .large])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled(upThrough: .large))
-    }
-    
-    private func didTapOnCompletion(_ completion: MKLocalSearchCompletion) {
-        Task {
-            viewModel.searchResults = (try? await mapService.search(for: completion, in: viewModel.visibleRegion)) ?? []
-        }
-    }
-}
-
-struct TextFieldGrayBackgroundColor: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .padding(12)
-            .background(.gray.opacity(0.1))
-            .cornerRadius(8)
-            .foregroundColor(.primary)
     }
 }
