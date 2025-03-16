@@ -42,7 +42,7 @@ class MapService: NSObject, MKLocalSearchCompleterDelegate {
         }
     }
     
-    func search(for completion: MKLocalSearchCompletion, region: MKCoordinateRegion) async throws -> [Destination] {
+    func search(for completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) async throws -> [Destination] {
         let request = MKLocalSearch.Request(completion: completion)
         request.region = region
         

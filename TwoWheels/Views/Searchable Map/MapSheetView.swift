@@ -67,7 +67,7 @@ struct MapSheetView: View {
     
     private func didTapOnCompletion(_ completion: MKLocalSearchCompletion) {
         Task {
-            searchResults = (try? await mapService.search(for: completion, region: searchRegion)) ?? []
+            searchResults = (try? await mapService.search(for: completion, in: searchRegion)) ?? []
         }
     }
 }

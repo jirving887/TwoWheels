@@ -88,6 +88,28 @@ final class MapServiceTests {
         
         #expect(!searchResults.isEmpty)
     }
+    
+    @Test
+    func search_withErrors_shouldPropagateErrors() async {
+        let completer = MKLocalSearchCompleter()
+        let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
+        let sut = MapService(completer: completer, searchProvider: mockSearchProvider)
+        
+        await #expect(throws: (any Error).self) {
+            try await sut.search(for: "Lane Stadium", in: MKCoordinateRegion())
+        }
+    }
+    
+    @Test
+    func search_withSearchCompletionAndErrors_shouldPropagateErrors() async {
+        let completer = MKLocalSearchCompleter()
+        let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
+        let sut = MapService(completer: completer, searchProvider: mockSearchProvider)
+        
+        await #expect(throws: (any Error).self) {
+            try await sut.search(for: MKLocalSearchCompletion(), in: MKCoordinateRegion())
+        }
+    }
 
 }
 
