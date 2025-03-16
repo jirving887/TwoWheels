@@ -152,6 +152,17 @@ final class MapServiceTests {
         
         #expect("185 Beamer Way Blacksburg, VA 24061 United States".contains(address.trimmingCharacters(in: .whitespaces)))
     }
+    
+    @Test
+    func address_withLocationAndErrors_shouldPropogarateErrors() async {
+        let completer = MKLocalSearchCompleter()
+        let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
+        let sut = MapService(completer: completer, searchProvider: mockSearchProvider)
+        
+        await #expect(throws: (any Error).self) {
+            try await sut.address(from: CLLocation())
+        }
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
