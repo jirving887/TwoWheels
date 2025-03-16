@@ -5,13 +5,11 @@
 //  Created by Jonathan Irving on 1/24/24.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct MapSheetView: View {
-    
-    @Binding var searchRegion: MKCoordinateRegion
-    @Binding var searchResults: [Destination]
+    @Environment(SearchableMapViewModel.self) var viewModel
     
     @State private var mapService = MapService(completer: .init())
     @State private var search: String = ""
@@ -25,7 +23,7 @@ struct MapSheetView: View {
                     .autocorrectionDisabled()
                     .onSubmit {
                         Task {
-                            searchResults = (try? await mapService.search(for: search, in: searchRegion)) ?? []
+                            viewModel.searchResults = (try? await mapService.search(for: search, in: viewModel.visibleRegion)) ?? []
                         }
                     }
             }
@@ -55,7 +53,7 @@ struct MapSheetView: View {
         }
         .onChange(of: search) {
             if search.count == 1 {
-                mapService.update(region: searchRegion)
+                mapService.update(region: viewModel.visibleRegion)
             }
             mapService.update(queryFragment: search)
         }
@@ -67,7 +65,7 @@ struct MapSheetView: View {
     
     private func didTapOnCompletion(_ completion: MKLocalSearchCompletion) {
         Task {
-            searchResults = (try? await mapService.search(for: completion, in: searchRegion)) ?? []
+            viewModel.searchResults = (try? await mapService.search(for: completion, in: viewModel.visibleRegion)) ?? []
         }
     }
 }

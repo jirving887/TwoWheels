@@ -77,22 +77,18 @@ struct SearchableMapView: View {
             .padding(.bottom, 20)
         }
         .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-            MapSheetView(searchRegion: $viewModel.visibleRegion, searchResults: $viewModel.searchResults)
+            MapSheetView()
         }
-        .sheet(
-            isPresented: $viewModel.isInfoSheetPresented,
-            onDismiss: {
-                // TODO: Move to ViewModel?
-                viewModel.selectedLocation = nil
-            }) {
-                if let selectedLocation = viewModel.selectedLocation {
-                    LocationInfoView(location: selectedLocation)
-                }
+        .sheet(isPresented: $viewModel.isInfoSheetPresented) {
+            if let location = viewModel.selectedLocation {
+                LocationInfoView(location: location)
+            }
         }
         .onMapCameraChange(frequency: .onEnd) { newPos in
             // TODO: Move to ViewModel?
             viewModel.visibleRegion = newPos.region
         }
+        .environment(viewModel)
     }
 }
 
