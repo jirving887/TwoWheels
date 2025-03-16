@@ -63,11 +63,30 @@ final class MapServiceTests {
         let searchString = ""
         let searchCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let searchRegion = MKCoordinateRegion(center: searchCenter, latitudinalMeters: 10000, longitudinalMeters: 10000)
+        
         let completer = MKLocalSearchCompleter()
         let mockSearchProvider = MockSearchProvider()
         let sut = MapService(completer: completer, searchProvider: mockSearchProvider)
         
         #expect(try await sut.search(for: searchString, in: searchRegion).isEmpty)
+    }
+    
+    @Test
+    func search_withValidString_shouldReturnNonEmptyArrayOfDestinations() async throws {
+        let searchString = "Lane Stadium"
+        let laneStadiumCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let searchRegion = MKCoordinateRegion(center: laneStadiumCoordinates, latitudinalMeters: 10000, longitudinalMeters: 10000)
+        let laneStadiumPlacemark = MKPlacemark(coordinate: laneStadiumCoordinates)
+        let laneStadiumMapItem = MKMapItem(placemark: laneStadiumPlacemark)
+        let mockMapItems = [laneStadiumMapItem]
+        
+        let completer = MKLocalSearchCompleter()
+        let mockSearchProvider = MockSearchProvider(mockMapItems: mockMapItems)
+        let sut = MapService(completer: completer, searchProvider: mockSearchProvider)
+        
+        let searchResults = try await sut.search(for: searchString, in: searchRegion)
+        
+        #expect(!searchResults.isEmpty)
     }
 
 }
