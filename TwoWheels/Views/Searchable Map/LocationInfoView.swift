@@ -11,6 +11,7 @@ import SwiftUI
 struct LocationInfoView: View {
     
     let location: Destination
+    let mapService = MapService(completer: MKLocalSearchCompleter())
     @State private var address = ""
     
     @Environment(\.modelContext) var modelContext
@@ -82,7 +83,7 @@ struct LocationInfoView: View {
         .presentationBackgroundInteraction(.enabled)
         .onAppear {
             Task {
-                address = try await MapService.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                address = try await mapService.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
             }
         }
     }

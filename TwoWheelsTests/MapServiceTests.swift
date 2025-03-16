@@ -128,7 +128,30 @@ final class MapServiceTests {
             try await sut.search(for: MKLocalSearchCompletion(), in: MKCoordinateRegion())
         }
     }
-
+    
+    @Test
+    func address_withLocation_shouldReturnStringAddress() async throws {
+        let laneStadiumLocation = CLLocation(latitude: 37.219716, longitude: -80.418147)
+        let laneStadiumLocation2D = CLLocationCoordinate2D(latitude: 37.219716, longitude: -80.418147)
+        let laneStadiumAddressDictionary: [String : Any] = [
+            "thoroughfare": "Beamer Way",
+            "subThoroughfare": "185",
+            "locality": "Blacksburg",
+            "state": "VA",
+            "address": "185 Beamer Way Blacksburg, VA",
+            "postalCode": "24061",
+            "country": "United States"
+        ]
+        let laneStadiumPlacemark = CLPlacemark(placemark: MKPlacemark(coordinate: laneStadiumLocation2D, addressDictionary: laneStadiumAddressDictionary))
+        
+        let completer = MKLocalSearchCompleter()
+        let mockSearchProvider = MockSearchProvider(mockPlacemarks: [laneStadiumPlacemark])
+        let sut = MapService(completer: completer, searchProvider: mockSearchProvider)
+        
+        let address = try await sut.address(from: laneStadiumLocation)
+        
+        #expect("185 Beamer Way Blacksburg, VA 24061 United States".contains(address.trimmingCharacters(in: .whitespaces)))
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
