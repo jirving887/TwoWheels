@@ -19,6 +19,8 @@
 		ABC291642B61CFCA00EC1393 /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC291632B61CFCA00EC1393 /* MapService.swift */; };
 		ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A882CA3366000ED21D3 /* Destination.swift */; };
 		ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */; };
+		ABE6E9102D875DD30043872D /* MapSearchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6E90F2D875DD30043872D /* MapSearchable.swift */; };
+		ABE6E9122D875EAB0043872D /* MapSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6E9112D875EAB0043872D /* MapSearchService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 		ABC291632B61CFCA00EC1393 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
 		ABD94A882CA3366000ED21D3 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationsListView.swift; sourceTree = "<group>"; };
+		ABE6E90F2D875DD30043872D /* MapSearchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchable.swift; sourceTree = "<group>"; };
+		ABE6E9112D875EAB0043872D /* MapSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchService.swift; sourceTree = "<group>"; };
 		ABEE50D62CE18E3600F1753A /* TwoWheelsTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TwoWheelsTests.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,6 +165,8 @@
 			isa = PBXGroup;
 			children = (
 				ABC291632B61CFCA00EC1393 /* MapService.swift */,
+				ABE6E90F2D875DD30043872D /* MapSearchable.swift */,
+				ABE6E9112D875EAB0043872D /* MapSearchService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -281,7 +287,9 @@
 				AB0FEACE2CF52ED800524E8D /* MainEntryPoint.swift in Sources */,
 				ABC291602B61CDF400EC1393 /* SearchableMapView.swift in Sources */,
 				AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */,
+				ABE6E9102D875DD30043872D /* MapSearchable.swift in Sources */,
 				ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */,
+				ABE6E9122D875EAB0043872D /* MapSearchService.swift in Sources */,
 				AB09B8A32D39CB850074FC28 /* SearchableMapViewModel.swift in Sources */,
 				ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */,
 				AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */,

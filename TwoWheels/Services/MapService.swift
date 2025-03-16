@@ -10,10 +10,12 @@ import MapKit
 @Observable
 class MapService: NSObject, MKLocalSearchCompleterDelegate {
     private let completer: MKLocalSearchCompleter
+    private let searchProvider: MapSearchable
     var completions = [MKLocalSearchCompletion]()
     
     init(completer: MKLocalSearchCompleter) {
         self.completer = completer
+        self.searchProvider = MapSearchService()
         super.init()
         self.completer.delegate = self
     }
@@ -31,27 +33,21 @@ class MapService: NSObject, MKLocalSearchCompleterDelegate {
     }
     
     func search(with query: String, region: MKCoordinateRegion) async throws -> [Destination] {
-        let mapKitRequest = MKLocalSearch.Request()
-        mapKitRequest.naturalLanguageQuery = query
-        mapKitRequest.region = region
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = query
+        request.region = region
         
-        return try await search(mapKitRequest)
+        return try await searchProvider.search(with: request).compactMap { item in
+            Destination(item)
+        }
     }
     
     func search(for completion: MKLocalSearchCompletion, region: MKCoordinateRegion) async throws -> [Destination] {
-        let mapKitRequest = MKLocalSearch.Request(completion: completion)
-        mapKitRequest.region = region
+        let request = MKLocalSearch.Request(completion: completion)
+        request.region = region
         
-        return try await search(mapKitRequest)
-    }
-    
-    func search( _ request: MKLocalSearch.Request) async throws -> [Destination] {
-        request.resultTypes = [.pointOfInterest, .address]
-        let search = MKLocalSearch(request: request)
-        let response = try await search.start()
-        
-        return response.mapItems.compactMap { item in
-            return Destination(item)
+        return try await searchProvider.search(with: request).compactMap { item in
+            Destination(item)
         }
     }
     
