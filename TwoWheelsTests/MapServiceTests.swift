@@ -59,15 +59,15 @@ final class MapServiceTests {
     }
     
     @Test
-    func search_withQueryAndRegion_shouldReturnDestinations() async throws {
+    func search_withEmptyString_shouldReturnEmptyArray() async throws {
+        let searchString = ""
+        let searchCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let searchRegion = MKCoordinateRegion(center: searchCenter, latitudinalMeters: 10000, longitudinalMeters: 10000)
         let completer = MKLocalSearchCompleter()
-        let sut = MapService(completer: completer)
-        let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let region = MKCoordinateRegion(center: location, span: .init(latitudeDelta: 20, longitudeDelta: 20))
-        let query = "coffee"
+        let mockSearchProvider = MockSearchProvider()
+        let sut = MapService(completer: completer, searchProvider: mockSearchProvider)
         
-        let results = try await sut.search(with: query, region: completer.region)
-        print(results.count)
+        #expect(try await sut.search(for: searchString, in: searchRegion).isEmpty)
     }
 
 }

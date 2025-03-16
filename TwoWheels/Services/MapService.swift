@@ -13,9 +13,9 @@ class MapService: NSObject, MKLocalSearchCompleterDelegate {
     private let searchProvider: MapSearchable
     var completions = [MKLocalSearchCompletion]()
     
-    init(completer: MKLocalSearchCompleter) {
+    init(completer: MKLocalSearchCompleter, searchProvider: MapSearchable = MapSearchService()) {
         self.completer = completer
-        self.searchProvider = MapSearchService()
+        self.searchProvider = searchProvider
         super.init()
         self.completer.delegate = self
     }
@@ -32,7 +32,7 @@ class MapService: NSObject, MKLocalSearchCompleterDelegate {
         completions = completer.results
     }
     
-    func search(with query: String, region: MKCoordinateRegion) async throws -> [Destination] {
+    func search(for query: String, in region: MKCoordinateRegion) async throws -> [Destination] {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         request.region = region

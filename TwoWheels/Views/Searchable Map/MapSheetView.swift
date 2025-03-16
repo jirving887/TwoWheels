@@ -25,7 +25,7 @@ struct MapSheetView: View {
                     .autocorrectionDisabled()
                     .onSubmit {
                         Task {
-                            searchResults = (try? await mapService.search(with: search, region: searchRegion)) ?? []
+                            searchResults = (try? await mapService.search(for: search, in: searchRegion)) ?? []
                         }
                     }
             }
