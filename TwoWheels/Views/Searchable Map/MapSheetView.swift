@@ -34,29 +34,26 @@ struct MapSheetView: View {
             
             Spacer()
             
-            if !mapService.completions.isEmpty {
-                List {
-                    ForEach($mapService.completions, id: \.self) { completion in
-                        Button {
-                            Task {
-                                viewModel.searchResults = (try? await mapService.search(for: completion.wrappedValue, in: viewModel.visibleRegion)) ?? []
-                            }
-                        } label: {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(completion.wrappedValue.title)
-                                    .font(.headline)
-                                    .fontDesign(.rounded)
-                                
-                                Text(completion.wrappedValue.subtitle)
-                            }
+            List {
+                ForEach($mapService.completions, id: \.self) { completion in
+                    Button {
+                        Task {
+                            viewModel.searchResults = (try? await mapService.search(for: completion.wrappedValue, in: viewModel.visibleRegion)) ?? []
                         }
-                        .listRowBackground(Color.clear)
+                    } label: {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(completion.wrappedValue.title)
+                                .font(.headline)
+                                .fontDesign(.rounded)
+                            
+                            Text(completion.wrappedValue.subtitle)
+                        }
                     }
+                    .listRowBackground(Color.clear)
                 }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
             }
-            
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
         }
         .onChange(of: search) {
             if search.count == 1 {
