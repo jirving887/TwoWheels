@@ -25,10 +25,15 @@ struct SearchableMapViewModelTests {
     @Test
     func selectedLocationUpdated_withEmptyDestination_infoSheetIsNotPresented() {
         let sut = SearchableMapViewModel()
-        let loc = Destination(MKMapItem.init())
+        let invalidLocation = Destination(MKMapItem.init())
+        let invalidLocation2 = Destination(MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0))))
         sut.isInfoSheetPresented = true
         
-        sut.selectedLocation = loc
+        sut.selectedLocation = invalidLocation
+        
+        #expect(!sut.isInfoSheetPresented)
+        
+        sut.selectedLocation = invalidLocation2
         
         #expect(!sut.isInfoSheetPresented)
     }
@@ -57,7 +62,8 @@ struct SearchableMapViewModelTests {
         #expect(!sut.isSearchSheetPresented)
     }
     
-    @Test func searchResultsUpdated_withOneResult_setsSelectedLocation() {
+    @Test
+    func searchResultsUpdated_withOneResult_setsSelectedLocation() {
         let laneStadium = CLLocationCoordinate2D(latitude: 37.219716, longitude: -80.418147)
         let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
         let laneStadiumDestination = Destination(laneStadiumItem)
@@ -68,7 +74,8 @@ struct SearchableMapViewModelTests {
         #expect(sut.selectedLocation == laneStadiumDestination)
     }
     
-    @Test func searchResultsUpdated_withMultipleResults_cameraPositionIsFirstReult() {
+    @Test
+    func searchResultsUpdated_withMultipleResults_cameraPositionIsFirstReult() {
         let laneStadium = CLLocationCoordinate2D(latitude: 37.219716, longitude: -80.418147)
         let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
         let laneStadiumDestination = Destination(laneStadiumItem)

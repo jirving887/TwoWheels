@@ -5,8 +5,8 @@
 //  Created by Jonathan Irving on 1/16/25.
 //
 
-import Foundation
-import _MapKit_SwiftUI
+import MapKit
+import SwiftUI
 
 @Observable
 class SearchableMapViewModel {
@@ -28,8 +28,12 @@ class SearchableMapViewModel {
     var isInfoSheetPresented = false
     
     func selectedLocationUpdated() {
-        if let selectedLocation, let mapItem = selectedLocation.mapItem, mapItem.placemark.coordinate.latitude != -180.0 ||
-                mapItem.placemark.coordinate.longitude != -180.0 {
+        if let selectedLocation,
+           let mapItem = selectedLocation.mapItem,
+           mapItem.placemark.coordinate.latitude != -180.0,
+           mapItem.placemark.coordinate.longitude != -180.0,
+           mapItem.placemark.coordinate.latitude != 0,
+           mapItem.placemark.coordinate.longitude != 0 {
                 isInfoSheetPresented = true
                 position = MapCameraPosition.item(mapItem)
         } else {
