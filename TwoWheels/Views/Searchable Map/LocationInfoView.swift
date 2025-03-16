@@ -9,12 +9,11 @@ import MapKit
 import SwiftUI
 
 struct LocationInfoView: View {
+    @Environment(\.modelContext) var modelContext
     
     let location: Destination
     let mapService = MapService(completer: MKLocalSearchCompleter())
     @State private var address = ""
-    
-    @Environment(\.modelContext) var modelContext
     
     var body: some View {
         VStack() {
