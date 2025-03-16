@@ -101,6 +101,24 @@ final class MapServiceTests {
     }
     
     @Test
+    func search_withSearchCompletion_shouldReturnNonEmptyArrayOfDestinations() async throws {
+        let completion = MKLocalSearchCompletion()
+        let laneStadiumCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let searchRegion = MKCoordinateRegion(center: laneStadiumCoordinates, latitudinalMeters: 10000, longitudinalMeters: 10000)
+        let laneStadiumPlacemark = MKPlacemark(coordinate: laneStadiumCoordinates)
+        let laneStadiumMapItem = MKMapItem(placemark: laneStadiumPlacemark)
+        let mockMapItems = [laneStadiumMapItem]
+        
+        let completer = MKLocalSearchCompleter()
+        let mockSearchProvider = MockSearchProvider(mockMapItems: mockMapItems)
+        let sut = MapService(completer: completer, searchProvider: mockSearchProvider)
+        
+        let searchResults = try await sut.search(for: completion, in: searchRegion)
+        print(searchResults)
+        #expect(!searchResults.isEmpty)
+    }
+    
+    @Test
     func search_withSearchCompletionAndErrors_shouldPropagateErrors() async {
         let completer = MKLocalSearchCompleter()
         let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
