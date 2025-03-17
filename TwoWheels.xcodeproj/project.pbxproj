@@ -3,22 +3,40 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB09B8A32D39CB850074FC28 /* SearchableMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB09B8A22D39CB850074FC28 /* SearchableMapViewModel.swift */; };
+		AB0FEACE2CF52ED800524E8D /* TwoWheels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */; };
+		AB0FEAD02CF5324200524E8D /* TwoWheelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */; };
 		AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3406102BE32C550061BB16 /* LocationInfoView.swift */; };
 		AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */; };
 		AB8BCFD52B48AE2A003AE1DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */; };
 		AB8BCFD82B48AE2A003AE1DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB8BCFD72B48AE2A003AE1DC /* Preview Assets.xcassets */; };
 		ABC291602B61CDF400EC1393 /* SearchableMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */; };
 		ABC291622B61CE7900EC1393 /* MapSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC291612B61CE7900EC1393 /* MapSheetView.swift */; };
-		ABC291642B61CFCA00EC1393 /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC291632B61CFCA00EC1393 /* MapService.swift */; };
 		ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A882CA3366000ED21D3 /* Destination.swift */; };
 		ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */; };
+		ABE6E9102D875DD30043872D /* MapSearchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6E90F2D875DD30043872D /* MapSearchable.swift */; };
+		ABE6E9122D875EAB0043872D /* MapSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6E9112D875EAB0043872D /* MapSearchService.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AB2F57832CCA7A1F00ADB10E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB8BCFC52B48AE29003AE1DC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB8BCFCC2B48AE29003AE1DC;
+			remoteInfo = TwoWheels;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		AB09B8A22D39CB850074FC28 /* SearchableMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableMapViewModel.swift; sourceTree = "<group>"; };
+		AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheels.swift; sourceTree = "<group>"; };
+		AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheelsTests.swift; sourceTree = "<group>"; };
+		AB2F577F2CCA7A1F00ADB10E /* TwoWheelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwoWheelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3406102BE32C550061BB16 /* LocationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoView.swift; sourceTree = "<group>"; };
 		AB8A6F6F2D0A707300A5F970 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AB8BCFCD2B48AE29003AE1DC /* TwoWheels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwoWheels.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -27,12 +45,25 @@
 		AB8BCFD72B48AE2A003AE1DC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableMapView.swift; sourceTree = "<group>"; };
 		ABC291612B61CE7900EC1393 /* MapSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSheetView.swift; sourceTree = "<group>"; };
-		ABC291632B61CFCA00EC1393 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
 		ABD94A882CA3366000ED21D3 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationsListView.swift; sourceTree = "<group>"; };
+		ABE6E90F2D875DD30043872D /* MapSearchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchable.swift; sourceTree = "<group>"; };
+		ABE6E9112D875EAB0043872D /* MapSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchService.swift; sourceTree = "<group>"; };
+		ABEE50D62CE18E3600F1753A /* TwoWheelsTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TwoWheelsTests.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AB2F57802CCA7A1F00ADB10E /* TwoWheelsTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TwoWheelsTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		AB2F577C2CCA7A1F00ADB10E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB8BCFCA2B48AE29003AE1DC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -43,10 +74,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB09B8A12D39CB690074FC28 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AB09B8A22D39CB850074FC28 /* SearchableMapViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AB0FEAD12CF532FC00524E8D /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */,
+				AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */,
+				AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		AB18B3A42D39C51100C8D417 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */,
+				ABD94A862CA3362800ED21D3 /* Searchable Map */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AB8BCFC42B48AE29003AE1DC = {
 			isa = PBXGroup;
 			children = (
+				ABEE50D62CE18E3600F1753A /* TwoWheelsTests.xctestplan */,
 				AB8BCFCF2B48AE29003AE1DC /* TwoWheels */,
+				AB2F57802CCA7A1F00ADB10E /* TwoWheelsTests */,
 				AB8BCFCE2B48AE29003AE1DC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				AB8BCFCD2B48AE29003AE1DC /* TwoWheels.app */,
+				AB2F577F2CCA7A1F00ADB10E /* TwoWheelsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,10 +123,9 @@
 		AB8BCFCF2B48AE29003AE1DC /* TwoWheels */ = {
 			isa = PBXGroup;
 			children = (
-				AB8A6F6F2D0A707300A5F970 /* Info.plist */,
-				AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */,
-				ABD94A862CA3362800ED21D3 /* Searchable Map */,
-				ABD94A8C2CA33E9B00ED21D3 /* Destinations List View */,
+				AB09B8A12D39CB690074FC28 /* ViewModels */,
+				AB18B3A42D39C51100C8D417 /* Views */,
+				AB0FEAD12CF532FC00524E8D /* Main */,
 				ABD94A872CA3364600ED21D3 /* Models */,
 				ABD94A962CA596BD00ED21D3 /* Services */,
 				AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */,
@@ -100,18 +160,11 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		ABD94A8C2CA33E9B00ED21D3 /* Destinations List View */ = {
-			isa = PBXGroup;
-			children = (
-				ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */,
-			);
-			path = "Destinations List View";
-			sourceTree = "<group>";
-		};
 		ABD94A962CA596BD00ED21D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				ABC291632B61CFCA00EC1393 /* MapService.swift */,
+				ABE6E90F2D875DD30043872D /* MapSearchable.swift */,
+				ABE6E9112D875EAB0043872D /* MapSearchService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -119,6 +172,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AB2F577E2CCA7A1F00ADB10E /* TwoWheelsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB2F57872CCA7A1F00ADB10E /* Build configuration list for PBXNativeTarget "TwoWheelsTests" */;
+			buildPhases = (
+				AB2F577B2CCA7A1F00ADB10E /* Sources */,
+				AB2F577C2CCA7A1F00ADB10E /* Frameworks */,
+				AB2F577D2CCA7A1F00ADB10E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB2F57842CCA7A1F00ADB10E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AB2F57802CCA7A1F00ADB10E /* TwoWheelsTests */,
+			);
+			name = TwoWheelsTests;
+			packageProductDependencies = (
+			);
+			productName = TwoWheelsTests;
+			productReference = AB2F577F2CCA7A1F00ADB10E /* TwoWheelsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AB8BCFCC2B48AE29003AE1DC /* TwoWheels */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB8BCFDB2B48AE2A003AE1DC /* Build configuration list for PBXNativeTarget "TwoWheels" */;
@@ -143,9 +219,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1510;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1510;
 				TargetAttributes = {
+					AB2F577E2CCA7A1F00ADB10E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = AB8BCFCC2B48AE29003AE1DC;
+					};
 					AB8BCFCC2B48AE29003AE1DC = {
 						CreatedOnToolsVersion = 15.1;
 					};
@@ -165,11 +245,19 @@
 			projectRoot = "";
 			targets = (
 				AB8BCFCC2B48AE29003AE1DC /* TwoWheels */,
+				AB2F577E2CCA7A1F00ADB10E /* TwoWheelsTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AB2F577D2CCA7A1F00ADB10E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB8BCFCB2B48AE29003AE1DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -182,23 +270,80 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AB2F577B2CCA7A1F00ADB10E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AB8BCFC92B48AE29003AE1DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB0FEAD02CF5324200524E8D /* TwoWheelsTests.swift in Sources */,
+				AB0FEACE2CF52ED800524E8D /* TwoWheels.swift in Sources */,
 				ABC291602B61CDF400EC1393 /* SearchableMapView.swift in Sources */,
 				AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */,
+				ABE6E9102D875DD30043872D /* MapSearchable.swift in Sources */,
 				ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */,
+				ABE6E9122D875EAB0043872D /* MapSearchService.swift in Sources */,
+				AB09B8A32D39CB850074FC28 /* SearchableMapViewModel.swift in Sources */,
 				ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */,
 				AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */,
-				ABC291642B61CFCA00EC1393 /* MapService.swift in Sources */,
 				ABC291622B61CE7900EC1393 /* MapSheetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AB2F57842CCA7A1F00ADB10E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AB8BCFCC2B48AE29003AE1DC /* TwoWheels */;
+			targetProxy = AB2F57832CCA7A1F00ADB10E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		AB2F57852CCA7A1F00ADB10E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 754KAPZA8M;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JITechPractice.TwoWheelsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TwoWheels.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TwoWheels";
+			};
+			name = Debug;
+		};
+		AB2F57862CCA7A1F00ADB10E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 754KAPZA8M;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JITechPractice.TwoWheelsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TwoWheels.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TwoWheels";
+			};
+			name = Release;
+		};
 		AB8BCFD92B48AE2A003AE1DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -395,6 +540,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AB2F57872CCA7A1F00ADB10E /* Build configuration list for PBXNativeTarget "TwoWheelsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB2F57852CCA7A1F00ADB10E /* Debug */,
+				AB2F57862CCA7A1F00ADB10E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AB8BCFC82B48AE29003AE1DC /* Build configuration list for PBXProject "TwoWheels" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
