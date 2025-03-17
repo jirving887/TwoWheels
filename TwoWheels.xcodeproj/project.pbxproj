@@ -16,7 +16,6 @@
 		AB8BCFD82B48AE2A003AE1DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB8BCFD72B48AE2A003AE1DC /* Preview Assets.xcassets */; };
 		ABC291602B61CDF400EC1393 /* SearchableMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */; };
 		ABC291622B61CE7900EC1393 /* MapSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC291612B61CE7900EC1393 /* MapSheetView.swift */; };
-		ABC291642B61CFCA00EC1393 /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC291632B61CFCA00EC1393 /* MapService.swift */; };
 		ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A882CA3366000ED21D3 /* Destination.swift */; };
 		ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */; };
 		ABE6E9102D875DD30043872D /* MapSearchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6E90F2D875DD30043872D /* MapSearchable.swift */; };
@@ -45,7 +44,6 @@
 		AB8BCFD72B48AE2A003AE1DC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ABC2915F2B61CDF400EC1393 /* SearchableMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableMapView.swift; sourceTree = "<group>"; };
 		ABC291612B61CE7900EC1393 /* MapSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSheetView.swift; sourceTree = "<group>"; };
-		ABC291632B61CFCA00EC1393 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
 		ABD94A882CA3366000ED21D3 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationsListView.swift; sourceTree = "<group>"; };
 		ABE6E90F2D875DD30043872D /* MapSearchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchable.swift; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 		ABD94A962CA596BD00ED21D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				ABC291632B61CFCA00EC1393 /* MapService.swift */,
 				ABE6E90F2D875DD30043872D /* MapSearchable.swift */,
 				ABE6E9112D875EAB0043872D /* MapSearchService.swift */,
 			);
@@ -293,7 +290,6 @@
 				AB09B8A32D39CB850074FC28 /* SearchableMapViewModel.swift in Sources */,
 				ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */,
 				AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */,
-				ABC291642B61CFCA00EC1393 /* MapService.swift in Sources */,
 				ABC291622B61CE7900EC1393 /* MapSheetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

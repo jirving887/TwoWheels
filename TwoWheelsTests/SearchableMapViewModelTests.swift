@@ -86,12 +86,13 @@ final class SearchableMapViewModelTests {
         
         sut.reset()
         
-        #expect(sut.searchResults == [])
+        #expect(sut.searchResults.isEmpty)
         #expect(sut.selectedLocation == nil)
+        #expect(sut.completions.isEmpty)
     }
     
     @Test
-    func selectedLocationUpdated_isNil_infoSheetIsntPresented() {
+    func selectedLocationUpdated_withNil_shouldNotPresentInfoSheet() {
         let sut = SearchableMapViewModel()
         sut.isInfoSheetPresented = true
         
@@ -117,16 +118,18 @@ final class SearchableMapViewModelTests {
     }
     
     @Test
-    func selectedLocationUpdated_withValidDestination_showsLocationInfoAndMovesCamera() {
+    func selectedLocationUpdated_withValidDestination_shouldShowLocationInfoAndMovesCamera() {
         let laneStadium = CLLocationCoordinate2D(latitude: laneStadiumLatitude, longitude: laneStadiumLongitude)
         let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
         let laneStadiumDestination = Destination(laneStadiumItem)
         let sut = SearchableMapViewModel()
         sut.isInfoSheetPresented = false
+        sut.isSearchSheetPresented = true
         
         sut.selectedLocation = laneStadiumDestination
         
         #expect(sut.isInfoSheetPresented)
+        #expect(!sut.isSearchSheetPresented)
         #expect(sut.position == MapCameraPosition.item(laneStadiumItem))
     }
 
@@ -170,16 +173,14 @@ final class SearchableMapViewModelTests {
     }
     
     @Test
-    func search_withEmptyString_shouldReturnEmptyArray() async throws {
-        let searchString = ""
-        let searchCenter = CLLocationCoordinate2D(latitude: laneStadiumLatitude, longitude: laneStadiumLongitude)
-        let searchRegion = MKCoordinateRegion(center: searchCenter, latitudinalMeters: 10000, longitudinalMeters: 10000)
-        
+    func search_withEmptyString_shouldSetSearchRedultsEmpty() async throws {
         let completer = MKLocalSearchCompleter()
         let mockSearchProvider = MockSearchProvider()
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
-        #expect(try await sut.search(for: searchString, in: searchRegion).isEmpty)
+        await sut.search(for: "")
+        
+        #expect(sut.searchResults.isEmpty)
     }
     
     @Test
@@ -194,10 +195,11 @@ final class SearchableMapViewModelTests {
         let completer = MKLocalSearchCompleter()
         let mockSearchProvider = MockSearchProvider(mockMapItems: mockMapItems)
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
+        sut.visibleRegion = searchRegion
         
-        let searchResults = try await sut.search(for: searchString, in: searchRegion)
+        await sut.search(for: searchString)
         
-        #expect(!searchResults.isEmpty)
+        #expect(!sut.searchResults.isEmpty)
     }
     
     @Test
@@ -206,9 +208,9 @@ final class SearchableMapViewModelTests {
         let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
-        await #expect(throws: (any Error).self) {
-            try await sut.search(for: "Lane Stadium", in: MKCoordinateRegion())
-        }
+        await sut.search(for: "Error")
+        
+        #expect(sut.searchResults.isEmpty)
     }
     
     @Test
@@ -223,10 +225,11 @@ final class SearchableMapViewModelTests {
         let completer = MKLocalSearchCompleter()
         let mockSearchProvider = MockSearchProvider(mockMapItems: mockMapItems)
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
+        sut.visibleRegion = searchRegion
         
-        let searchResults = try await sut.search(for: completion, in: searchRegion)
-        print(searchResults)
-        #expect(!searchResults.isEmpty)
+        await sut.search(for: completion)
+        
+        #expect(!sut.searchResults.isEmpty)
     }
     
     @Test
@@ -235,9 +238,9 @@ final class SearchableMapViewModelTests {
         let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
-        await #expect(throws: (any Error).self) {
-            try await sut.search(for: MKLocalSearchCompletion(), in: MKCoordinateRegion())
-        }
+        await sut.search(for: MKLocalSearchCompletion())
+        
+        #expect(sut.searchResults.isEmpty)
     }
     
     @Test

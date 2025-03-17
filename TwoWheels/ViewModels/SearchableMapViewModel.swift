@@ -46,27 +46,42 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
         return "\(placemark?.subThoroughfare ?? "") \(placemark?.thoroughfare ?? "") \(placemark?.locality ?? ""), \(placemark?.administrativeArea ?? "") \(placemark?.postalCode ?? "") \(placemark?.country ?? "")"
     }
     
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        completions = completer.results
+    }
+    
     func reset() {
         searchResults = []
         selectedLocation = nil
+        completions = []
     }
     
-    func search(for query: String, in region: MKCoordinateRegion) async throws -> [Destination] {
+    func search(for query: String) async {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
-        request.region = region
+        request.region = visibleRegion
         
-        return try await searchProvider.search(with: request).compactMap { item in
-            Destination(item)
+        do {
+            searchResults = try await searchProvider.search(with: request).compactMap { item in
+                Destination(item)
+            }
+        } catch {
+            print(error)
+            searchResults = []
         }
     }
     
-    func search(for completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) async throws -> [Destination] {
+    func search(for completion: MKLocalSearchCompletion) async {
         let request = MKLocalSearch.Request(completion: completion)
-        request.region = region
+        request.region = visibleRegion
         
-        return try await searchProvider.search(with: request).compactMap { item in
-            Destination(item)
+        do {
+            searchResults = try await searchProvider.search(with: request).compactMap { item in
+                Destination(item)
+            }
+        } catch {
+            print(error)
+            searchResults = []
         }
     }
     
@@ -77,8 +92,9 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
            mapItem.placemark.coordinate.longitude != -180.0,
            mapItem.placemark.coordinate.latitude != 0,
            mapItem.placemark.coordinate.longitude != 0 {
-                isInfoSheetPresented = true
-                position = MapCameraPosition.item(mapItem)
+            isInfoSheetPresented = true
+            isSearchSheetPresented = false
+            position = MapCameraPosition.item(mapItem)
         } else {
             isInfoSheetPresented = false
         }

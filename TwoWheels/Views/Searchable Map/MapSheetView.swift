@@ -11,10 +11,10 @@ import SwiftUI
 struct MapSheetView: View {
     @Environment(SearchableMapViewModel.self) var viewModel
     
-    @State private var mapService = MapService(completer: .init())
     @State private var search: String = ""
     
     var body: some View {
+        @Bindable var viewModel = viewModel
         VStack {
             HStack {
                 Image(systemName: "magnifyingglass")
@@ -23,7 +23,7 @@ struct MapSheetView: View {
                     .autocorrectionDisabled()
                     .onSubmit {
                         Task {
-                            viewModel.searchResults = (try? await mapService.search(for: search, in: viewModel.visibleRegion)) ?? []
+                            await viewModel.search(for: search)
                         }
                     }
             }
@@ -35,10 +35,10 @@ struct MapSheetView: View {
             Spacer()
             
             List {
-                ForEach($mapService.completions, id: \.self) { completion in
+                ForEach($viewModel.completions, id: \.self) { completion in
                     Button {
                         Task {
-                            viewModel.searchResults = (try? await mapService.search(for: completion.wrappedValue, in: viewModel.visibleRegion)) ?? []
+                            await viewModel.search(for: completion.wrappedValue)
                         }
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
@@ -57,9 +57,9 @@ struct MapSheetView: View {
         }
         .onChange(of: search) {
             if search.count == 1 {
-                mapService.update(region: viewModel.visibleRegion)
+                viewModel.update(region: viewModel.visibleRegion)
             }
-            mapService.update(queryFragment: search)
+            viewModel.update(queryFragment: search)
         }
         .padding()
         .presentationDetents([.fraction(0.20), .medium, .large])
