@@ -8,7 +8,6 @@
 import SwiftUI
 import SwiftData
 
-@main
 struct TwoWheelsApp: App {
     
     var body: some Scene {

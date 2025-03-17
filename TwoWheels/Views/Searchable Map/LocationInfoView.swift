@@ -9,11 +9,11 @@ import MapKit
 import SwiftUI
 
 struct LocationInfoView: View {
+    @Environment(\.modelContext) var modelContext
+    @Environment(SearchableMapViewModel.self) var viewModel
     
     let location: Destination
     @State private var address = ""
-    
-    @Environment(\.modelContext) var modelContext
     
     var body: some View {
         VStack() {
@@ -82,7 +82,7 @@ struct LocationInfoView: View {
         .presentationBackgroundInteraction(.enabled)
         .onAppear {
             Task {
-                address = try await MapService.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                address = await viewModel.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
             }
         }
     }
