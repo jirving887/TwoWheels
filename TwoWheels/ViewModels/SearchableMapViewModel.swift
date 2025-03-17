@@ -39,8 +39,14 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
         self.completer.delegate = self
     }
     
-    func address(from location: CLLocation) async throws -> String {
-        let placemarks = try await searchProvider.address(from: location)
+    func address(from location: CLLocation) async -> String {
+        let placemarks: [CLPlacemark]
+        do {
+            placemarks = try await searchProvider.address(from: location)
+        } catch {
+            return "No address available."
+        }
+        
         let placemark = placemarks.first
         
         return "\(placemark?.subThoroughfare ?? "") \(placemark?.thoroughfare ?? "") \(placemark?.locality ?? ""), \(placemark?.administrativeArea ?? "") \(placemark?.postalCode ?? "") \(placemark?.country ?? "")"

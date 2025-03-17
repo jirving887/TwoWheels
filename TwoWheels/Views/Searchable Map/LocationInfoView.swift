@@ -82,7 +82,7 @@ struct LocationInfoView: View {
         .presentationBackgroundInteraction(.enabled)
         .onAppear {
             Task {
-                address = try await viewModel.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                address = await viewModel.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
             }
         }
     }
