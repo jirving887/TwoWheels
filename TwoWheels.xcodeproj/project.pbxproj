@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AB09B8A32D39CB850074FC28 /* SearchableMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB09B8A22D39CB850074FC28 /* SearchableMapViewModel.swift */; };
-		AB0FEACE2CF52ED800524E8D /* MainEntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACD2CF52ED800524E8D /* MainEntryPoint.swift */; };
-		AB0FEAD02CF5324200524E8D /* TwoWheelsTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACF2CF5324200524E8D /* TwoWheelsTestApp.swift */; };
+		AB0FEACE2CF52ED800524E8D /* TwoWheels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */; };
+		AB0FEAD02CF5324200524E8D /* TwoWheelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */; };
 		AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3406102BE32C550061BB16 /* LocationInfoView.swift */; };
 		AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */; };
 		AB8BCFD52B48AE2A003AE1DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */; };
@@ -34,8 +34,8 @@
 
 /* Begin PBXFileReference section */
 		AB09B8A22D39CB850074FC28 /* SearchableMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableMapViewModel.swift; sourceTree = "<group>"; };
-		AB0FEACD2CF52ED800524E8D /* MainEntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainEntryPoint.swift; sourceTree = "<group>"; };
-		AB0FEACF2CF5324200524E8D /* TwoWheelsTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheelsTestApp.swift; sourceTree = "<group>"; };
+		AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheels.swift; sourceTree = "<group>"; };
+		AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheelsTests.swift; sourceTree = "<group>"; };
 		AB2F577F2CCA7A1F00ADB10E /* TwoWheelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwoWheelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3406102BE32C550061BB16 /* LocationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoView.swift; sourceTree = "<group>"; };
 		AB8BCFCD2B48AE29003AE1DC /* TwoWheels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwoWheels.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,8 +85,8 @@
 			isa = PBXGroup;
 			children = (
 				AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */,
-				AB0FEACD2CF52ED800524E8D /* MainEntryPoint.swift */,
-				AB0FEACF2CF5324200524E8D /* TwoWheelsTestApp.swift */,
+				AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */,
+				AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -280,8 +280,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB0FEAD02CF5324200524E8D /* TwoWheelsTestApp.swift in Sources */,
-				AB0FEACE2CF52ED800524E8D /* MainEntryPoint.swift in Sources */,
+				AB0FEAD02CF5324200524E8D /* TwoWheelsTests.swift in Sources */,
+				AB0FEACE2CF52ED800524E8D /* TwoWheels.swift in Sources */,
 				ABC291602B61CDF400EC1393 /* SearchableMapView.swift in Sources */,
 				AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */,
 				ABE6E9102D875DD30043872D /* MapSearchable.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  MainEntryPoint.swift
+//  TwoWheels.swift
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 11/25/24.
@@ -8,11 +8,11 @@
 import SwiftUI
 
 @main
-struct MainEntryPoint {
+struct TwoWheels {
     
     static func main() {
         guard isProduction() else {
-            TwoWheelsTestApp.main()
+            TwoWheelsTests.main()
             return
         }
         
