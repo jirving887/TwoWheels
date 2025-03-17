@@ -53,20 +53,20 @@ final class SearchableMapViewModelTests {
         let mockSearchProvider = MockSearchProvider(mockPlacemarks: [laneStadiumPlacemark])
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
-        let address = try await sut.address(from: laneStadiumLocation)
+        let address = await sut.address(from: laneStadiumLocation)
         
         #expect("185 Beamer Way Blacksburg, VA 24061 United States".contains(address.trimmingCharacters(in: .whitespaces)))
     }
     
     @Test
-    func address_withLocationAndErrors_shouldPropogarateErrors() async {
+    func address_withLocationAndErrors_shouldReturnMessage() async {
         let completer = MKLocalSearchCompleter()
         let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
-        await #expect(throws: (any Error).self) {
-            try await sut.address(from: CLLocation())
-        }
+        let address = await sut.address(from: CLLocation())
+        
+        #expect(address == "No address available.")
     }
     
     @Test
@@ -203,7 +203,7 @@ final class SearchableMapViewModelTests {
     }
     
     @Test
-    func search_withErrors_shouldPropagateErrors() async {
+    func search_withErrors_shouldSetSEarchREsultsEmpty() async {
         let completer = MKLocalSearchCompleter()
         let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
