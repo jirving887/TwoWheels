@@ -26,6 +26,7 @@ struct SearchableMapView: View {
                         Label(destination.title, systemImage: "star")
                     }
                     .tint(.yellow)
+                    .tag(destination)
                 }
                 
                 ForEach(viewModel.searchResults) { result in
