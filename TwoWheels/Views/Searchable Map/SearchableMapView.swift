@@ -39,9 +39,13 @@ struct SearchableMapView: View {
                 }
                 
                 if let location = tappedLocation {
+                    let placemark = MKPlacemark(coordinate: location)
+                    let item = MKMapItem(placemark: placemark)
+                    let tappedDestination = Destination(item)
                     Marker(coordinate: location) {
                         Image(systemName: "mappin")
                     }
+                    .tag(tappedDestination)
                 }
                 
                 UserAnnotation()
@@ -95,7 +99,6 @@ struct SearchableMapView: View {
                     default:
                         tappedLocation = nil
                     }
-                    
                 }
             )
         }
