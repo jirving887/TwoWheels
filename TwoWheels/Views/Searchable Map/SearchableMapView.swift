@@ -30,10 +30,12 @@ struct SearchableMapView: View {
                 }
                 
                 ForEach(viewModel.searchResults) { result in
-                    Marker(coordinate: result.coordinate) {
-                        Image(systemName: "mappin")
+                    if let item = result.mapItem {
+                        Marker(coordinate: item.placemark.coordinate) {
+                            Image(systemName: "mappin")
+                        }
+                        .tag(result)
                     }
-                    .tag(result)
                 }
                 
                 if let location = tappedLocation {
