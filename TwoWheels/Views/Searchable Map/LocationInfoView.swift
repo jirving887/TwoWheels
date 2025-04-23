@@ -9,11 +9,9 @@ import MapKit
 import SwiftUI
 
 struct LocationInfoView: View {
-    @Environment(\.modelContext) var modelContext
     @Environment(SearchableMapViewModel.self) var viewModel
     
     let location: Destination
-    @State private var address = ""
     
     var body: some View {
         VStack() {
@@ -22,7 +20,7 @@ struct LocationInfoView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
-                Text(address)
+                Text(location.address ?? "")
                     .font(.title2)
                     .multilineTextAlignment(.leading)
             }
@@ -44,7 +42,8 @@ struct LocationInfoView: View {
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 Button {
-                    modelContext.insert(location)
+                    viewModel.isInfoSheetPresented = false
+                    viewModel.isEditSheetPresented = true
                 } label: {
                     VStack {
                         Image(systemName: "plus.circle")
@@ -82,13 +81,18 @@ struct LocationInfoView: View {
         .presentationBackgroundInteraction(.enabled)
         .onAppear {
             Task {
-                address = await viewModel.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                location.address = await viewModel.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
             }
         }
     }
 }
 
 #Preview {
-    LocationInfoView(location: .init(MKMapItem(placemark: .init(coordinate: .init(latitude: 40.7127636, longitude: -74.00598)))))
+    let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
+    let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
+    let laneStadiumDestination = Destination(laneStadiumItem)
+
+    LocationInfoView(location: laneStadiumDestination)
+        .environment(SearchableMapViewModel())
 }
 

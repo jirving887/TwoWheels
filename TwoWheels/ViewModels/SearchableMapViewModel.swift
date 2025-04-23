@@ -16,6 +16,7 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
     var completions = [MKLocalSearchCompletion]()
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
+    var isEditSheetPresented = false
     var position = MapCameraPosition.userLocation(fallback: .automatic)
     var visibleRegion = MKCoordinateRegion.init()
     

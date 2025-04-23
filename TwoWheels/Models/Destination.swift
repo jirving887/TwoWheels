@@ -15,7 +15,7 @@ class Destination : MapSelectable {
     @Transient
     var feature: MapFeature?
     @Transient
-    var mapItem: MKMapItem = .init(placemark: .init(coordinate: .init()))
+    var mapItem: MKMapItem?
     var title: String
     var address: String?
     var longitude: Double

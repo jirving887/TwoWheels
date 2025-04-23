@@ -30,12 +30,10 @@ struct SearchableMapView: View {
                 }
                 
                 ForEach(viewModel.searchResults) { result in
-                    if let item = result.mapItem {
-                        Marker(coordinate: item.placemark.coordinate) {
-                            Image(systemName: "mappin")
-                        }
-                        .tag(result)
+                    Marker(coordinate: result.coordinate) {
+                        Image(systemName: "mappin")
                     }
+                    .tag(result)
                 }
                 
                 if let location = tappedLocation {
@@ -108,6 +106,16 @@ struct SearchableMapView: View {
         .sheet(isPresented: $viewModel.isInfoSheetPresented) {
             if let location = viewModel.selectedLocation {
                 LocationInfoView(location: location)
+            }
+        }
+        .sheet(isPresented: $viewModel.isEditSheetPresented) {
+            viewModel.isInfoSheetPresented = true
+        } content: {
+            if let location = viewModel.selectedLocation {
+                EditDestinationView(destination: location, title: "Add Destination") {
+                    viewModel.isEditSheetPresented = false
+                    viewModel.isInfoSheetPresented = true
+                }
             }
         }
         .environment(viewModel)
