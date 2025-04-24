@@ -16,6 +16,7 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
     var completions = [MKLocalSearchCompletion]()
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
+    var isEditSheetPresented = false
     var position = MapCameraPosition.userLocation(fallback: .automatic)
     var visibleRegion = MKCoordinateRegion.init()
     
@@ -93,14 +94,14 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
     
     func selectedLocationUpdated() {
         if let selectedLocation,
-           let mapItem = selectedLocation.mapItem,
-           mapItem.placemark.coordinate.latitude != -180.0,
-           mapItem.placemark.coordinate.longitude != -180.0,
-           mapItem.placemark.coordinate.latitude != 0,
-           mapItem.placemark.coordinate.longitude != 0 {
+           selectedLocation.coordinate.latitude != -180.0,
+           selectedLocation.coordinate.longitude != -180.0,
+           selectedLocation.coordinate.latitude != 0,
+           selectedLocation.coordinate.longitude != 0 {
             isInfoSheetPresented = true
             isSearchSheetPresented = false
-            position = MapCameraPosition.item(mapItem)
+            let region = MKCoordinateRegion(center: selectedLocation.coordinate, latitudinalMeters: 200, longitudinalMeters: 200)
+            position = MapCameraPosition.region(region)
         } else {
             isInfoSheetPresented = false
         }
