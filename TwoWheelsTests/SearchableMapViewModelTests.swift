@@ -120,6 +120,7 @@ final class SearchableMapViewModelTests {
     @Test
     func selectedLocationUpdated_withValidDestination_shouldShowLocationInfoAndMovesCamera() {
         let laneStadium = CLLocationCoordinate2D(latitude: laneStadiumLatitude, longitude: laneStadiumLongitude)
+        let region = MKCoordinateRegion(center: laneStadium, latitudinalMeters: 200, longitudinalMeters: 200)
         let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
         let laneStadiumDestination = Destination(laneStadiumItem)
         let sut = SearchableMapViewModel()
@@ -130,7 +131,7 @@ final class SearchableMapViewModelTests {
         
         #expect(sut.isInfoSheetPresented)
         #expect(!sut.isSearchSheetPresented)
-        #expect(sut.position == MapCameraPosition.item(laneStadiumItem))
+        #expect(sut.position == MapCameraPosition.region(region))
     }
 
     @Test

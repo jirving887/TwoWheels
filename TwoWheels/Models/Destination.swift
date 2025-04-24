@@ -17,6 +17,7 @@ class Destination : MapSelectable {
     @Transient
     var mapItem: MKMapItem?
     var title: String
+    var address: String?
     var longitude: Double
     var latitude: Double
     var url: URL?
