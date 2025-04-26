@@ -14,6 +14,8 @@ struct DestinationsListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Destination.title) private var destinations: [Destination]
     
+    @State private var selectedDestination: Destination?
+    
     var body: some View {
         NavigationStack {
             if !destinations.isEmpty {
@@ -34,7 +36,7 @@ struct DestinationsListView: View {
                         }
                         
                         Button {
-                            
+                            selectedDestination = destination
                         } label: {
                             Label("Edit", systemImage: "pencil")
                         }
@@ -48,6 +50,9 @@ struct DestinationsListView: View {
                     description: Text("You have not saved any locations yet. Check out the Map \(Image(systemName: "map")) and add one.")
                 )
             }
+        }
+        .sheet(item: $selectedDestination) { destination in
+            EditDestinationView(destination: destination, newDestination: false)
         }
     }
 }

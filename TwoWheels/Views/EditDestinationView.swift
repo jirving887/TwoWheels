@@ -14,7 +14,7 @@ struct EditDestinationView: View {
     @Environment(\.dismiss) private var dismiss
     
     @Bindable var destination: Destination
-    let title: String
+    let newDestination: Bool
     
     var body: some View {
         NavigationStack {
@@ -28,7 +28,7 @@ struct EditDestinationView: View {
                         .lineLimit(1...5)
                 }
             }
-            .navigationTitle(title)
+            .navigationTitle("\(newDestination ? "New" : "Edit") Destination")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
@@ -39,7 +39,9 @@ struct EditDestinationView: View {
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("Save") {
-                        modelContext.insert(destination)
+                        if newDestination {
+                            modelContext.insert(destination)
+                        }
                         dismiss()
                     }
                 }
@@ -56,6 +58,6 @@ struct EditDestinationView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Destination.self, configurations: config)
     
-    EditDestinationView(destination: laneStadiumDestination, title: "Save or Edit Destination:") 
+    EditDestinationView(destination: laneStadiumDestination, newDestination: true)
         .modelContainer(container)
 }

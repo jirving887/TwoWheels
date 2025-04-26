@@ -13,7 +13,7 @@ struct SearchableMapView: View {
     
     let manager = CLLocationManager()
     
-    @Query(sort: \Destination.title) var destinations: [Destination]
+    @Query private var destinations: [Destination]
     
     @State private var viewModel = SearchableMapViewModel()
     @State private var tappedLocation: CLLocationCoordinate2D? = nil
@@ -23,7 +23,7 @@ struct SearchableMapView: View {
             Map(position: $viewModel.position, selection: $viewModel.selectedLocation) {
                 ForEach(destinations) { destination in
                     Marker(coordinate: destination.coordinate) {
-                        Label(destination.title, systemImage: "star")
+                        Image(systemName: "star")
                     }
                     .tint(.yellow)
                     .tag(destination)
@@ -114,7 +114,7 @@ struct SearchableMapView: View {
             viewModel.isInfoSheetPresented = true
         } content: {
             if let location = viewModel.selectedLocation {
-                EditDestinationView(destination: location, title: "Add Destination")
+                EditDestinationView(destination: location, newDestination: true)
             }
         }
         .environment(viewModel)
