@@ -5,6 +5,7 @@
 //  Created by Jonathan Irving on 9/24/24.
 //
 
+import MapKit
 import SwiftUI
 import SwiftData
 
@@ -31,6 +32,13 @@ struct DestinationsListView: View {
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
+                        
+                        Button {
+                            
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                        }
+                        .tint(.yellow)
                     }
                 }
             } else {
@@ -45,5 +53,18 @@ struct DestinationsListView: View {
 }
 
 #Preview {
-    DestinationsListView()
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Destination.self, configurations: config)
+    
+    for i in 1..<10 {
+        let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
+        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
+        let laneStadiumDestination = Destination(laneStadiumItem)
+        laneStadiumDestination.title = "Lane Stadium"
+        
+        container.mainContext.insert(laneStadiumDestination)
+    }
+    
+    return DestinationsListView()
+        .modelContainer(container)
 }
