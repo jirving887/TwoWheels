@@ -114,10 +114,7 @@ struct SearchableMapView: View {
             viewModel.isInfoSheetPresented = true
         } content: {
             if let location = viewModel.selectedLocation {
-                EditDestinationView(destination: location, title: "Add Destination") {
-                    viewModel.isEditSheetPresented = false
-                    viewModel.isInfoSheetPresented = true
-                }
+                EditDestinationView(destination: location, title: "Add Destination")
             }
         }
         .environment(viewModel)

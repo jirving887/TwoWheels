@@ -11,32 +11,20 @@ import MapKit
 
 struct EditDestinationView: View {
     @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) private var dismiss
     
-    let destination: Destination
+    @Bindable var destination: Destination
     let title: String
-    let dismiss: () -> Void
-    
-    @State private var destinationName: String
-    @State private var destinationAddress: String
-    
-    init(destination: Destination, title: String, dismiss: @escaping () -> Void) {
-        self.destination = destination
-        self.title = title
-        self.dismiss = dismiss
-        
-        _destinationName = .init(initialValue: destination.title)
-        _destinationAddress = .init(initialValue: destination.address ?? "No Address")
-    }
     
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Name")) {
-                    TextField("Destination Name", text: $destinationName)
+                    TextField("Destination Name", text: $destination.title)
                 }
                 
                 Section(header: Text("Address")) {
-                    TextField("Destination Address", text: $destinationAddress, axis: .vertical)
+                    TextField("Destination Address", text: $destination.address, axis: .vertical)
                         .lineLimit(1...5)
                 }
             }
@@ -51,11 +39,7 @@ struct EditDestinationView: View {
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("Save") {
-                        destination.title = destinationName
-                        destination.address = destinationAddress
-                        
                         modelContext.insert(destination)
-                        
                         dismiss()
                     }
                 }
@@ -72,8 +56,6 @@ struct EditDestinationView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Destination.self, configurations: config)
     
-    EditDestinationView(destination: laneStadiumDestination, title: "Save or Edit Destination:") {
-        print("CANCEL")
-    }
+    EditDestinationView(destination: laneStadiumDestination, title: "Save or Edit Destination:") 
         .modelContainer(container)
 }

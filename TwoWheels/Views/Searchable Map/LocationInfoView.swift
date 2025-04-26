@@ -20,7 +20,7 @@ struct LocationInfoView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
-                Text(location.address ?? "")
+                Text(location.address)
                     .font(.title2)
                     .multilineTextAlignment(.leading)
             }
