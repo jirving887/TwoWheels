@@ -29,49 +29,37 @@ struct EditDestinationView: View {
     }
     
     var body: some View {
-        VStack {
+        NavigationStack {
             Form {
-                Section(header: Text(title)) {
+                Section(header: Text("Name")) {
                     TextField("Destination Name", text: $destinationName)
-                    
-                    TextField("Destination Address", text: $destinationAddress)
                 }
-            }
-            .scrollContentBackground(.hidden)
-            
-            HStack(alignment: .center, spacing: 10.0) {
-                Button {
-                    dismiss()
-                } label: {
-                    VStack {
-                        Image(systemName: "xmark.circle")
-                            .padding(2)
-                        Text("Cancel")
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(Color.red)
                 
-                Button {
-                    destination.title = destinationName
-                    destination.address = destinationAddress
-                    
-                    modelContext.insert(destination)
-                    
-                    dismiss()
-                } label: {
-                    VStack {
-                        Image(systemName: "plus.circle")
-                            .padding(2)
-                        Text("Add Destination")
-                    }
-                    .frame(maxWidth: .infinity)
+                Section(header: Text("Address")) {
+                    TextField("Destination Address", text: $destinationAddress, axis: .vertical)
+                        .lineLimit(1...5)
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(Color.green)
             }
-            .padding()
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button("Save") {
+                        destination.title = destinationName
+                        destination.address = destinationAddress
+                        
+                        modelContext.insert(destination)
+                        
+                        dismiss()
+                    }
+                }
+            }
         }
     }
 }
