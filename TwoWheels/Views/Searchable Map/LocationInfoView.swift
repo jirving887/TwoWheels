@@ -6,12 +6,18 @@
 //
 
 import MapKit
+import SwiftData
 import SwiftUI
 
 struct LocationInfoView: View {
     @Environment(SearchableMapViewModel.self) var viewModel
+    @Query private var destinations: [Destination]
     
     let location: Destination
+    
+    var saved: Bool {
+        destinations.contains(location)
+    }
     
     var body: some View {
         VStack() {
@@ -20,7 +26,7 @@ struct LocationInfoView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
-                Text(location.address ?? "")
+                Text(location.address)
                     .font(.title2)
                     .multilineTextAlignment(.leading)
             }
@@ -46,14 +52,14 @@ struct LocationInfoView: View {
                     viewModel.isEditSheetPresented = true
                 } label: {
                     VStack {
-                        Image(systemName: "plus.circle")
+                        Image(systemName: saved ? "pencil" : "plus.circle")
                             .padding(2)
-                        Text("Add Destination")
+                        Text(saved ? "Edit Destination" : "Add Destination")
                     }
                     .frame(maxHeight: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(Color.green)
+                .tint(saved ? .yellow : .green)
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 if let url = location.url {

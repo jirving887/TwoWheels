@@ -17,7 +17,7 @@ class Destination : MapSelectable {
     @Transient
     var mapItem: MKMapItem?
     var title: String
-    var address: String?
+    var address: String
     var longitude: Double
     var latitude: Double
     var url: URL?
@@ -31,6 +31,7 @@ class Destination : MapSelectable {
     init(_ mapItem: MKMapItem) {
         self.mapItem = mapItem
         self.title = mapItem.name ?? ""
+        self.address = ""
         self.latitude = mapItem.placemark.coordinate.latitude
         self.longitude = mapItem.placemark.coordinate.longitude
         self.url = mapItem.url

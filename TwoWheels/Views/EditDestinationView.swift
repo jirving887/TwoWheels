@@ -11,67 +11,41 @@ import MapKit
 
 struct EditDestinationView: View {
     @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) private var dismiss
     
-    let destination: Destination
-    let title: String
-    let dismiss: () -> Void
-    
-    @State private var destinationName: String
-    @State private var destinationAddress: String
-    
-    init(destination: Destination, title: String, dismiss: @escaping () -> Void) {
-        self.destination = destination
-        self.title = title
-        self.dismiss = dismiss
-        
-        _destinationName = .init(initialValue: destination.title)
-        _destinationAddress = .init(initialValue: destination.address ?? "No Address")
-    }
+    @Bindable var destination: Destination
+    let newDestination: Bool
     
     var body: some View {
-        VStack {
+        NavigationStack {
             Form {
-                Section(header: Text(title)) {
-                    TextField("Destination Name", text: $destinationName)
-                    
-                    TextField("Destination Address", text: $destinationAddress)
+                Section(header: Text("Name")) {
+                    TextField("Destination Name", text: $destination.title)
                 }
-            }
-            .scrollContentBackground(.hidden)
-            
-            HStack(alignment: .center, spacing: 10.0) {
-                Button {
-                    dismiss()
-                } label: {
-                    VStack {
-                        Image(systemName: "xmark.circle")
-                            .padding(2)
-                        Text("Cancel")
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(Color.red)
                 
-                Button {
-                    destination.title = destinationName
-                    destination.address = destinationAddress
-                    
-                    modelContext.insert(destination)
-                    
-                    dismiss()
-                } label: {
-                    VStack {
-                        Image(systemName: "plus.circle")
-                            .padding(2)
-                        Text("Add Destination")
-                    }
-                    .frame(maxWidth: .infinity)
+                Section(header: Text("Address")) {
+                    TextField("Destination Address", text: $destination.address, axis: .vertical)
+                        .lineLimit(1...5)
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(Color.green)
             }
-            .padding()
+            .navigationTitle("\(newDestination ? "New" : "Edit") Destination")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button("Save") {
+                        if newDestination {
+                            modelContext.insert(destination)
+                        }
+                        dismiss()
+                    }
+                }
+            }
         }
     }
 }
@@ -84,8 +58,6 @@ struct EditDestinationView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Destination.self, configurations: config)
     
-    EditDestinationView(destination: laneStadiumDestination, title: "Save or Edit Destination:") {
-        print("CANCEL")
-    }
+    EditDestinationView(destination: laneStadiumDestination, newDestination: true)
         .modelContainer(container)
 }

@@ -10,19 +10,17 @@ import SwiftData
 
 struct TwoWheelsApp: App {
     
+    @State private var selectedTab: TabSelection = .map
+    
     var body: some Scene {
         WindowGroup {
-            TabView {
-                Group {
+            TabView(selection: $selectedTab) {
+                Tab("Map", systemImage: "map", value: .map) {
                     SearchableMapView()
-                        .tabItem {
-                            Label("Map", systemImage: "map")
-                        }
-                    
+                }
+                
+                Tab("Destinations", systemImage: "list.bullet", value: .list) {
                     DestinationsListView()
-                        .tabItem {
-                            Label("Destinations", systemImage: "list.bullet")
-                        }
                 }
             }
         }
