@@ -43,5 +43,20 @@ final class DestinationDataServiceTests {
         
         #expect(sut.fetch().count == 1)
     }
+    
+    @Test
+    func add_shouldAddDestination() {
+        sut.add(laneStadiumDestination)
+        
+        #expect(sut.fetch().map { $0.title } == ["Lane Stadium"])
+    }
+    
+    @Test
+    func add_withDuplicate_shouldNotAddDestination() {
+        sut.add(laneStadiumDestination)
+        sut.add(laneStadiumDestination)
+        
+        #expect(sut.fetch().map { $0.title } == ["Lane Stadium"])
+    }
 
 }

@@ -25,7 +25,9 @@ class DestinationDataService: DataService {
         }
     }
     
-    func add(_ data: Destination) {}
+    func add(_ data: Destination) {
+        modelContext.insert(data)
+    }
     
     func remove(_ data: Destination) {}
     
