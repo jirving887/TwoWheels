@@ -9,12 +9,12 @@ import Foundation
 
 @Observable
 class ExploreViewModel {
-    private let dataService: any SwiftDataCrudService<Destination>
+    private let dataService: any DataManupilating<Destination>
     
     var selectedTab: TabSelection = .map
     var destinations: [Destination] = []
     
-    init(dataService: any SwiftDataCrudService<Destination>) {
+    init(dataService: any DataManupilating<Destination>) {
         self.dataService = dataService
     }
     

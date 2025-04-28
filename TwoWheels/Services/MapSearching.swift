@@ -1,5 +1,5 @@
 //
-//  MapSearchable.swift
+//  MapSearching.swift
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 3/16/25.
@@ -7,7 +7,7 @@
 
 import MapKit
 
-protocol MapSearchable {
+protocol MapSearching {
     
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem]
     

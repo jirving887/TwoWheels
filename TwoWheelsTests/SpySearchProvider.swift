@@ -8,7 +8,7 @@
 import MapKit
 @testable import TwoWheels
 
-struct SpySearchProvider: MapSearchable {
+struct SpySearchService: MapSearching {
     var mapItems: [MKMapItem] = []
     var placemarks: [CLPlacemark] = []
     var fakeError: Error?

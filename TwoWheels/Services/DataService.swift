@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-class DataService<T : PersistentModel>: SwiftDataCrudService {
+class DataService<T : PersistentModel>: DataManupilating {
     private let modelContext: ModelContext
     
     init(modelContext: ModelContext) {

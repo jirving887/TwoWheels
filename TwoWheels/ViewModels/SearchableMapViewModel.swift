@@ -11,7 +11,7 @@ import SwiftUI
 @Observable
 class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
     private let completer: MKLocalSearchCompleter
-    private let searchProvider: MapSearchable
+    private let searchProvider: MapSearching
     
     var completions = [MKLocalSearchCompletion]()
     var isSearchSheetPresented = false
@@ -33,7 +33,7 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
     }
     
     init(completer: MKLocalSearchCompleter = MKLocalSearchCompleter(),
-         searchProvider: MapSearchable = MapSearchService()) {
+         searchProvider: MapSearching = MapSearchService()) {
         self.completer = completer
         self.searchProvider = searchProvider
         super.init()
