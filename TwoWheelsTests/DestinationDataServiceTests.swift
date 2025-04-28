@@ -58,5 +58,25 @@ final class DestinationDataServiceTests {
         
         #expect(sut.fetch().map { $0.title } == ["Lane Stadium"])
     }
+    
+    @Test
+    func remove_withNonAddedDestination_shouldNotChangeData() {
+        let notlaneStadium = CLLocationCoordinate2D(latitude: 38.22001, longitude: -81.41804)
+        let notlaneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: notlaneStadium))
+        let notlaneStadiumDestination = Destination(notlaneStadiumItem)
+        notlaneStadiumDestination.title = "Not Lane Stadium"
+        sut.add(laneStadiumDestination)
+        sut.remove(notlaneStadiumDestination)
+        
+        #expect(sut.fetch().map { $0.title } == ["Lane Stadium"])
+    }
+    
+    @Test
+    func remove_withAddedDestination_shouldRemoveDestination() {
+        sut.add(laneStadiumDestination)
+        sut.remove(laneStadiumDestination)
+        
+        #expect(sut.fetch() == [])
+    }
 
 }
