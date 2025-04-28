@@ -115,6 +115,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AB3169B12DC0344800579E00 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				ABE6E90F2D875DD30043872D /* MapSearching.swift */,
+				AB3169942DBFD84F00579E00 /* DataManipulating.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		AB8BCFC42B48AE29003AE1DC = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +150,7 @@
 				AB18B3A42D39C51100C8D417 /* Views */,
 				AB0FEAD12CF532FC00524E8D /* Main */,
 				ABD94A872CA3364600ED21D3 /* Models */,
+				AB3169B12DC0344800579E00 /* Protocols */,
 				ABD94A962CA596BD00ED21D3 /* Services */,
 				AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */,
 				AB8BCFD62B48AE2A003AE1DC /* Preview Content */,
@@ -178,9 +188,7 @@
 		ABD94A962CA596BD00ED21D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				ABE6E90F2D875DD30043872D /* MapSearching.swift */,
 				ABE6E9112D875EAB0043872D /* MapSearchService.swift */,
-				AB3169942DBFD84F00579E00 /* DataManipulating.swift */,
 				AB3169982DBFED9500579E00 /* DataService.swift */,
 			);
 			path = Services;
