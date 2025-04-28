@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ExploreView: View {
     
-    @State private var selectedTab: TabSelection = .map
+    @State private var viewModel = ExploreViewModel()
     
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: $viewModel.selectedTab) {
             Tab("Map", systemImage: "map", value: .map) {
                 SearchableMapView()
             }

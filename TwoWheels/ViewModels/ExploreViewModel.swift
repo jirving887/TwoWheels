@@ -9,5 +9,5 @@ import Foundation
 
 @Observable
 class ExploreViewModel {
-    
+    var selectedTab: TabSelection = .map
 }
