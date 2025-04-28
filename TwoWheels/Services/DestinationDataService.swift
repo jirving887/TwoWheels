@@ -16,7 +16,13 @@ class DestinationDataService: DataService {
     }
     
     func fetch() -> [Destination] {
-        []
+        do {
+            let descriptor = FetchDescriptor<Destination>(sortBy: [SortDescriptor(\.title)])
+            return try modelContext.fetch(descriptor)
+        } catch {
+            print("Failed to fetch destinations with error: \n\(error)")
+            return []
+        }
     }
     
     func add(_ data: Destination) {}
