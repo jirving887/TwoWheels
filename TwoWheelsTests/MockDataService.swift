@@ -23,7 +23,7 @@ class MockDataService: DataService {
     }
     
     func remove(_ data: Destination) {
-        print("Removing \(data.title)")
+        destinations.removeAll { $0.id == data.id }
     }
     
     func update(_ data: Destination) {

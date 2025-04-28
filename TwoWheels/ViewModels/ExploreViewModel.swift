@@ -22,4 +22,9 @@ class ExploreViewModel {
         dataService.add(destination)
         destinations = dataService.fetch()
     }
+    
+    func deleteDestination(_ destination: Destination) {
+        dataService.remove(destination)
+        destinations = dataService.fetch()
+    }
 }
