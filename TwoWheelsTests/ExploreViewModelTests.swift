@@ -24,7 +24,7 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func test_addDestination_shouldAddDestination() {
+    func addDestination_shouldAddDestination() {
         sut.addDestination(laneStadiumDestination)
         
         #expect(dataService.destinationTitles == ["Lane Stadium"])
@@ -32,7 +32,7 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func test_deleteDestination_shouldDeleteDestination() {
+    func deleteDestination_shouldDeleteDestination() {
         for num in 0..<3 {
             let newLocation = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
             let newItem = MKMapItem(placemark: MKPlacemark(coordinate: newLocation))
