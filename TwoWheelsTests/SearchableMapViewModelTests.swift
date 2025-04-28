@@ -50,7 +50,7 @@ final class SearchableMapViewModelTests {
         let laneStadiumPlacemark = CLPlacemark(placemark: MKPlacemark(coordinate: laneStadiumLocation2D, addressDictionary: laneStadiumAddressDictionary))
         
         let completer = MKLocalSearchCompleter()
-        let mockSearchProvider = MockSearchProvider(mockPlacemarks: [laneStadiumPlacemark])
+        let mockSearchProvider = SpySearchProvider(placemarks: [laneStadiumPlacemark])
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
         let address = await sut.address(from: laneStadiumLocation)
@@ -61,7 +61,7 @@ final class SearchableMapViewModelTests {
     @Test
     func address_withLocationAndErrors_shouldReturnMessage() async {
         let completer = MKLocalSearchCompleter()
-        let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
+        let mockSearchProvider = SpySearchProvider(fakeError: NSError(domain: "Test Error", code: 1, userInfo: nil))
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
         let address = await sut.address(from: CLLocation())
@@ -176,7 +176,7 @@ final class SearchableMapViewModelTests {
     @Test
     func search_withEmptyString_shouldSetSearchRedultsEmpty() async throws {
         let completer = MKLocalSearchCompleter()
-        let mockSearchProvider = MockSearchProvider()
+        let mockSearchProvider = SpySearchProvider()
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
         await sut.search(for: "")
@@ -194,7 +194,7 @@ final class SearchableMapViewModelTests {
         let mockMapItems = [laneStadiumMapItem]
         
         let completer = MKLocalSearchCompleter()
-        let mockSearchProvider = MockSearchProvider(mockMapItems: mockMapItems)
+        let mockSearchProvider = SpySearchProvider(mapItems: mockMapItems)
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         sut.visibleRegion = searchRegion
         
@@ -206,7 +206,7 @@ final class SearchableMapViewModelTests {
     @Test
     func search_withErrors_shouldSetSEarchREsultsEmpty() async {
         let completer = MKLocalSearchCompleter()
-        let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
+        let mockSearchProvider = SpySearchProvider(fakeError: NSError(domain: "Test Error", code: 1, userInfo: nil))
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
         await sut.search(for: "Error")
@@ -224,7 +224,7 @@ final class SearchableMapViewModelTests {
         let mockMapItems = [laneStadiumMapItem]
         
         let completer = MKLocalSearchCompleter()
-        let mockSearchProvider = MockSearchProvider(mockMapItems: mockMapItems)
+        let mockSearchProvider = SpySearchProvider(mapItems: mockMapItems)
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         sut.visibleRegion = searchRegion
         
@@ -236,7 +236,7 @@ final class SearchableMapViewModelTests {
     @Test
     func search_withSearchCompletionAndErrors_shouldPropagateErrors() async {
         let completer = MKLocalSearchCompleter()
-        let mockSearchProvider = MockSearchProvider(mockError: NSError(domain: "Test Error", code: 1, userInfo: nil))
+        let mockSearchProvider = SpySearchProvider(fakeError: NSError(domain: "Test Error", code: 1, userInfo: nil))
         let sut = SearchableMapViewModel(completer: completer, searchProvider: mockSearchProvider)
         
         await sut.search(for: MKLocalSearchCompletion())

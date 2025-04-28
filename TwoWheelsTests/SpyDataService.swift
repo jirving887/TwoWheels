@@ -1,5 +1,5 @@
 //
-//  MockDataService.swift
+//  SpyDataService.swift
 //  TwoWheelsTests
 //
 //  Created by Jonathan Irving on 4/28/25.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import TwoWheels
 
-class MockDataService: DataService {
+class SpyDataService: DataService {
     var destinations: [Destination] = []
     var destinationTitles: [String] {
         destinations.map { $0.title }

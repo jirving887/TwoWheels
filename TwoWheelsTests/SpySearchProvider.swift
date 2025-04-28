@@ -8,24 +8,24 @@
 import MapKit
 @testable import TwoWheels
 
-struct MockSearchProvider: MapSearchable {
-    var mockMapItems: [MKMapItem] = []
-    var mockPlacemarks: [CLPlacemark] = []
-    var mockError: Error?
+struct SpySearchProvider: MapSearchable {
+    var mapItems: [MKMapItem] = []
+    var placemarks: [CLPlacemark] = []
+    var fakeError: Error?
     
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
-        if let error = mockError {
+        if let error = fakeError {
             throw error
         }
         
-        return mockMapItems
+        return mapItems
     }
     
     func address(from location: CLLocation) async throws -> [CLPlacemark] {
-        if let error = mockError {
+        if let error = fakeError {
             throw error
         }
         
-        return mockPlacemarks
+        return placemarks
     }
 }

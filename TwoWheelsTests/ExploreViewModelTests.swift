@@ -10,12 +10,12 @@ import Testing
 @testable import TwoWheels
 
 struct ExploreViewModelTests {
-    let dataService: MockDataService
+    let dataService: SpyDataService
     let sut: ExploreViewModel
     let laneStadiumDestination: Destination
     
     init() {
-        dataService = MockDataService()
+        dataService = SpyDataService()
         sut = ExploreViewModel(dataService: dataService)
         let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
         let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
