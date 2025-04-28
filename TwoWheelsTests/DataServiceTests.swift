@@ -1,5 +1,5 @@
 //
-//  DestinationDataServiceTests.swift
+//  DataServiceTests.swift
 //  TwoWheelsTests
 //
 //  Created by Jonathan Irving on 4/28/25.
@@ -11,15 +11,15 @@ import Testing
 @testable import TwoWheels
 
 @MainActor
-final class DestinationDataServiceTests {
+final class DataServiceTests {
     var container: ModelContainer!
-    var sut: DestinationDataService!
+    var sut: DataService<Destination>!
     var laneStadiumDestination: Destination!
     
     init() throws {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try ModelContainer(for: Destination.self, configurations: config)
-        sut = DestinationDataService(modelContext: container.mainContext)
+        sut = DataService(modelContext: container.mainContext)
         
         let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
         let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
@@ -82,5 +82,4 @@ final class DestinationDataServiceTests {
         
         #expect(sut.fetch() == [])
     }
-
 }

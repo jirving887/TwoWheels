@@ -8,7 +8,7 @@
 import Foundation
 @testable import TwoWheels
 
-class SpyDataService: DataService {
+class SpyDataService: SwiftDataCrudService {
     var destinations: [Destination] = []
     var destinationTitles: [String] {
         destinations.map { $0.title }

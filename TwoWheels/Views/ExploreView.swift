@@ -13,7 +13,7 @@ struct ExploreView: View {
     @State private var viewModel: ExploreViewModel
     
     init(modelContext: ModelContext) {
-        let dataService = DestinationDataService(modelContext: modelContext)
+        let dataService = DataService<Destination>(modelContext: modelContext)
         let viewModel = ExploreViewModel(dataService: dataService)
         _viewModel = State(initialValue: viewModel)
     }

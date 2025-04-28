@@ -6,9 +6,30 @@
 //
 
 import Foundation
+import SwiftData
 
-protocol DataService {
-    func fetch() -> [Destination]
-    func add(_ data: Destination)
-    func remove(_ data: Destination)
+class DataService<T : PersistentModel>: SwiftDataCrudService {
+    private let modelContext: ModelContext
+    
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
+    
+    func fetch() -> [T] {
+        do {
+            let descriptor = FetchDescriptor<T>()
+            return try modelContext.fetch(descriptor)
+        } catch {
+            print("Failed to fetch destinations with error: \n\(error)")
+            return []
+        }
+    }
+    
+    func add(_ data: T) {
+        modelContext.insert(data)
+    }
+    
+    func remove(_ data: T) {
+        modelContext.delete(data)
+    }
 }
