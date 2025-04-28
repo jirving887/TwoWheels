@@ -11,4 +11,4 @@ TwoWheels will allow a user to keep track of their favorite locations, share the
 ## Requirements
 
 - Xcode 15.0 or newer
-- iPhone running iOS 17 or newer
+- iPhone running iOS 18 or newer
