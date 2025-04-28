@@ -21,7 +21,7 @@ struct ExploreView: View {
     var body: some View {
         TabView(selection: $viewModel.selectedTab) {
             Tab("Map", systemImage: "map", value: .map) {
-                SearchableMapView()
+                MapView()
             }
             
             Tab("Destinations", systemImage: "list.bullet", value: .list) {

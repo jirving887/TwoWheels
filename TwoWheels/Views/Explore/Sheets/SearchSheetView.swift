@@ -1,5 +1,5 @@
 //
-//  MapSheetView.swift
+//  SearchSheetView.swift
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-struct MapSheetView: View {
+struct SearchSheetView: View {
     @Environment(SearchableMapViewModel.self) var viewModel
     
     @State private var search: String = ""

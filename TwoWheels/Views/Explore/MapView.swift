@@ -1,5 +1,5 @@
 //
-//  SearchableMapView.swift
+//  MapView.swift
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
@@ -9,7 +9,7 @@ import MapKit
 import SwiftData
 import SwiftUI
 
-struct SearchableMapView: View {
+struct MapView: View {
     
     let manager = CLLocationManager()
     
@@ -103,7 +103,7 @@ struct SearchableMapView: View {
             )
         }
         .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-            MapSheetView()
+            SearchSheetView()
         }
         .sheet(isPresented: $viewModel.isInfoSheetPresented) {
             if let location = viewModel.selectedLocation {
@@ -122,5 +122,5 @@ struct SearchableMapView: View {
 }
 
 #Preview {
-    SearchableMapView()
+    MapView()
 }
