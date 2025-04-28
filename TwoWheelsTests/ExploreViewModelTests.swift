@@ -24,6 +24,13 @@ struct ExploreViewModelTests {
     }
     
     @Test
+    func init_withNonEmptyDataService_shouldHaveData() {
+        dataService.destinations = [laneStadiumDestination]
+        let freshSut = ExploreViewModel(dataService: dataService)
+        #expect(freshSut.destinations == [laneStadiumDestination])
+    }
+    
+    @Test
     func addDestination_shouldAddDestination() {
         sut.addDestination(laneStadiumDestination)
         

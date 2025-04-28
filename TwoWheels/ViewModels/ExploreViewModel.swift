@@ -16,6 +16,7 @@ class ExploreViewModel {
     
     init(dataService: any DataManupilating<Destination>) {
         self.dataService = dataService
+        destinations = dataService.fetch()
     }
     
     func addDestination(_ destination: Destination) {
