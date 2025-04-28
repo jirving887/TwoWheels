@@ -12,8 +12,14 @@ class ExploreViewModel {
     private let dataService: DataService
     
     var selectedTab: TabSelection = .map
+    var destinations: [Destination] = []
     
     init(dataService: DataService) {
         self.dataService = dataService
+    }
+    
+    func addDestination(_ destination: Destination) {
+        dataService.add(destination)
+        destinations = dataService.fetch()
     }
 }
