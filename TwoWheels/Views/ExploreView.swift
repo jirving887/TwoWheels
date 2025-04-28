@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExploreView: View {
     
-    @State private var viewModel = ExploreViewModel()
+    @State private var viewModel = ExploreViewModel(dataService: DestinationDataService())
     
     var body: some View {
         TabView(selection: $viewModel.selectedTab) {
