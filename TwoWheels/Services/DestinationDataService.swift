@@ -6,8 +6,15 @@
 //
 
 import Foundation
+import SwiftData
 
 class DestinationDataService: DataService {
+    private let modelContext: ModelContext
+    
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
+    
     func fetch() -> [Destination] {
         []
     }

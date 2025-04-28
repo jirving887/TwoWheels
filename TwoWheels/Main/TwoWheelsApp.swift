@@ -9,10 +9,20 @@ import SwiftUI
 import SwiftData
 
 struct TwoWheelsApp: App {
+    let container: ModelContainer
+    
+    init() {
+        do {
+            container = try ModelContainer(for: Destination.self)
+        } catch {
+            fatalError("Failed to create ModelContainer for Destination.")
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ExploreView()
+            ExploreView(modelContext: container.mainContext)
         }
-        .modelContainer(for: [Destination.self])
+        .modelContainer(container)
     }
 }
