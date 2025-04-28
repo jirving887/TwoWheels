@@ -25,10 +25,4 @@ class SpyDataService: DataService {
     func remove(_ data: Destination) {
         destinations.removeAll { $0.id == data.id }
     }
-    
-    func update(_ data: Destination) {
-        print("Updating \(data.title)")
-    }
-    
-    
 }

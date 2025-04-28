@@ -8,9 +8,7 @@
 import Foundation
 
 protocol DataService {
-    
     func fetch() -> [Destination]
     func add(_ data: Destination)
     func remove(_ data: Destination)
-    func update(_ data: Destination)
 }

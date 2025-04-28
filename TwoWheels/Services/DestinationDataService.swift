@@ -32,8 +32,4 @@ class DestinationDataService: DataService {
     func remove(_ data: Destination) {
         modelContext.delete(data)
     }
-    
-    func update(_ data: Destination) {}
-    
-    
 }
