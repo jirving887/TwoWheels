@@ -41,14 +41,16 @@ final class DestinationDataServiceTests {
     func fetch_withNonEmptyContext_returnsNonEmptyArray() {
         container.mainContext.insert(laneStadiumDestination)
         
-        #expect(sut.fetch().count == 1)
+        let expectedDestinations = sut.fetch().map { $0.title }
+        #expect(expectedDestinations == ["Lane Stadium"])
     }
     
     @Test
     func add_shouldAddDestination() {
         sut.add(laneStadiumDestination)
         
-        #expect(sut.fetch().map { $0.title } == ["Lane Stadium"])
+        let expectedDestinations = sut.fetch().map { $0.title }
+        #expect(expectedDestinations == ["Lane Stadium"])
     }
     
     @Test
@@ -65,7 +67,8 @@ final class DestinationDataServiceTests {
         let notlaneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: notlaneStadium))
         let notlaneStadiumDestination = Destination(notlaneStadiumItem)
         notlaneStadiumDestination.title = "Not Lane Stadium"
-        sut.add(laneStadiumDestination)
+        container.mainContext.insert(laneStadiumDestination)
+        
         sut.remove(notlaneStadiumDestination)
         
         #expect(sut.fetch().map { $0.title } == ["Lane Stadium"])
@@ -73,7 +76,8 @@ final class DestinationDataServiceTests {
     
     @Test
     func remove_withAddedDestination_shouldRemoveDestination() {
-        sut.add(laneStadiumDestination)
+        container.mainContext.insert(laneStadiumDestination)
+        
         sut.remove(laneStadiumDestination)
         
         #expect(sut.fetch() == [])
