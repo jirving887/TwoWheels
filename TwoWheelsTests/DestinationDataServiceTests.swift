@@ -12,27 +12,33 @@ import Testing
 
 @MainActor
 final class DestinationDataServiceTests {
-    @Test
-    func fetch_withEmptyContext_returnsEmptyArray() throws {
+    var container: ModelContainer!
+    var sut: DestinationDataService!
+    var laneStadiumDestination: Destination!
+    
+    init() throws {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: Destination.self, configurations: config)
+        container = try ModelContainer(for: Destination.self, configurations: config)
+        sut = DestinationDataService(modelContext: container.mainContext)
         
-        let sut = DestinationDataService(modelContext: container.mainContext)
-        
+        let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
+        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
+        laneStadiumDestination = Destination(laneStadiumItem)
+        laneStadiumDestination.title = "Lane Stadium"
+    }
+    
+    deinit {
+        container = nil
+        sut = nil
+    }
+    
+    @Test
+    func fetch_withEmptyContext_returnsEmptyArray() {
         #expect(sut.fetch() == [])
     }
     
     @Test
-    func fetch_withNonEmptyContext_returnsNonEmptyArray() throws {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: Destination.self, configurations: config)
-        
-        let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-        let laneStadiumDestination = Destination(laneStadiumItem)
-        laneStadiumDestination.title = "Lane Stadium"
-        
-        let sut = DestinationDataService(modelContext: container.mainContext)
+    func fetch_withNonEmptyContext_returnsNonEmptyArray() {
         container.mainContext.insert(laneStadiumDestination)
         
         #expect(sut.fetch().count == 1)
