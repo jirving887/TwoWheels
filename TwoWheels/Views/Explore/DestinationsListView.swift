@@ -62,10 +62,7 @@ struct DestinationsListView: View {
     let container = try! ModelContainer(for: Destination.self, configurations: config)
     
     for i in 1..<10 {
-        let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-        let laneStadiumDestination = Destination(laneStadiumItem)
-        laneStadiumDestination.title = "Lane Stadium"
+        let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
         
         container.mainContext.insert(laneStadiumDestination)
     }

@@ -17,10 +17,7 @@ struct ExploreViewModelTests {
     init() {
         dataService = SpyDataService()
         sut = ExploreViewModel(dataService: dataService)
-        let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-        laneStadiumDestination = Destination(laneStadiumItem)
-        laneStadiumDestination.title = "Lane Stadium"
+        laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
     }
     
     @Test
@@ -41,18 +38,12 @@ struct ExploreViewModelTests {
     @Test
     func deleteDestination_shouldDeleteDestination() {
         for num in 0..<3 {
-            let newLocation = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-            let newItem = MKMapItem(placemark: MKPlacemark(coordinate: newLocation))
-            let newDestination = Destination(newItem)
-            newDestination.title = "Lane Stadium \(num)"
+            let newDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium \(num)")
             sut.addDestination(newDestination)
         }
         sut.addDestination(laneStadiumDestination)
         for num in 3..<5 {
-            let newLocation = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-            let newItem = MKMapItem(placemark: MKPlacemark(coordinate: newLocation))
-            let newDestination = Destination(newItem)
-            newDestination.title = "Lane Stadium \(num)"
+            let newDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium \(num)")
             sut.addDestination(newDestination)
         }
         

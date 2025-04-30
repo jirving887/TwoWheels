@@ -51,9 +51,7 @@ struct EditDestinationView: View {
 }
 
 #Preview {
-    let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-    let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-    let laneStadiumDestination = Destination(laneStadiumItem)
+    let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
     
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Destination.self, configurations: config)

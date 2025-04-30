@@ -20,11 +20,7 @@ final class DataServiceTests {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try ModelContainer(for: Destination.self, configurations: config)
         sut = DataService(modelContext: container.mainContext)
-        
-        let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-        laneStadiumDestination = Destination(laneStadiumItem)
-        laneStadiumDestination.title = "Lane Stadium"
+        laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
     }
     
     deinit {
@@ -63,10 +59,7 @@ final class DataServiceTests {
     
     @Test
     func remove_withNonAddedDestination_shouldNotChangeData() {
-        let notlaneStadium = CLLocationCoordinate2D(latitude: 38.22001, longitude: -81.41804)
-        let notlaneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: notlaneStadium))
-        let notlaneStadiumDestination = Destination(notlaneStadiumItem)
-        notlaneStadiumDestination.title = "Not Lane Stadium"
+        let notlaneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Not Lane Stadium")
         container.mainContext.insert(laneStadiumDestination)
         
         sut.remove(notlaneStadiumDestination)
