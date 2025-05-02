@@ -13,3 +13,9 @@ protocol MapSearching {
     
     func address(from location: CLLocation) async throws -> [CLPlacemark]
 }
+
+// MARK: Refactoring
+
+protocol MapSearchingProtocol {
+    func search(_ searchString: String) -> [MKMapItem]
+}

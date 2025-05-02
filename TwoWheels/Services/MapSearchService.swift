@@ -7,7 +7,11 @@
 
 import MapKit
 
-struct MapSearchService: MapSearching {
+struct MapSearchService: MapSearching, MapSearchingProtocol {
+    func search(_ searchString: String) -> [MKMapItem] {
+        [] // TODO: implement
+    }
+    
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
         let search = MKLocalSearch(request: request)
         let response = try await search.start()

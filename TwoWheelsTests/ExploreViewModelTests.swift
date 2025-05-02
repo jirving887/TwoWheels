@@ -11,19 +11,21 @@ import Testing
 
 struct ExploreViewModelTests {
     let dataService: SpyDataService
+    let mapService: SpyMapService
     let sut: ExploreViewModel
     let laneStadiumDestination: Destination
     
     init() {
         dataService = SpyDataService()
-        sut = ExploreViewModel(dataService: dataService)
+        mapService = SpyMapService()
+        sut = ExploreViewModel(dataService: dataService, mapService: mapService)
         laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
     }
     
     @Test
     func init_withNonEmptyDataService_shouldHaveData() {
         dataService.destinations = [laneStadiumDestination]
-        let freshSut = ExploreViewModel(dataService: dataService)
+        let freshSut = ExploreViewModel(dataService: dataService, mapService: mapService)
         #expect(freshSut.destinations == [laneStadiumDestination])
     }
     
@@ -57,5 +59,25 @@ struct ExploreViewModelTests {
             "Lane Stadium 4"
         ])
         #expect(sut.destinations == dataService.destinations)
+    }
+    
+    @Test
+    func search_withEmptyString_shouldReturnNoResults() {
+        sut.search(with: "")
+        
+        #expect(sut.searchResults == [])
+    }
+    
+    @Test
+    func search_withNonEmptyString_shouldReturnRelevantResults() {
+        let destination1 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 1")
+        let destination2 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 2")
+        let expectedSearchResults = [destination1, destination2]
+        mapService.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
+        
+        sut.search(with: "Lane Stadium")
+        
+        #expect(sut.searchResults[0].title == "Lane Stadium 1")
+        #expect(sut.searchResults[1].title == "Lane Stadium 2")
     }
 }
