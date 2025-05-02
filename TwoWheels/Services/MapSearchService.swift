@@ -12,6 +12,10 @@ struct MapSearchService: MapSearching, MapSearchingProtocol {
         [] // TODO: implement
     }
     
+    func search(_ completion: MKLocalSearchCompletion) -> [MKMapItem] {
+        []
+    }
+    
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
         let search = MKLocalSearch(request: request)
         let response = try await search.start()

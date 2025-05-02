@@ -18,4 +18,5 @@ protocol MapSearching {
 
 protocol MapSearchingProtocol {
     func search(_ searchString: String) -> [MKMapItem]
+    func search(_ completion: MKLocalSearchCompletion) -> [MKMapItem]
 }

@@ -80,4 +80,18 @@ struct ExploreViewModelTests {
         #expect(sut.searchResults[0].title == "Lane Stadium 1")
         #expect(sut.searchResults[1].title == "Lane Stadium 2")
     }
+    
+    @Test
+    func search_withSearchCompletion_shouldReturnRelevantResults() {
+        let completion = MKLocalSearchCompletion()
+        let destination1 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 1")
+        let destination2 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 2")
+        let expectedSearchResults = [destination1, destination2]
+        mapService.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
+        
+        sut.search(with: completion)
+        
+        #expect(sut.searchResults[0].title == "Lane Stadium 1")
+        #expect(sut.searchResults[1].title == "Lane Stadium 2")
+    }
 }

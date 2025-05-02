@@ -15,4 +15,8 @@ class SpyMapService: MapSearchingProtocol {
     func search(_ searchString: String) -> [MKMapItem] {
         expectedSearchResults
     }
+    
+    func search(_ completion: MKLocalSearchCompletion) -> [MKMapItem] {
+        expectedSearchResults
+    }
 }

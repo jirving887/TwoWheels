@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 @Observable
 class ExploreViewModel {
@@ -39,5 +40,9 @@ class ExploreViewModel {
         }
         
         searchResults = mapService.search(searchString).compactMap { Destination($0) }
+    }
+    
+    func search(with completion: MKLocalSearchCompletion) {
+        searchResults = mapService.search(completion).compactMap { Destination($0) }
     }
 }
