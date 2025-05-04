@@ -61,7 +61,7 @@ struct DestinationsListView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Destination.self, configurations: config)
     
-    for i in 1..<10 {
+    for _ in 1..<10 {
         let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
         
         container.mainContext.insert(laneStadiumDestination)

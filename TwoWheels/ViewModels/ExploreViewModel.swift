@@ -14,6 +14,7 @@ class ExploreViewModel {
     private let mapService: MapSearchingProtocol
     
     var destinations: [Destination]
+    var searchCompletions: [MKLocalSearchCompletion] = []
     var searchResults: [Destination] = []
     var selectedTab: TabSelection = .map
     
@@ -44,5 +45,14 @@ class ExploreViewModel {
     
     func search(with completion: MKLocalSearchCompletion) {
         searchResults = mapService.search(completion).compactMap { Destination($0) }
+    }
+    
+    func searchStringUpdated(_ searchString: String) {
+        guard !searchString.isEmpty else {
+            searchCompletions = []
+            return
+        }
+        
+        searchCompletions = mapService.updateCompletions(with: searchString)
     }
 }

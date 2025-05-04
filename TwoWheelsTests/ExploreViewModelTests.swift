@@ -10,14 +10,14 @@ import Testing
 @testable import TwoWheels
 
 struct ExploreViewModelTests {
-    let dataService: SpyDataService
-    let mapService: SpyMapService
+    let dataService: DataServiceSpy
+    let mapService: MapServiceSpy
     let sut: ExploreViewModel
     let laneStadiumDestination: Destination
     
     init() {
-        dataService = SpyDataService()
-        mapService = SpyMapService()
+        dataService = DataServiceSpy()
+        mapService = MapServiceSpy()
         sut = ExploreViewModel(dataService: dataService, mapService: mapService)
         laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
     }
@@ -93,5 +93,23 @@ struct ExploreViewModelTests {
         
         #expect(sut.searchResults[0].title == "Lane Stadium 1")
         #expect(sut.searchResults[1].title == "Lane Stadium 2")
+    }
+    
+    @Test
+    func searchStringUpdated_withEmptyString_shouldEmptySearchCompletions() {
+        sut.searchStringUpdated("")
+        
+        #expect(sut.searchCompletions.isEmpty)
+    }
+    
+    @Test
+    func searchStringUpdated_withNonEmptyString_shouldUpdateSearchCompletions() {
+        let completion1 = MKLocalSearchCompletion()
+        let completion2 = MKLocalSearchCompletion()
+        let expectedCompletions: [MKLocalSearchCompletion] = [completion1, completion2]
+        mapService.expectedSearchCompletions = expectedCompletions
+        sut.searchStringUpdated("Lane Stadium")
+        
+        #expect(sut.searchCompletions == expectedCompletions)
     }
 }

@@ -7,12 +7,16 @@
 
 import MapKit
 
-struct MapSearchService: MapSearching, MapSearchingProtocol {
+class MapSearchService: NSObject, MapSearching, MapSearchingProtocol {
     func search(_ searchString: String) -> [MKMapItem] {
         [] // TODO: implement
     }
     
     func search(_ completion: MKLocalSearchCompletion) -> [MKMapItem] {
+        []
+    }
+    
+    func updateCompletions(with searchString: String) -> [MKLocalSearchCompletion] {
         []
     }
     

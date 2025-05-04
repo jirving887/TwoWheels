@@ -1,5 +1,5 @@
 //
-//  SpyDataService.swift
+//  DataServiceSpy.swift
 //  TwoWheelsTests
 //
 //  Created by Jonathan Irving on 4/28/25.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import TwoWheels
 
-class SpyDataService: DataManupilating {
+class DataServiceSpy: DataManupilating {
     var destinations: [Destination] = []
     var destinationTitles: [String] {
         destinations.map { $0.title }
