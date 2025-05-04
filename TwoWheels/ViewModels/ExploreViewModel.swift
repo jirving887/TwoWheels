@@ -18,6 +18,12 @@ class ExploreViewModel {
     var searchResults: [Destination] = []
     var selectedTab: TabSelection = .map
     
+    var searchString: String = "" {
+        didSet {
+            searchStringUpdated()
+        }
+    }
+    
     init(dataService: any DataManupilating<Destination>, mapService: MapSearchingProtocol) {
         self.dataService = dataService
         self.mapService = mapService
@@ -34,7 +40,7 @@ class ExploreViewModel {
         destinations = dataService.fetch()
     }
     
-    func search(with searchString: String) {
+    func search() {
         guard !searchString.isEmpty else {
             searchResults = []
             return
@@ -47,7 +53,7 @@ class ExploreViewModel {
         searchResults = mapService.search(completion).compactMap { Destination($0) }
     }
     
-    func searchStringUpdated(_ searchString: String) {
+    func searchStringUpdated() {
         guard !searchString.isEmpty else {
             searchCompletions = []
             return

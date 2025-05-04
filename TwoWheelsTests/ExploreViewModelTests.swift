@@ -63,7 +63,7 @@ struct ExploreViewModelTests {
     
     @Test
     func search_withEmptyString_shouldReturnNoResults() {
-        sut.search(with: "")
+        sut.search()
         
         #expect(sut.searchResults == [])
     }
@@ -74,8 +74,9 @@ struct ExploreViewModelTests {
         let destination2 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 2")
         let expectedSearchResults = [destination1, destination2]
         mapService.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
+        sut.searchString = "Lane Stadium"
         
-        sut.search(with: "Lane Stadium")
+        sut.search()
         
         #expect(sut.searchResults[0].title == "Lane Stadium 1")
         #expect(sut.searchResults[1].title == "Lane Stadium 2")
@@ -97,7 +98,7 @@ struct ExploreViewModelTests {
     
     @Test
     func searchStringUpdated_withEmptyString_shouldEmptySearchCompletions() {
-        sut.searchStringUpdated("")
+        sut.searchString = ""
         
         #expect(sut.searchCompletions.isEmpty)
     }
@@ -108,7 +109,8 @@ struct ExploreViewModelTests {
         let completion2 = MKLocalSearchCompletion()
         let expectedCompletions: [MKLocalSearchCompletion] = [completion1, completion2]
         mapService.expectedSearchCompletions = expectedCompletions
-        sut.searchStringUpdated("Lane Stadium")
+        
+        sut.searchString = "Lane Stadium"
         
         #expect(sut.searchCompletions == expectedCompletions)
     }
