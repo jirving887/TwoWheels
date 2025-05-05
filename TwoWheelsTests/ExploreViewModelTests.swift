@@ -114,4 +114,14 @@ struct ExploreViewModelTests {
         
         #expect(sut.searchCompletions == expectedCompletions)
     }
+    
+    @Test
+    func searchStringUpdated_withOneCharacterString_shouldAlsoUpdateSearchRegion() {
+        let region = MKCoordinateRegion(center: laneStadiumDestination.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        sut.visibleRegion = region
+        
+        sut.searchString = "L"
+        
+        #expect(mapService.completerRegion == region)
+    }
 }

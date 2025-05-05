@@ -17,6 +17,7 @@ class ExploreViewModel {
     var searchCompletions: [MKLocalSearchCompletion] = []
     var searchResults: [Destination] = []
     var selectedTab: TabSelection = .map
+    var visibleRegion = MKCoordinateRegion.init()
     
     var searchString: String = "" {
         didSet {
@@ -58,7 +59,9 @@ class ExploreViewModel {
             searchCompletions = []
             return
         }
-        
-        searchCompletions = mapService.updateCompletions(with: searchString)
+        if searchString.count == 1 {
+            mapService.update(region: visibleRegion)
+        }
+        searchCompletions = mapService.update(searchString: searchString)
     }
 }
