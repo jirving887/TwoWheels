@@ -97,12 +97,10 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func searchStringUpdated_withOneCharacterString_shouldUpdateSearchRegion() {
-        let region = MKCoordinateRegion(center: laneStadiumDestination.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
-        sut.visibleRegion = region
-        
+    func searchStringUpdated_withEmptyString_shouldEmptySearchCompletions() {
         sut.searchString = "L"
+        sut.searchString = ""
         
-        #expect(mapServiceSpy.searchRegion == region)
+        #expect(sut.searchCompletions.isEmpty)
     }
 }
