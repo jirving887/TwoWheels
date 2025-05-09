@@ -10,22 +10,22 @@ import Testing
 @testable import TwoWheels
 
 struct ExploreViewModelTests {
-    let dataService: DataServiceSpy
-    let mapService: MapServiceSpy
+    let dataServiceSpy: DataServiceSpy
+    let mapServiceSpy: MapServiceSpy
     let sut: ExploreViewModel
     let laneStadiumDestination: Destination
     
     init() {
-        dataService = DataServiceSpy()
-        mapService = MapServiceSpy()
-        sut = ExploreViewModel(dataService: dataService, mapService: mapService)
+        dataServiceSpy = DataServiceSpy()
+        mapServiceSpy = MapServiceSpy()
+        sut = ExploreViewModel(dataService: dataServiceSpy, mapService: mapServiceSpy)
         laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
     }
     
     @Test
     func init_withNonEmptyDataService_shouldHaveData() {
-        dataService.destinations = [laneStadiumDestination]
-        let freshSut = ExploreViewModel(dataService: dataService, mapService: mapService)
+        dataServiceSpy.destinations = [laneStadiumDestination]
+        let freshSut = ExploreViewModel(dataService: dataServiceSpy, mapService: mapServiceSpy)
         #expect(freshSut.destinations == [laneStadiumDestination])
     }
     
@@ -33,8 +33,8 @@ struct ExploreViewModelTests {
     func addDestination_shouldAddDestination() {
         sut.addDestination(laneStadiumDestination)
         
-        #expect(dataService.destinationTitles == ["Lane Stadium"])
-        #expect(sut.destinations == dataService.destinations)
+        #expect(dataServiceSpy.destinationTitles == ["Lane Stadium"])
+        #expect(sut.destinations == dataServiceSpy.destinations)
     }
     
     @Test
@@ -51,14 +51,14 @@ struct ExploreViewModelTests {
         
         sut.deleteDestination(laneStadiumDestination)
         
-        #expect(dataService.destinationTitles == [
+        #expect(dataServiceSpy.destinationTitles == [
             "Lane Stadium 0",
             "Lane Stadium 1",
             "Lane Stadium 2",
             "Lane Stadium 3",
             "Lane Stadium 4"
         ])
-        #expect(sut.destinations == dataService.destinations)
+        #expect(sut.destinations == dataServiceSpy.destinations)
     }
     
     @Test
@@ -73,7 +73,7 @@ struct ExploreViewModelTests {
         let destination1 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 1")
         let destination2 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 2")
         let expectedSearchResults = [destination1, destination2]
-        mapService.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
+        mapServiceSpy.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
         sut.searchString = "Lane Stadium"
         
         sut.search()
@@ -88,7 +88,7 @@ struct ExploreViewModelTests {
         let destination1 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 1")
         let destination2 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 2")
         let expectedSearchResults = [destination1, destination2]
-        mapService.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
+        mapServiceSpy.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
         
         sut.search(with: completion)
         
@@ -103,6 +103,6 @@ struct ExploreViewModelTests {
         
         sut.searchString = "L"
         
-        #expect(mapService.searchRegion == region)
+        #expect(mapServiceSpy.searchRegion == region)
     }
 }
