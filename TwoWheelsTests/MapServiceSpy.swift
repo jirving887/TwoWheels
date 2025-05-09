@@ -14,15 +14,11 @@ class MapServiceSpy: NSObject, MapSearchingProtocol {
     var expectedSearchCompletions: [MKLocalSearchCompletion] = []
     var searchRegion: MKCoordinateRegion?
     
-    func search(_ searchString: String) -> [MKMapItem] {
+    func search(for searchString: String, in region: MKCoordinateRegion) -> [MKMapItem] {
         expectedSearchResults
     }
     
-    func search(_ completion: MKLocalSearchCompletion) -> [MKMapItem] {
+    func search(with completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) -> [MKMapItem] {
         expectedSearchResults
-    }
-
-    func update(region: MKCoordinateRegion) {
-        searchRegion = region
     }
 }

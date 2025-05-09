@@ -47,11 +47,11 @@ class ExploreViewModel {
             return
         }
         
-        searchResults = mapService.search(searchString).compactMap { Destination($0) }
+        searchResults = mapService.search(for: searchString, in: visibleRegion).compactMap { Destination($0) }
     }
     
     func search(with completion: MKLocalSearchCompletion) {
-        searchResults = mapService.search(completion).compactMap { Destination($0) }
+        searchResults = mapService.search(with: completion, in: visibleRegion).compactMap { Destination($0) }
     }
     
     func searchStringUpdated() {

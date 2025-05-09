@@ -8,11 +8,11 @@
 import MapKit
 
 class MapSearchService: NSObject, MapSearching, MapSearchingProtocol {
-    func search(_ searchString: String) -> [MKMapItem] {
+    func search(for searchString: String, in region: MKCoordinateRegion) -> [MKMapItem] {
         [] // TODO: implement
     }
     
-    func search(_ completion: MKLocalSearchCompletion) -> [MKMapItem] {
+    func search(with completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) -> [MKMapItem] {
         []
     }
     
