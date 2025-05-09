@@ -16,9 +16,8 @@ protocol MapSearching {
 
 // MARK: Refactoring
 
-protocol MapSearchingProtocol: MKLocalSearchCompleterDelegate {
+protocol MapSearchingProtocol {
     func search(_ searchString: String) -> [MKMapItem]
     func search(_ completion: MKLocalSearchCompletion) -> [MKMapItem]
-    func update(searchString: String) -> [MKLocalSearchCompletion]
     func update(region: MKCoordinateRegion)
 }

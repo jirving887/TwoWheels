@@ -62,6 +62,5 @@ class ExploreViewModel {
         if searchString.count == 1 {
             mapService.update(region: visibleRegion)
         }
-        searchCompletions = mapService.update(searchString: searchString)
     }
 }

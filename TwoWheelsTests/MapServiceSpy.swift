@@ -12,7 +12,7 @@ import MapKit
 class MapServiceSpy: NSObject, MapSearchingProtocol {
     var expectedSearchResults: [MKMapItem] = []
     var expectedSearchCompletions: [MKLocalSearchCompletion] = []
-    var completerRegion: MKCoordinateRegion?
+    var searchRegion: MKCoordinateRegion?
     
     func search(_ searchString: String) -> [MKMapItem] {
         expectedSearchResults
@@ -22,11 +22,7 @@ class MapServiceSpy: NSObject, MapSearchingProtocol {
         expectedSearchResults
     }
 
-    func update(searchString: String) -> [MKLocalSearchCompletion] {
-        expectedSearchCompletions
-    }
-    
     func update(region: MKCoordinateRegion) {
-        completerRegion = region
+        searchRegion = region
     }
 }

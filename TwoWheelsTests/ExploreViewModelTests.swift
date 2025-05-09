@@ -97,31 +97,12 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func searchStringUpdated_withEmptyString_shouldEmptySearchCompletions() {
-        sut.searchString = ""
-        
-        #expect(sut.searchCompletions.isEmpty)
-    }
-    
-    @Test
-    func searchStringUpdated_withNonEmptyString_shouldUpdateSearchCompletions() {
-        let completion1 = MKLocalSearchCompletion()
-        let completion2 = MKLocalSearchCompletion()
-        let expectedCompletions: [MKLocalSearchCompletion] = [completion1, completion2]
-        mapService.expectedSearchCompletions = expectedCompletions
-        
-        sut.searchString = "Lane Stadium"
-        
-        #expect(sut.searchCompletions == expectedCompletions)
-    }
-    
-    @Test
-    func searchStringUpdated_withOneCharacterString_shouldAlsoUpdateSearchRegion() {
+    func searchStringUpdated_withOneCharacterString_shouldUpdateSearchRegion() {
         let region = MKCoordinateRegion(center: laneStadiumDestination.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
         sut.visibleRegion = region
         
         sut.searchString = "L"
         
-        #expect(mapService.completerRegion == region)
+        #expect(mapService.searchRegion == region)
     }
 }

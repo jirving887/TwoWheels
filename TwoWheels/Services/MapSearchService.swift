@@ -16,10 +16,6 @@ class MapSearchService: NSObject, MapSearching, MapSearchingProtocol {
         []
     }
     
-    func update(searchString: String) -> [MKLocalSearchCompletion] {
-        []
-    }
-    
     func update(region: MKCoordinateRegion) {}
     
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
