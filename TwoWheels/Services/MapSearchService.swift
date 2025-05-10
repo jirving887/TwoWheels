@@ -9,11 +9,29 @@ import MapKit
 
 class MapSearchService: MapSearching, MapSearchingProtocol {
     func search(for searchString: String, in region: MKCoordinateRegion) -> [MKMapItem] {
-        [] // TODO: implement
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = searchString
+        request.region = region
+        return search(request)
     }
     
-    func search(with completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) -> [MKMapItem] {
-        []
+    func search(with completion: MKLocalSearchCompletion) -> [MKMapItem] {
+        let request = MKLocalSearch.Request(completion: completion)
+        return search(request)
+    }
+    
+    private func search(_ request: MKLocalSearch.Request) -> [MKMapItem] {
+        var results: [MKMapItem] = []
+        let search = MKLocalSearch(request: request)
+        
+        search.start { response, error in
+            guard let response = response else {
+                print("Search failed with error: \(String(describing: error))")
+                return
+            }
+            results = response.mapItems
+        }
+        return results
     }
     
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {

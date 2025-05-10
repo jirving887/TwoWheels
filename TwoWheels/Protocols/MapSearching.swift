@@ -18,5 +18,5 @@ protocol MapSearching {
 
 protocol MapSearchingProtocol {
     func search(for searchString: String, in region: MKCoordinateRegion) -> [MKMapItem]
-    func search(with completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) -> [MKMapItem]
+    func search(with completion: MKLocalSearchCompletion) -> [MKMapItem]
 }

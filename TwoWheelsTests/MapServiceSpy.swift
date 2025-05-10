@@ -18,7 +18,7 @@ class MapServiceSpy: NSObject, MapSearchingProtocol {
         expectedSearchResults
     }
     
-    func search(with completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) -> [MKMapItem] {
+    func search(with completion: MKLocalSearchCompletion) -> [MKMapItem] {
         expectedSearchResults
     }
 }

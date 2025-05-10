@@ -56,7 +56,7 @@ class ExploreViewModel {
     }
     
     func search(with completion: MKLocalSearchCompletion) {
-        searchResults = mapService.search(with: completion, in: visibleRegion).compactMap { Destination($0) }
+        searchResults = mapService.search(with: completion).compactMap { Destination($0) }
     }
     
     func searchStringUpdated() {
