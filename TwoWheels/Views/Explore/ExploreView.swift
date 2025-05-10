@@ -5,6 +5,7 @@
 //  Created by Jonathan Irving on 4/28/25.
 //
 
+import CoreLocation
 import SwiftData
 import SwiftUI
 
@@ -15,7 +16,12 @@ struct ExploreView: View {
     init(modelContext: ModelContext) {
         let dataService = DataService<Destination>(modelContext: modelContext)
         let searchService = SearchService()
-        let viewModel = ExploreViewModel(dataService: dataService, searchService: searchService)
+        let geocoder = CLGeocoder()
+        let viewModel = ExploreViewModel(
+            dataService: dataService,
+            searchService: searchService,
+            geocoder: geocoder
+        )
         _viewModel = State(initialValue: viewModel)
     }
     

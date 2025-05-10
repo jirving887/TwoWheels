@@ -12,6 +12,7 @@ import MapKit
 class ExploreViewModel {
     private let dataService: any DataManupilating<Destination>
     private let searchService: MapSearching
+    private let geocoder: Geocoding
     
     let completer = MKLocalSearchCompleter()
     var destinations: [Destination] = []
@@ -30,9 +31,10 @@ class ExploreViewModel {
         }
     }
     
-    init(dataService: any DataManupilating<Destination>, searchService: MapSearching) {
+    init(dataService: any DataManupilating<Destination>, searchService: MapSearching, geocoder: Geocoding) {
         self.dataService = dataService
         self.searchService = searchService
+        self.geocoder = geocoder
         destinations = dataService.fetch()
     }
     
@@ -71,6 +73,24 @@ class ExploreViewModel {
             completer.region = visibleRegion
         }
         completer.queryFragment = searchString
+    }
+    
+    func addressFromLocation(_ location: CLLocation) async -> String {
+        do {
+            let placemarks =  try await geocoder.reverseGeocodeLocation(location)
+            let placemark = placemarks.first
+            return 
+                """
+                \(placemark?.subThoroughfare ?? "") \
+                \(placemark?.thoroughfare ?? "") \
+                \(placemark?.locality ?? ""), \
+                \(placemark?.administrativeArea ?? "") \
+                \(placemark?.postalCode ?? "") \
+                \(placemark?.country ?? "")
+                """
+        } catch {
+            return "Unable to determine address"
+        }
     }
     
     private func search(_ request: MKLocalSearch.Request) async {
