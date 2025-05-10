@@ -9,13 +9,17 @@ import Foundation
 import MapKit
 
 @Observable
-class ExploreViewModel: NSObject, MKLocalSearchCompleterDelegate {
+class ExploreViewModel {
     private let dataService: any DataManupilating<Destination>
     private let mapService: MapSearchingProtocol
     
     let completer = MKLocalSearchCompleter()
     var destinations: [Destination] = []
-    var searchCompletions: [MKLocalSearchCompletion] = []
+    var searchCompletions: [MKLocalSearchCompletion] {
+        get {
+            completer.results
+        } set {}
+    }
     var searchResults: [Destination] = []
     var selectedTab: TabSelection = .map
     var visibleRegion = MKCoordinateRegion.init()
@@ -30,8 +34,6 @@ class ExploreViewModel: NSObject, MKLocalSearchCompleterDelegate {
         self.dataService = dataService
         self.mapService = mapService
         destinations = dataService.fetch()
-        super.init()
-        completer.delegate = self
     }
     
     func addDestination(_ destination: Destination) {
@@ -66,9 +68,5 @@ class ExploreViewModel: NSObject, MKLocalSearchCompleterDelegate {
             completer.region = visibleRegion
         }
         completer.queryFragment = searchString
-    }
-    
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchCompletions = completer.results
     }
 }
