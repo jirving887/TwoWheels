@@ -103,4 +103,21 @@ struct ExploreViewModelTests {
         
         #expect(sut.searchCompletions.isEmpty)
     }
+    
+    @Test
+    func searchStringUpdated_withSingleCharacter_shouldUpdateCompleterRegion() {
+        let laneStadiumRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804), latitudinalMeters: 1000, longitudinalMeters: 1000)
+        sut.visibleRegion = laneStadiumRegion
+        
+        sut.searchString = "L"
+        
+        #expect(sut.completer.region == laneStadiumRegion)
+    }
+    
+    @Test
+    func searchStringUpdated_withMultipleCharacters_shouldUpdateCompleterQuery() {
+        sut.searchString = "Lane Stadium"
+        
+        #expect(sut.completer.queryFragment == "Lane Stadium")
+    }
 }

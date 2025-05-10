@@ -7,7 +7,7 @@
 
 import MapKit
 
-class MapSearchService: NSObject, MapSearching, MapSearchingProtocol {
+class MapSearchService: MapSearching, MapSearchingProtocol {
     func search(for searchString: String, in region: MKCoordinateRegion) -> [MKMapItem] {
         [] // TODO: implement
     }
@@ -15,8 +15,6 @@ class MapSearchService: NSObject, MapSearching, MapSearchingProtocol {
     func search(with completion: MKLocalSearchCompletion, in region: MKCoordinateRegion) -> [MKMapItem] {
         []
     }
-    
-    func update(region: MKCoordinateRegion) {}
     
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
         let search = MKLocalSearch(request: request)
