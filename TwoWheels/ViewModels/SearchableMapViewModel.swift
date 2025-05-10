@@ -33,7 +33,7 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
     }
     
     init(completer: MKLocalSearchCompleter = MKLocalSearchCompleter(),
-         searchProvider: MapSearching = MapSearchService()) {
+         searchProvider: MapSearching = SearchService()) {
         self.completer = completer
         self.searchProvider = searchProvider
         super.init()
@@ -41,16 +41,17 @@ class SearchableMapViewModel: NSObject, MKLocalSearchCompleterDelegate {
     }
     
     func address(from location: CLLocation) async -> String {
-        let placemarks: [CLPlacemark]
-        do {
-            placemarks = try await searchProvider.address(from: location)
-        } catch {
-            return "No address available."
-        }
-        
-        let placemark = placemarks.first
-        
-        return "\(placemark?.subThoroughfare ?? "") \(placemark?.thoroughfare ?? "") \(placemark?.locality ?? ""), \(placemark?.administrativeArea ?? "") \(placemark?.postalCode ?? "") \(placemark?.country ?? "")"
+        ""
+//        let placemarks: [CLPlacemark]
+//        do {
+//            placemarks = try await searchProvider.address(from: location)
+//        } catch {
+//            return "No address available."
+//        }
+//        
+//        let placemark = placemarks.first ??
+//        
+//        return "\(placemark?.subThoroughfare ?? "") \(placemark?.thoroughfare ?? "") \(placemark?.locality ?? ""), \(placemark?.administrativeArea ?? "") \(placemark?.postalCode ?? "") \(placemark?.country ?? "")"
     }
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {

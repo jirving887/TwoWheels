@@ -11,21 +11,21 @@ import Testing
 
 struct ExploreViewModelTests {
     let dataServiceSpy: DataServiceSpy
-    let mapServiceSpy: MapServiceSpy
+    let searchServiceSpy: SearchServiceSpy
     let sut: ExploreViewModel
     let laneStadiumDestination: Destination
     
     init() {
         dataServiceSpy = DataServiceSpy()
-        mapServiceSpy = MapServiceSpy()
-        sut = ExploreViewModel(dataService: dataServiceSpy, mapService: mapServiceSpy)
+        searchServiceSpy = SearchServiceSpy()
+        sut = ExploreViewModel(dataService: dataServiceSpy, searchService: searchServiceSpy)
         laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
     }
     
     @Test
     func init_withNonEmptyDataService_shouldHaveData() {
         dataServiceSpy.destinations = [laneStadiumDestination]
-        let freshSut = ExploreViewModel(dataService: dataServiceSpy, mapService: mapServiceSpy)
+        let freshSut = ExploreViewModel(dataService: dataServiceSpy, searchService: searchServiceSpy)
         #expect(freshSut.destinations == [laneStadiumDestination])
     }
     
@@ -62,38 +62,48 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func search_withEmptyString_shouldReturnNoResults() {
-        sut.search()
+    func search_withEmptyString_shouldReturnNoResults() async {
+        await sut.search()
         
         #expect(sut.searchResults == [])
     }
     
     @Test
-    func search_withNonEmptyString_shouldReturnRelevantResults() {
+    func search_withNonEmptyString_shouldReturnRelevantResults() async {
         let destination1 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 1")
         let destination2 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 2")
         let expectedSearchResults = [destination1, destination2]
-        mapServiceSpy.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
+        searchServiceSpy.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
         sut.searchString = "Lane Stadium"
         
-        sut.search()
+        await sut.search()
         
         #expect(sut.searchResults[0].title == "Lane Stadium 1")
         #expect(sut.searchResults[1].title == "Lane Stadium 2")
     }
     
     @Test
-    func search_withSearchCompletion_shouldReturnRelevantResults() {
+    func search_withSearchCompletion_shouldReturnRelevantResults() async {
         let completion = MKLocalSearchCompletion()
         let destination1 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 1")
         let destination2 = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium 2")
         let expectedSearchResults = [destination1, destination2]
-        mapServiceSpy.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
+        searchServiceSpy.expectedSearchResults = expectedSearchResults.map { $0.mapItem ?? MKMapItem() }
         
-        sut.search(with: completion)
+        await sut.search(with: completion)
         
         #expect(sut.searchResults[0].title == "Lane Stadium 1")
         #expect(sut.searchResults[1].title == "Lane Stadium 2")
+    }
+    
+    @Test
+    func search_withError_shouldThrowError() async {
+        searchServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
+        
+        await sut.search(with: MKLocalSearchCompletion())
+        
+        #expect(searchServiceSpy.errorCount == 1)
+        #expect(sut.searchResults.isEmpty)
     }
     
     @Test
@@ -119,5 +129,23 @@ struct ExploreViewModelTests {
         sut.searchString = "Lane Stadium"
         
         #expect(sut.completer.queryFragment == "Lane Stadium")
+    }
+}
+
+extension MKCoordinateRegion: @retroactive Equatable {
+    public static func == (lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
+        lhs.center == rhs.center && lhs.span == rhs.span
+    }
+}
+
+extension CLLocationCoordinate2D: @retroactive Equatable {
+    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+    }
+}
+
+extension MKCoordinateSpan: @retroactive Equatable {
+    public static func == (lhs: MKCoordinateSpan, rhs: MKCoordinateSpan) -> Bool {
+        lhs.latitudeDelta == rhs.latitudeDelta && lhs.longitudeDelta == rhs.longitudeDelta
     }
 }

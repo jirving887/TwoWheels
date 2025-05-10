@@ -11,7 +11,7 @@ import MapKit
 @Observable
 class ExploreViewModel {
     private let dataService: any DataManupilating<Destination>
-    private let mapService: MapSearchingProtocol
+    private let searchService: MapSearching
     
     let completer = MKLocalSearchCompleter()
     var destinations: [Destination] = []
@@ -30,9 +30,9 @@ class ExploreViewModel {
         }
     }
     
-    init(dataService: any DataManupilating<Destination>, mapService: MapSearchingProtocol) {
+    init(dataService: any DataManupilating<Destination>, searchService: MapSearching) {
         self.dataService = dataService
-        self.mapService = mapService
+        self.searchService = searchService
         destinations = dataService.fetch()
     }
     
@@ -46,17 +46,20 @@ class ExploreViewModel {
         destinations = dataService.fetch()
     }
     
-    func search() {
+    func search() async {
         guard !searchString.isEmpty else {
             searchResults = []
             return
         }
-        
-        searchResults = mapService.search(for: searchString, in: visibleRegion).compactMap { Destination($0) }
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = searchString
+        request.region = visibleRegion
+        await search(request)
     }
     
-    func search(with completion: MKLocalSearchCompletion) {
-        searchResults = mapService.search(with: completion).compactMap { Destination($0) }
+    func search(with completion: MKLocalSearchCompletion) async {
+        let request = MKLocalSearch.Request(completion: completion)
+        await search(request)
     }
     
     func searchStringUpdated() {
@@ -68,5 +71,15 @@ class ExploreViewModel {
             completer.region = visibleRegion
         }
         completer.queryFragment = searchString
+    }
+    
+    private func search(_ request: MKLocalSearch.Request) async {
+        do {
+            searchResults = try await searchService.search(with: request).compactMap {
+                Destination($0)
+            }
+        } catch {
+            searchResults = []
+        }
     }
 }

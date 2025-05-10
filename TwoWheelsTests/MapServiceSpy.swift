@@ -9,16 +9,18 @@ import Foundation
 import MapKit
 @testable import TwoWheels
 
-class MapServiceSpy: NSObject, MapSearchingProtocol {
+class SearchServiceSpy: MapSearching {
     var expectedSearchResults: [MKMapItem] = []
     var expectedSearchCompletions: [MKLocalSearchCompletion] = []
     var searchRegion: MKCoordinateRegion?
+    var error: Error?
+    var errorCount = 0
     
-    func search(for searchString: String, in region: MKCoordinateRegion) -> [MKMapItem] {
-        expectedSearchResults
-    }
-    
-    func search(with completion: MKLocalSearchCompletion) -> [MKMapItem] {
-        expectedSearchResults
+    func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
+        if let error {
+            errorCount += 1
+            throw error
+        }
+        return expectedSearchResults
     }
 }

@@ -14,8 +14,8 @@ struct ExploreView: View {
     
     init(modelContext: ModelContext) {
         let dataService = DataService<Destination>(modelContext: modelContext)
-        let mapService = MapSearchService()
-        let viewModel = ExploreViewModel(dataService: dataService, mapService: mapService)
+        let searchService = SearchService()
+        let viewModel = ExploreViewModel(dataService: dataService, searchService: searchService)
         _viewModel = State(initialValue: viewModel)
     }
     
