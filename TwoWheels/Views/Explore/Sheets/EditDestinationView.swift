@@ -10,7 +10,7 @@ import SwiftData
 import MapKit
 
 struct EditDestinationView: View {
-    @Environment(\.modelContext) var modelContext
+    @Environment(ExploreViewModel.self) var viewModel
     @Environment(\.dismiss) private var dismiss
     
     @Bindable var destination: Destination
@@ -40,7 +40,7 @@ struct EditDestinationView: View {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("Save") {
                         if newDestination {
-                            modelContext.insert(destination)
+                            viewModel.addDestination(destination)
                         }
                         dismiss()
                     }

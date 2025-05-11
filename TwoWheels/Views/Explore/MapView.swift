@@ -10,18 +10,17 @@ import SwiftData
 import SwiftUI
 
 struct MapView: View {
+    @Environment(ExploreViewModel.self) var viewModel
     
     let manager = CLLocationManager()
     
-    @Query private var destinations: [Destination]
-    
-    @State private var viewModel = SearchableMapViewModel()
     @State private var tappedLocation: CLLocationCoordinate2D? = nil
     
     var body: some View {
+        @Bindable var viewModel = viewModel
         MapReader { proxy in
-            Map(position: $viewModel.position, selection: $viewModel.selectedLocation) {
-                ForEach(destinations) { destination in
+            Map(position: $viewModel.position, selection: $viewModel.selectedDestination) {
+                ForEach(viewModel.destinations) { destination in
                     Marker(coordinate: destination.coordinate) {
                         Image(systemName: "star")
                     }
@@ -64,7 +63,7 @@ struct MapView: View {
                 VStack(spacing: 10) {
                     if !viewModel.searchResults.isEmpty {
                         Button {
-                            viewModel.reset()
+//                            viewModel.reset()
                         } label: {
                             Image(systemName: "xmark")
                         }
@@ -102,22 +101,6 @@ struct MapView: View {
                 }
             )
         }
-        .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-            SearchSheetView()
-        }
-        .sheet(isPresented: $viewModel.isInfoSheetPresented) {
-            if let location = viewModel.selectedLocation {
-                LocationInfoView(location: location)
-            }
-        }
-        .sheet(isPresented: $viewModel.isEditSheetPresented) {
-            viewModel.isInfoSheetPresented = true
-        } content: {
-            if let location = viewModel.selectedLocation {
-                EditDestinationView(destination: location, newDestination: true)
-            }
-        }
-        .environment(viewModel)
     }
 }
 

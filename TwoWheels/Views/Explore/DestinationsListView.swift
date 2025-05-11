@@ -10,16 +10,12 @@ import SwiftUI
 import SwiftData
 
 struct DestinationsListView: View {
-    
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Destination.title) private var destinations: [Destination]
-    
-    @State private var selectedDestination: Destination?
+    @Environment(ExploreViewModel.self) var viewModel
     
     var body: some View {
         NavigationStack {
-            if !destinations.isEmpty {
-                List(destinations) { destination in
+            if !viewModel.destinations.isEmpty {
+                List(viewModel.destinations, id: \.self) { destination in
                     HStack {
                         Image(systemName: "mappin.circle")
                             .imageScale(.large)
@@ -30,13 +26,13 @@ struct DestinationsListView: View {
                     }
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
-                            modelContext.delete(destination)
+                            viewModel.deleteDestination(destination)
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
                         
                         Button {
-                            selectedDestination = destination
+                            viewModel.selectedDestination = destination
                         } label: {
                             Label("Edit", systemImage: "pencil")
                         }
@@ -50,9 +46,6 @@ struct DestinationsListView: View {
                     description: Text("You have not saved any locations yet. Check out the Map \(Image(systemName: "map")) and add one.")
                 )
             }
-        }
-        .sheet(item: $selectedDestination) { destination in
-            EditDestinationView(destination: destination, newDestination: false)
         }
     }
 }

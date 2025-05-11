@@ -10,7 +10,6 @@ import SwiftData
 import SwiftUI
 
 struct ExploreView: View {
-    
     @State private var viewModel: ExploreViewModel
     
     init(modelContext: ModelContext) {
@@ -35,6 +34,25 @@ struct ExploreView: View {
                 DestinationsListView()
             }
         }
+        .sheet(item: $viewModel.selectedDestination) { destination in
+            EditDestinationView(destination: destination, newDestination: false)
+        }
+        .sheet(isPresented: $viewModel.isSearchSheetPresented) {
+            SearchSheetView()
+        }
+        .sheet(isPresented: $viewModel.isInfoSheetPresented) {
+            if let location = viewModel.selectedDestination {
+                LocationInfoView(location: location)
+            }
+        }
+        .sheet(isPresented: $viewModel.isEditSheetPresented) {
+            viewModel.isInfoSheetPresented = true
+        } content: {
+            if let location = viewModel.selectedDestination {
+                EditDestinationView(destination: location, newDestination: true)
+            }
+        }
+        .environment(viewModel)
     }
 }
 

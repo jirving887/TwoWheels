@@ -9,7 +9,7 @@ import MapKit
 import SwiftUI
 
 struct SearchSheetView: View {
-    @Environment(SearchableMapViewModel.self) var viewModel
+    @Environment(ExploreViewModel.self) var viewModel
     
     @State private var search: String = ""
     
@@ -19,11 +19,11 @@ struct SearchSheetView: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                 
-                TextField("Search for a new destination", text: $search)
+                TextField("Search for a new destination", text: $viewModel.searchString)
                     .autocorrectionDisabled()
                     .onSubmit {
                         Task {
-                            await viewModel.search(for: search)
+                            await viewModel.search()
                         }
                     }
             }
@@ -35,10 +35,10 @@ struct SearchSheetView: View {
             Spacer()
             
             List {
-                ForEach($viewModel.completions, id: \.self) { completion in
+                ForEach($viewModel.searchCompletions, id: \.self) { completion in
                     Button {
                         Task {
-                            await viewModel.search(for: completion.wrappedValue)
+                            await viewModel.search(with: completion.wrappedValue)
                         }
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
@@ -54,12 +54,6 @@ struct SearchSheetView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-        }
-        .onChange(of: search) {
-            if search.count == 1 {
-                viewModel.update(region: viewModel.visibleRegion)
-            }
-            viewModel.update(queryFragment: search)
         }
         .padding()
         .presentationDetents([.fraction(0.20), .medium, .large])

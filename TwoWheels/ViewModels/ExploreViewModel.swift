@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MapKit
+import _MapKit_SwiftUI
 
 @Observable
 class ExploreViewModel {
@@ -15,20 +15,26 @@ class ExploreViewModel {
     private let geocoder: Geocoding
     
     let completer = MKLocalSearchCompleter()
+    var isSearchSheetPresented = false
+    var isInfoSheetPresented = false
+    var isEditSheetPresented = false
     var destinations: [Destination] = []
-    var searchCompletions: [MKLocalSearchCompletion] {
-        get {
-            completer.results
-        } set {}
-    }
     var searchResults: [Destination] = []
+    var selectedDestination: Destination?
     var selectedTab: TabSelection = .map
     var visibleRegion = MKCoordinateRegion.init()
+    var position = MapCameraPosition.userLocation(fallback: .automatic)
     
     var searchString: String = "" {
         didSet {
             searchStringUpdated()
         }
+    }
+    
+    var searchCompletions: [MKLocalSearchCompletion] {
+        get {
+            completer.results
+        } set {}
     }
     
     init(dataService: any DataManupilating<Destination>, searchService: MapSearching, geocoder: Geocoding) {

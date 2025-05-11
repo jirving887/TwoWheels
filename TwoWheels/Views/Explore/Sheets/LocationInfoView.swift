@@ -10,13 +10,12 @@ import SwiftData
 import SwiftUI
 
 struct LocationInfoView: View {
-    @Environment(SearchableMapViewModel.self) var viewModel
-    @Query private var destinations: [Destination]
+    @Environment(ExploreViewModel.self) var viewModel
     
     let location: Destination
     
     var saved: Bool {
-        destinations.contains(location)
+        viewModel.destinations.contains(location)
     }
     
     var body: some View {
@@ -87,16 +86,20 @@ struct LocationInfoView: View {
         .presentationBackgroundInteraction(.enabled)
         .onAppear {
             Task {
-                location.address = await viewModel.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                location.address = await viewModel.addressFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude))
             }
         }
     }
 }
 
 #Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Destination.self, configurations: config)
     let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
 
     LocationInfoView(location: laneStadiumDestination)
-        .environment(SearchableMapViewModel())
+        .environment(ExploreViewModel(dataService: dataService, searchService: SearchService(), geocoder: CLGeocoder()))
+        .modelContainer(container)
 }
 
