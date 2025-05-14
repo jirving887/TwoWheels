@@ -225,18 +225,32 @@ struct ExploreViewModelTests {
         sut.searchResults = Array(repeating: laneStadiumDestination, count: 4)
         sut.selectedDestination = laneStadiumDestination
         sut.searchCompletions = Array(repeating: MKLocalSearchCompletion(), count: 4)
+        sut.searchString = "Lane Stadium"
         
         sut.reset()
         
         #expect(sut.searchResults.isEmpty)
         #expect(sut.selectedDestination == nil)
         #expect(sut.searchCompletions.isEmpty)
+        #expect(sut.searchString.isEmpty)
     }
     
     @Test
     func selectedDestinationUpdated_withValidDestination_shouldUpdateMapPositionAndSheets() {
         sut.isInfoSheetPresented = false
         sut.isSearchSheetPresented = true
+        sut.selectedDestination = laneStadiumDestination
+        
+        #expect(sut.isInfoSheetPresented)
+        #expect(!sut.isSearchSheetPresented)
+        #expect(sut.position.item == laneStadiumDestination.mapItem)
+    }
+    
+    @Test
+    func selectedDestinationUpdated_withInvalidDestinationMapItem_shouldUpdateMapPositionAndSheets() {
+        sut.isInfoSheetPresented = false
+        sut.isSearchSheetPresented = true
+        laneStadiumDestination.mapItem = nil
         sut.selectedDestination = laneStadiumDestination
         let laneStadiumRegion = MKCoordinateRegion(
             center: CLLocationCoordinate2D(
@@ -266,6 +280,38 @@ struct ExploreViewModelTests {
         sut.selectedDestination = destination
         
         #expect(!sut.isInfoSheetPresented)
+    }
+    
+    @Test
+    func searchResultsUpdated_withEmptyArray_shouldOnlyDismissSheet() {
+        sut.isSearchSheetPresented = true
+        let originalRegion = sut.position.region
+        sut.searchResults = []
+        
+        #expect(!sut.isSearchSheetPresented)
+        #expect(sut.selectedDestination == nil)
+        #expect(sut.position.region == originalRegion)
+    }
+    
+    @Test
+    func searchResultsUpdated_withSingleResult_shouldSetSelectedDestination() {
+        sut.isSearchSheetPresented = true
+        
+        sut.searchResults = [laneStadiumDestination]
+        
+        #expect(!sut.isSearchSheetPresented)
+        #expect(sut.selectedDestination == laneStadiumDestination)
+        #expect(sut.position.item == laneStadiumDestination.mapItem)
+    }
+    
+    @Test
+    func searhResultsUpdated_withMultipleResults_shouldChangeMapPosition() {
+        sut.isSearchSheetPresented = true
+        let burrussHallDestination = Destination(latitude: 37.229000, longitude: -80.423710)
+        sut.searchResults = [burrussHallDestination, laneStadiumDestination]
+        
+        #expect(!sut.isSearchSheetPresented)
+        #expect(sut.position.item == burrussHallDestination.mapItem)
     }
 }
 

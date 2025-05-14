@@ -19,11 +19,16 @@ class ExploreViewModel {
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
     var destinations: [Destination] = []
-    var searchResults: [Destination] = []
     var editingDestination: Destination?
     var selectedTab: TabSelection = .map
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
+    
+    var searchResults: [Destination] = [] {
+        didSet {
+            searchResultsUpdated()
+        }
+    }
     
     var searchString: String = "" {
         didSet {
@@ -109,26 +114,7 @@ class ExploreViewModel {
         searchResults = []
         selectedDestination = nil
         searchCompletions = []
-    }
-    
-    func selectedDestinationUpdated() {
-        if let selectedDestination,
-           selectedDestination.latitude != 0,
-           selectedDestination.longitude != 0 {
-            isInfoSheetPresented = true
-            print("Latitude: \(selectedDestination.latitude), Longitude: \(selectedDestination.longitude)")
-            isSearchSheetPresented = false
-            let region = MKCoordinateRegion(
-                center: selectedDestination.coordinate,
-                latitudinalMeters: 200,
-                longitudinalMeters: 200
-            )
-            withAnimation(.easeInOut) {
-                position = MapCameraPosition.region(region)
-            }
-        } else {
-            isInfoSheetPresented = false
-        }
+        searchString = ""
     }
     
     private func search(_ request: MKLocalSearch.Request) async {
@@ -138,6 +124,41 @@ class ExploreViewModel {
             }
         } catch {
             searchResults = []
+        }
+    }
+    
+    private func searchResultsUpdated() {
+        isSearchSheetPresented = false
+        if searchResults.count == 1 {
+            selectedDestination = searchResults.first
+        } else if let first = searchResults.first,
+                  let item = first.mapItem {
+            position = .item(item)
+        }
+    }
+    
+    private func selectedDestinationUpdated() {
+        if let selectedDestination,
+           selectedDestination.latitude != 0,
+           selectedDestination.longitude != 0 {
+            isInfoSheetPresented = true
+            print("Latitude: \(selectedDestination.latitude), Longitude: \(selectedDestination.longitude)")
+            isSearchSheetPresented = false
+            
+            withAnimation(.easeInOut) {
+                if let item = selectedDestination.mapItem {
+                    position = .item(item)
+                } else {
+                    let region = MKCoordinateRegion(
+                        center: selectedDestination.coordinate,
+                        latitudinalMeters: 200,
+                        longitudinalMeters: 200
+                    )
+                    position = .region(region)
+                }
+            }
+        } else {
+            isInfoSheetPresented = false
         }
     }
 }
