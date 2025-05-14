@@ -8,6 +8,7 @@
 import MapKit
 import Testing
 @testable import TwoWheels
+import _MapKit_SwiftUI
 
 struct ExploreViewModelTests {
     let dataServiceSpy: DataServiceSpy
@@ -230,6 +231,41 @@ struct ExploreViewModelTests {
         #expect(sut.searchResults.isEmpty)
         #expect(sut.selectedDestination == nil)
         #expect(sut.searchCompletions.isEmpty)
+    }
+    
+    @Test
+    func selectedDestinationUpdated_withValidDestination_shouldUpdateMapPositionAndSheets() {
+        sut.isInfoSheetPresented = false
+        sut.isSearchSheetPresented = true
+        sut.selectedDestination = laneStadiumDestination
+        let laneStadiumRegion = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(
+                latitude: 37.22001,
+                longitude: -80.41804
+            ),
+            latitudinalMeters: 200,
+            longitudinalMeters: 200
+        )
+        
+        #expect(sut.isInfoSheetPresented)
+        #expect(!sut.isSearchSheetPresented)
+        #expect(sut.position.region == laneStadiumRegion)
+    }
+    
+    @Test
+    func selectedDestinationUpdated_withNilDestination_shouldCloseInfoSheet() {
+        sut.isInfoSheetPresented = true
+        sut.selectedDestination = nil
+        
+        #expect(!sut.isInfoSheetPresented)
+    }
+    
+    @Test
+    func selectedDestinationUpdated_withEmptyFeature_shouldCloseInfoSheet() {
+        let destination = Destination(latitude: 0.0, longitude: 0.0)
+        sut.selectedDestination = destination
+        
+        #expect(!sut.isInfoSheetPresented)
     }
 }
 

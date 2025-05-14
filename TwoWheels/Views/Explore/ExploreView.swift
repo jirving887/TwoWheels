@@ -34,9 +34,6 @@ struct ExploreView: View {
                 DestinationsListView()
             }
         }
-        .sheet(item: $viewModel.selectedDestination) { destination in
-            EditDestinationView(destination: destination, newDestination: false)
-        }
         .sheet(isPresented: $viewModel.isSearchSheetPresented) {
             SearchSheetView()
         }

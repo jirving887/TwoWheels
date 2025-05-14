@@ -22,7 +22,7 @@ class ExploreViewModel {
     var searchResults: [Destination] = []
     var selectedDestination: Destination? {
         didSet {
-            
+            selectedDestinationUpdated()
         }
     }
     var selectedTab: TabSelection = .map
@@ -107,6 +107,23 @@ class ExploreViewModel {
         searchResults = []
         selectedDestination = nil
         searchCompletions = []
+    }
+    
+    func selectedDestinationUpdated() {
+        if let selectedDestination,
+           selectedDestination.latitude != 0,
+           selectedDestination.longitude != 0 {
+            isInfoSheetPresented = true
+            isSearchSheetPresented = false
+            let region = MKCoordinateRegion(
+                center: selectedDestination.coordinate,
+                latitudinalMeters: 200,
+                longitudinalMeters: 200
+            )
+            position = MapCameraPosition.region(region)
+        } else {
+            isInfoSheetPresented = false
+        }
     }
     
     private func search(_ request: MKLocalSearch.Request) async {
