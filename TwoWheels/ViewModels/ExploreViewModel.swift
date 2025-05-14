@@ -139,12 +139,9 @@ class ExploreViewModel {
     
     private func selectedDestinationUpdated() {
         if let selectedDestination,
-           selectedDestination.latitude != 0,
-           selectedDestination.longitude != 0 {
+           isValid(selectedDestination) {
             isInfoSheetPresented = true
-            print("Latitude: \(selectedDestination.latitude), Longitude: \(selectedDestination.longitude)")
             isSearchSheetPresented = false
-            
             withAnimation(.easeInOut) {
                 if let item = selectedDestination.mapItem {
                     position = .item(item)
@@ -160,5 +157,10 @@ class ExploreViewModel {
         } else {
             isInfoSheetPresented = false
         }
+    }
+    
+    private func isValid(_ destination: Destination) -> Bool {
+        destination.latitude != 0 &&
+        destination.longitude != 0
     }
 }
