@@ -32,7 +32,7 @@ struct DestinationsListView: View {
                         }
                         
                         Button {
-                            viewModel.selectedDestination = destination
+                            viewModel.editingDestination = destination
                         } label: {
                             Label("Edit", systemImage: "pencil")
                         }

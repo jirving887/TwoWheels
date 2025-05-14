@@ -37,16 +37,14 @@ struct ExploreView: View {
         .sheet(isPresented: $viewModel.isSearchSheetPresented) {
             SearchSheetView()
         }
-        .sheet(isPresented: $viewModel.isInfoSheetPresented) {
-            if let location = viewModel.selectedDestination {
-                LocationInfoView(location: location)
-            }
+        .sheet(item: $viewModel.editingDestination) {
+            EditDestinationView(destination: $0)
         }
-        .sheet(isPresented: $viewModel.isEditSheetPresented) {
-            viewModel.isInfoSheetPresented = true
+        .sheet(isPresented: $viewModel.isInfoSheetPresented) {
+            viewModel.selectedDestination = nil
         } content: {
             if let location = viewModel.selectedDestination {
-                EditDestinationView(destination: location, newDestination: true)
+                LocationInfoView(location: location)
             }
         }
         .environment(viewModel)

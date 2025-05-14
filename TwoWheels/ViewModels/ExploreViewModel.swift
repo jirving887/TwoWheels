@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import _MapKit_SwiftUI
+import MapKit
+import SwiftUI
 
 @Observable
 class ExploreViewModel {
@@ -17,14 +18,9 @@ class ExploreViewModel {
     let completer = MKLocalSearchCompleter()
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
-    var isEditSheetPresented = false
     var destinations: [Destination] = []
     var searchResults: [Destination] = []
-    var selectedDestination: Destination? {
-        didSet {
-            selectedDestinationUpdated()
-        }
-    }
+    var editingDestination: Destination?
     var selectedTab: TabSelection = .map
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
@@ -39,6 +35,12 @@ class ExploreViewModel {
         get {
             completer.results
         } set {}
+    }
+    
+    var selectedDestination: Destination? {
+        didSet {
+            selectedDestinationUpdated()
+        }
     }
     
     init(dataService: any DataManupilating<Destination>, searchService: MapSearching, geocoder: Geocoding) {
@@ -114,13 +116,16 @@ class ExploreViewModel {
            selectedDestination.latitude != 0,
            selectedDestination.longitude != 0 {
             isInfoSheetPresented = true
+            print("Latitude: \(selectedDestination.latitude), Longitude: \(selectedDestination.longitude)")
             isSearchSheetPresented = false
             let region = MKCoordinateRegion(
                 center: selectedDestination.coordinate,
                 latitudinalMeters: 200,
                 longitudinalMeters: 200
             )
-            position = MapCameraPosition.region(region)
+            withAnimation(.easeInOut) {
+                position = MapCameraPosition.region(region)
+            }
         } else {
             isInfoSheetPresented = false
         }

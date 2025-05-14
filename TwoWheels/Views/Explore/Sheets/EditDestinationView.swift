@@ -14,7 +14,9 @@ struct EditDestinationView: View {
     @Environment(\.dismiss) private var dismiss
     
     @Bindable var destination: Destination
-    let newDestination: Bool
+    var newDestination: Bool {
+        !viewModel.destinations.contains(destination)
+    }
     
     var body: some View {
         NavigationStack {
@@ -38,7 +40,7 @@ struct EditDestinationView: View {
                 }
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button("Save") {
+                    Button(newDestination ? "Add" : "Save") {
                         if newDestination {
                             viewModel.addDestination(destination)
                         }
@@ -56,6 +58,6 @@ struct EditDestinationView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Destination.self, configurations: config)
     
-    EditDestinationView(destination: laneStadiumDestination, newDestination: true)
+    EditDestinationView(destination: laneStadiumDestination)
         .modelContainer(container)
 }

@@ -48,7 +48,7 @@ struct LocationInfoView: View {
                 
                 Button {
                     viewModel.isInfoSheetPresented = false
-                    viewModel.isEditSheetPresented = true
+                    viewModel.editingDestination = location
                 } label: {
                     VStack {
                         Image(systemName: saved ? "pencil" : "plus.circle")
