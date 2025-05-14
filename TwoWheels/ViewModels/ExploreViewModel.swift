@@ -20,7 +20,11 @@ class ExploreViewModel {
     var isEditSheetPresented = false
     var destinations: [Destination] = []
     var searchResults: [Destination] = []
-    var selectedDestination: Destination?
+    var selectedDestination: Destination? {
+        didSet {
+            
+        }
+    }
     var selectedTab: TabSelection = .map
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
@@ -97,6 +101,12 @@ class ExploreViewModel {
         } catch {
             return "Unable to determine address"
         }
+    }
+    
+    func reset() {
+        searchResults = []
+        selectedDestination = nil
+        searchCompletions = []
     }
     
     private func search(_ request: MKLocalSearch.Request) async {

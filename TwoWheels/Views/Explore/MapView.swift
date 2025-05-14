@@ -63,7 +63,7 @@ struct MapView: View {
                 VStack(spacing: 10) {
                     if !viewModel.searchResults.isEmpty {
                         Button {
-//                            viewModel.reset()
+                            viewModel.reset()
                         } label: {
                             Image(systemName: "xmark")
                         }

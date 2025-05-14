@@ -218,6 +218,19 @@ struct ExploreViewModelTests {
         #expect(geocoderSpy.errorCount == 1)
         #expect(address == "Unable to determine address")
     }
+    
+    @Test
+    func reset_shouldClearSearchResultsAndSelectedLocationAndSearchCompletions() {
+        sut.searchResults = Array(repeating: laneStadiumDestination, count: 4)
+        sut.selectedDestination = laneStadiumDestination
+        sut.searchCompletions = Array(repeating: MKLocalSearchCompletion(), count: 4)
+        
+        sut.reset()
+        
+        #expect(sut.searchResults.isEmpty)
+        #expect(sut.selectedDestination == nil)
+        #expect(sut.searchCompletions.isEmpty)
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
