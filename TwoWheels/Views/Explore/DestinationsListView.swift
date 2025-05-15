@@ -16,14 +16,19 @@ struct DestinationsListView: View {
         NavigationStack {
             if !viewModel.destinations.isEmpty {
                 List(viewModel.destinations, id: \.self) { destination in
-                    HStack {
-                        Image(systemName: "mappin.circle")
-                            .imageScale(.large)
-                        
-                        VStack(alignment: .leading) {
-                            Text(destination.title)
+                    Button {
+                        viewModel.selectDestinationFromList(destination)
+                    } label: {
+                        HStack {
+                            Image(systemName: "mappin.circle")
+                                .imageScale(.large)
+                            
+                            VStack(alignment: .leading) {
+                                Text(destination.title)
+                            }
                         }
                     }
+                    .buttonStyle(PlainButtonStyle())
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
                             viewModel.deleteDestination(destination)
