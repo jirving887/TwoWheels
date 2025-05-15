@@ -16,6 +16,13 @@ class SearchServiceSpy: MapSearching {
     var error: Error?
     var errorCount = 0
     
+    /// Performs a simulated map search using the provided request.
+    ///
+    /// If an error is set, increments the error count and throws the error. Otherwise, returns the predefined search results.
+    ///
+    /// - Parameter request: The search request to simulate.
+    /// - Returns: An array of map items representing the simulated search results.
+    /// - Throws: The configured error if one is set.
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
         if let error {
             errorCount += 1
