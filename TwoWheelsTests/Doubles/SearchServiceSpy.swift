@@ -11,8 +11,6 @@ import MapKit
 
 class SearchServiceSpy: MapSearching {
     var expectedSearchResults: [MKMapItem] = []
-    var expectedSearchCompletions: [MKLocalSearchCompletion] = []
-    var searchRegion: MKCoordinateRegion?
     var error: Error?
     var errorCount = 0
     
