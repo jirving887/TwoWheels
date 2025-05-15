@@ -11,7 +11,7 @@ import SwiftUI
 
 @Observable
 class ExploreViewModel {
-    private let dataService: any DataManupilating<Destination>
+    private let dataService: any DataManipulating<Destination>
     private let searchService: MapSearching
     private let geocoder: Geocoding
     
@@ -49,7 +49,7 @@ class ExploreViewModel {
         }
     }
     
-    init(dataService: any DataManupilating<Destination>, searchService: MapSearching, geocoder: Geocoding) {
+    init(dataService: any DataManipulating<Destination>, searchService: MapSearching, geocoder: Geocoding) {
         self.dataService = dataService
         self.searchService = searchService
         self.geocoder = geocoder
