@@ -11,7 +11,6 @@ import SwiftUI
 struct SearchSheetView: View {
     @Environment(ExploreViewModel.self) var viewModel
     
-    @State private var search: String = ""
     
     var body: some View {
         @Bindable var viewModel = viewModel
