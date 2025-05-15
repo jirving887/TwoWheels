@@ -313,6 +313,17 @@ struct ExploreViewModelTests {
         #expect(!sut.isSearchSheetPresented)
         #expect(sut.position.item == burrussHallDestination.mapItem)
     }
+    
+    @Test
+    func removePin_shouldRemovePin() {
+        sut.tappedLocations.append(laneStadiumDestination)
+        sut.isInfoSheetPresented = true
+        
+        sut.removePin(laneStadiumDestination)
+        
+        #expect(sut.tappedLocations.isEmpty)
+        #expect(!sut.isInfoSheetPresented)
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {

@@ -43,7 +43,7 @@ struct LocationInfoView: View {
                     .frame(maxHeight: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(Color.blue)
+                .tint(.blue)
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 Button {
@@ -73,7 +73,23 @@ struct LocationInfoView: View {
                         .frame(maxHeight: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(Color.orange)
+                    .tint(.orange)
+                    .frame(width: UIScreen.main.bounds.width / 4)
+                }
+                
+                if viewModel.tappedLocations.contains(location) {
+                    Button {
+                        viewModel.removePin(location)
+                    } label: {
+                        VStack {
+                            Image(systemName: "trash")
+                                .padding(2)
+                            Text("Delete Pin")
+                        }
+                        .frame(maxHeight: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.red)
                     .frame(width: UIScreen.main.bounds.width / 4)
                 }
             }

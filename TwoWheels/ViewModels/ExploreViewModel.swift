@@ -20,6 +20,7 @@ class ExploreViewModel {
     var isInfoSheetPresented = false
     var destinations: [Destination] = []
     var editingDestination: Destination?
+    var tappedLocations: [Destination] = []
     var selectedTab: TabSelection = .map
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
@@ -115,6 +116,11 @@ class ExploreViewModel {
         selectedDestination = nil
         searchCompletions = []
         searchString = ""
+    }
+    
+    func removePin(_ pin: Destination) {
+        tappedLocations.removeAll { $0 === pin }
+        isInfoSheetPresented = false
     }
     
     private func search(_ request: MKLocalSearch.Request) async {

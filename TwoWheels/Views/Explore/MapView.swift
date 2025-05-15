@@ -14,8 +14,6 @@ struct MapView: View {
     
     let manager = CLLocationManager()
     
-    @State private var tappedLocation: CLLocationCoordinate2D? = nil
-    
     var body: some View {
         @Bindable var viewModel = viewModel
         MapReader { proxy in
@@ -37,14 +35,11 @@ struct MapView: View {
                     }
                 }
                 
-                if let location = tappedLocation {
-                    let placemark = MKPlacemark(coordinate: location)
-                    let item = MKMapItem(placemark: placemark)
-                    let tappedDestination = Destination(item)
-                    Marker(coordinate: location) {
+                ForEach(viewModel.tappedLocations) { location in
+                    Marker(coordinate: location.coordinate) {
                         Image(systemName: "mappin")
                     }
-                    .tag(tappedDestination)
+                    .tag(location)
                 }
                 
                 UserAnnotation()
@@ -92,11 +87,18 @@ struct MapView: View {
                 .onEnded { value in
                     switch value {
                     case .second(true, let drag):
-                        if let drag {
-                            tappedLocation = proxy.convert(drag.location, from: .local)
+                        if let drag,
+                           let location = proxy.convert(drag.location, from: .local) {
+                            let dragLocation = Destination(
+                                latitude: location.latitude,
+                                longitude: location.longitude,
+                                title: "Unknown Location"
+                            )
+                            viewModel.tappedLocations.append(dragLocation)
+                            viewModel.selectedDestination = dragLocation
                         }
                     default:
-                        tappedLocation = nil
+                        break
                     }
                 }
             )
