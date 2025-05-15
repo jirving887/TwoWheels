@@ -27,7 +27,7 @@ class DataService<T : PersistentModel>: DataManipulating {
             let descriptor = FetchDescriptor<T>()
             return try modelContext.fetch(descriptor)
         } catch {
-            print("Failed to fetch destinations with error: \n\(error)")
+            print("Failed to fetch data with error: \n\(error)")
             return []
         }
     }
