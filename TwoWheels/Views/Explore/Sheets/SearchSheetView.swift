@@ -6,11 +6,11 @@
 //
 
 import MapKit
+import SwiftData
 import SwiftUI
 
 struct SearchSheetView: View {
     @Environment(ExploreViewModel.self) var viewModel
-    
     
     var body: some View {
         @Bindable var viewModel = viewModel
@@ -59,4 +59,24 @@ struct SearchSheetView: View {
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled(upThrough: .large))
     }
+}
+
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
+    
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
+    
+    return SearchSheetView()
+        .environment(viewModel)
 }

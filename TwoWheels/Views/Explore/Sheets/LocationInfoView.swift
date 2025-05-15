@@ -118,9 +118,14 @@ struct LocationInfoView: View {
     }
     let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
     let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
 
     return LocationInfoView(location: laneStadiumDestination)
-        .environment(ExploreViewModel(dataService: dataService, searchService: SearchService(), geocoder: CLGeocoder()))
         .modelContainer(container)
+        .environment(viewModel)
 }
 

@@ -106,5 +106,22 @@ struct MapView: View {
 }
 
 #Preview {
-    MapView()
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create ModelContainer: \(error)")
+    }
+
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
+
+    return MapView()
+        .modelContainer(container)
+        .environment(viewModel)
 }

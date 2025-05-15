@@ -52,7 +52,12 @@ struct DestinationsListView: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Destination.self, configurations: config)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
     
     for _ in 1..<10 {
         let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
@@ -69,5 +74,5 @@ struct DestinationsListView: View {
     
     return DestinationsListView()
         .modelContainer(container)
-            .environment(viewModel)
+        .environment(viewModel)
 }
