@@ -118,6 +118,11 @@ class ExploreViewModel {
         searchString = ""
     }
     
+    func addPin(_ pin: Destination) {
+        tappedLocations.append(pin)
+        selectedDestination = pin
+    }
+    
     func removePin(_ pin: Destination) {
         tappedLocations.removeAll { $0 === pin }
         isInfoSheetPresented = false

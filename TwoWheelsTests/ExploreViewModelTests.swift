@@ -315,6 +315,14 @@ struct ExploreViewModelTests {
     }
     
     @Test
+    func addPin_shouldAddPin() {
+        sut.addPin(laneStadiumDestination)
+        
+        #expect(sut.tappedLocations == [laneStadiumDestination])
+        #expect(sut.selectedDestination == laneStadiumDestination)
+    }
+    
+    @Test
     func removePin_shouldRemovePin() {
         sut.tappedLocations.append(laneStadiumDestination)
         sut.isInfoSheetPresented = true

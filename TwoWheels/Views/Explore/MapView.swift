@@ -94,8 +94,7 @@ struct MapView: View {
                                 longitude: location.longitude,
                                 title: "Unknown Location"
                             )
-                            viewModel.tappedLocations.append(dragLocation)
-                            viewModel.selectedDestination = dragLocation
+                            viewModel.addPin(dragLocation)
                         }
                     default:
                         break
