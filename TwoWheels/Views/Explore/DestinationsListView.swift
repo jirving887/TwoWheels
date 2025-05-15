@@ -60,6 +60,14 @@ struct DestinationsListView: View {
         container.mainContext.insert(laneStadiumDestination)
     }
     
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
+    
     return DestinationsListView()
         .modelContainer(container)
+            .environment(viewModel)
 }

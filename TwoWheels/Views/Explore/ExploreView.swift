@@ -53,7 +53,12 @@ struct ExploreView: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Destination.self, configurations: config)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
     
-    ExploreView(modelContext: container.mainContext)
+    return ExploreView(modelContext: container.mainContext)
 }
