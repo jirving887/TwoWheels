@@ -1,5 +1,5 @@
 //
-//  SearchableMapView.swift
+//  MapView.swift
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
@@ -9,19 +9,16 @@ import MapKit
 import SwiftData
 import SwiftUI
 
-struct SearchableMapView: View {
+struct MapView: View {
+    @Environment(ExploreViewModel.self) var viewModel
     
     let manager = CLLocationManager()
     
-    @Query private var destinations: [Destination]
-    
-    @State private var viewModel = SearchableMapViewModel()
-    @State private var tappedLocation: CLLocationCoordinate2D? = nil
-    
     var body: some View {
+        @Bindable var viewModel = viewModel
         MapReader { proxy in
-            Map(position: $viewModel.position, selection: $viewModel.selectedLocation) {
-                ForEach(destinations) { destination in
+            Map(position: $viewModel.position, selection: $viewModel.selectedDestination) {
+                ForEach(viewModel.destinations) { destination in
                     Marker(coordinate: destination.coordinate) {
                         Image(systemName: "star")
                     }
@@ -38,14 +35,11 @@ struct SearchableMapView: View {
                     }
                 }
                 
-                if let location = tappedLocation {
-                    let placemark = MKPlacemark(coordinate: location)
-                    let item = MKMapItem(placemark: placemark)
-                    let tappedDestination = Destination(item)
-                    Marker(coordinate: location) {
+                ForEach(viewModel.tappedLocations) { location in
+                    Marker(coordinate: location.coordinate) {
                         Image(systemName: "mappin")
                     }
-                    .tag(tappedDestination)
+                    .tag(location)
                 }
                 
                 UserAnnotation()
@@ -93,34 +87,41 @@ struct SearchableMapView: View {
                 .onEnded { value in
                     switch value {
                     case .second(true, let drag):
-                        if let drag {
-                            tappedLocation = proxy.convert(drag.location, from: .local)
+                        if let drag,
+                           let location = proxy.convert(drag.location, from: .local) {
+                            let dragLocation = Destination(
+                                latitude: location.latitude,
+                                longitude: location.longitude,
+                                title: "Unknown Location"
+                            )
+                            viewModel.addPin(dragLocation)
                         }
                     default:
-                        tappedLocation = nil
+                        break
                     }
                 }
             )
         }
-        .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-            MapSheetView()
-        }
-        .sheet(isPresented: $viewModel.isInfoSheetPresented) {
-            if let location = viewModel.selectedLocation {
-                LocationInfoView(location: location)
-            }
-        }
-        .sheet(isPresented: $viewModel.isEditSheetPresented) {
-            viewModel.isInfoSheetPresented = true
-        } content: {
-            if let location = viewModel.selectedLocation {
-                EditDestinationView(destination: location, newDestination: true)
-            }
-        }
-        .environment(viewModel)
     }
 }
 
 #Preview {
-    SearchableMapView()
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create ModelContainer: \(error)")
+    }
+
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
+
+    return MapView()
+        .modelContainer(container)
+        .environment(viewModel)
 }

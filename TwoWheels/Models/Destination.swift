@@ -23,18 +23,24 @@ class Destination : MapSelectable {
     var url: URL?
     
     var coordinate: CLLocationCoordinate2D {
-        get {
-            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        }
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
     init(_ mapItem: MKMapItem) {
         self.mapItem = mapItem
-        self.title = mapItem.name ?? ""
-        self.address = ""
-        self.latitude = mapItem.placemark.coordinate.latitude
-        self.longitude = mapItem.placemark.coordinate.longitude
-        self.url = mapItem.url
+        title = mapItem.name ?? ""
+        address = ""
+        latitude = mapItem.placemark.coordinate.latitude
+        longitude = mapItem.placemark.coordinate.longitude
+        url = mapItem.url
+    }
+    
+    convenience init(latitude: Double, longitude: Double, title: String = "") {
+        let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let placemark = MKPlacemark(coordinate: coordinates)
+        let item = MKMapItem(placemark: placemark)
+        item.name = title
+        self.init(item)
     }
     
     required convenience init(_ feature: MapFeature?) {
