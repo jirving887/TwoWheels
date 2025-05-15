@@ -18,8 +18,4 @@ class SearchService: MapSearching {
         
         return response.mapItems
     }
-//    
-//    func address(from location: CLLocation) async throws -> [CLPlacemark] {
-//        try await CLGeocoder().reverseGeocodeLocation(location)
-//    }
 }
