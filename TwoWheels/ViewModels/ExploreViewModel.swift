@@ -128,6 +128,11 @@ class ExploreViewModel {
         isInfoSheetPresented = false
     }
     
+    func selectDestinationFromList(_ destination: Destination) {
+        selectedDestination = destination
+        selectedTab = .map
+    }
+    
     private func search(_ request: MKLocalSearch.Request) async {
         do {
             searchResults = try await searchService.search(with: request).compactMap {

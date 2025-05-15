@@ -332,6 +332,14 @@ struct ExploreViewModelTests {
         #expect(sut.tappedLocations.isEmpty)
         #expect(!sut.isInfoSheetPresented)
     }
+    
+    @Test
+    func selectDestinationFromList_shouldChangeTabSelectionAndSetSelectedDestination() {
+        sut.selectDestinationFromList(laneStadiumDestination)
+        
+        #expect(sut.selectedTab == .map)
+        #expect(sut.selectedDestination == laneStadiumDestination)
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
