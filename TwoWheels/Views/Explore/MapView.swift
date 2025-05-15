@@ -75,6 +75,15 @@ struct MapView: View {
                     .frame(minWidth: 45, minHeight: 45)
                     .background(Color(UIColor.systemBackground))
                     .cornerRadius(5)
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "list.bullet")
+                    }
+                    .frame(minWidth: 45, minHeight: 45)
+                    .background(Color(UIColor.systemBackground))
+                    .cornerRadius(5)
                 }
                 .padding(.trailing, 5)
                 .padding(.bottom, 20)
