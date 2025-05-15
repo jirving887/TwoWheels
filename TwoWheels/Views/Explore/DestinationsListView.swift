@@ -10,16 +10,12 @@ import SwiftUI
 import SwiftData
 
 struct DestinationsListView: View {
-    
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Destination.title) private var destinations: [Destination]
-    
-    @State private var selectedDestination: Destination?
+    @Environment(ExploreViewModel.self) var viewModel
     
     var body: some View {
         NavigationStack {
-            if !destinations.isEmpty {
-                List(destinations) { destination in
+            if !viewModel.destinations.isEmpty {
+                List(viewModel.destinations, id: \.self) { destination in
                     HStack {
                         Image(systemName: "mappin.circle")
                             .imageScale(.large)
@@ -30,13 +26,13 @@ struct DestinationsListView: View {
                     }
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
-                            modelContext.delete(destination)
+                            viewModel.deleteDestination(destination)
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
                         
                         Button {
-                            selectedDestination = destination
+                            viewModel.editingDestination = destination
                         } label: {
                             Label("Edit", systemImage: "pencil")
                         }
@@ -51,25 +47,32 @@ struct DestinationsListView: View {
                 )
             }
         }
-        .sheet(item: $selectedDestination) { destination in
-            EditDestinationView(destination: destination, newDestination: false)
-        }
     }
 }
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Destination.self, configurations: config)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
     
-    for i in 1..<10 {
-        let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-        let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-        let laneStadiumDestination = Destination(laneStadiumItem)
-        laneStadiumDestination.title = "Lane Stadium"
+    for _ in 1..<10 {
+        let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
         
         container.mainContext.insert(laneStadiumDestination)
     }
     
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
+    
     return DestinationsListView()
         .modelContainer(container)
+        .environment(viewModel)
 }

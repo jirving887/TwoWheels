@@ -9,21 +9,20 @@ import SwiftUI
 import SwiftData
 
 struct TwoWheelsApp: App {
+    let container: ModelContainer
     
-    @State private var selectedTab: TabSelection = .map
+    init() {
+        do {
+            container = try ModelContainer(for: Destination.self)
+        } catch {
+            fatalError("Failed to create ModelContainer for Destination.")
+        }
+    }
     
     var body: some Scene {
         WindowGroup {
-            TabView(selection: $selectedTab) {
-                Tab("Map", systemImage: "map", value: .map) {
-                    SearchableMapView()
-                }
-                
-                Tab("Destinations", systemImage: "list.bullet", value: .list) {
-                    DestinationsListView()
-                }
-            }
+            ExploreView(modelContext: container.mainContext)
         }
-        .modelContainer(for: [Destination.self])
+        .modelContainer(container)
     }
 }

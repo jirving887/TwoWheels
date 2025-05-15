@@ -10,13 +10,12 @@ import SwiftData
 import SwiftUI
 
 struct LocationInfoView: View {
-    @Environment(SearchableMapViewModel.self) var viewModel
-    @Query private var destinations: [Destination]
+    @Environment(ExploreViewModel.self) var viewModel
     
     let location: Destination
     
     var saved: Bool {
-        destinations.contains(location)
+        viewModel.destinations.contains(location)
     }
     
     var body: some View {
@@ -44,12 +43,12 @@ struct LocationInfoView: View {
                     .frame(maxHeight: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(Color.blue)
+                .tint(.blue)
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 Button {
                     viewModel.isInfoSheetPresented = false
-                    viewModel.isEditSheetPresented = true
+                    viewModel.editingDestination = location
                 } label: {
                     VStack {
                         Image(systemName: saved ? "pencil" : "plus.circle")
@@ -74,7 +73,23 @@ struct LocationInfoView: View {
                         .frame(maxHeight: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(Color.orange)
+                    .tint(.orange)
+                    .frame(width: UIScreen.main.bounds.width / 4)
+                }
+                
+                if viewModel.tappedLocations.contains(location) {
+                    Button {
+                        viewModel.removePin(location)
+                    } label: {
+                        VStack {
+                            Image(systemName: "trash")
+                                .padding(2)
+                            Text("Delete Pin")
+                        }
+                        .frame(maxHeight: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.red)
                     .frame(width: UIScreen.main.bounds.width / 4)
                 }
             }
@@ -87,18 +102,30 @@ struct LocationInfoView: View {
         .presentationBackgroundInteraction(.enabled)
         .onAppear {
             Task {
-                location.address = await viewModel.address(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
+                location.address = await viewModel.addressFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude))
             }
         }
     }
 }
 
 #Preview {
-    let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-    let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-    let laneStadiumDestination = Destination(laneStadiumItem)
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
+    let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
 
-    LocationInfoView(location: laneStadiumDestination)
-        .environment(SearchableMapViewModel())
+    return LocationInfoView(location: laneStadiumDestination)
+        .modelContainer(container)
+        .environment(viewModel)
 }
 

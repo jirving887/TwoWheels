@@ -10,11 +10,13 @@ import SwiftData
 import MapKit
 
 struct EditDestinationView: View {
-    @Environment(\.modelContext) var modelContext
+    @Environment(ExploreViewModel.self) var viewModel
     @Environment(\.dismiss) private var dismiss
     
     @Bindable var destination: Destination
-    let newDestination: Bool
+    var newDestination: Bool {
+        !viewModel.destinations.contains(destination)
+    }
     
     var body: some View {
         NavigationStack {
@@ -38,9 +40,9 @@ struct EditDestinationView: View {
                 }
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button("Save") {
+                    Button(newDestination ? "Add" : "Save") {
                         if newDestination {
-                            modelContext.insert(destination)
+                            viewModel.addDestination(destination)
                         }
                         dismiss()
                     }
@@ -51,13 +53,24 @@ struct EditDestinationView: View {
 }
 
 #Preview {
-    let laneStadium = CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804)
-    let laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadium))
-    let laneStadiumDestination = Destination(laneStadiumItem)
+    let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
     
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Destination.self, configurations: config)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
     
-    EditDestinationView(destination: laneStadiumDestination, newDestination: true)
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
+    
+    return EditDestinationView(destination: laneStadiumDestination)
         .modelContainer(container)
+        .environment(viewModel)
 }

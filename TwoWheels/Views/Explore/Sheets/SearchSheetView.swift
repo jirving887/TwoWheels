@@ -1,17 +1,16 @@
 //
-//  MapSheetView.swift
+//  SearchSheetView.swift
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 1/24/24.
 //
 
 import MapKit
+import SwiftData
 import SwiftUI
 
-struct MapSheetView: View {
-    @Environment(SearchableMapViewModel.self) var viewModel
-    
-    @State private var search: String = ""
+struct SearchSheetView: View {
+    @Environment(ExploreViewModel.self) var viewModel
     
     var body: some View {
         @Bindable var viewModel = viewModel
@@ -19,11 +18,11 @@ struct MapSheetView: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                 
-                TextField("Search for a new destination", text: $search)
+                TextField("Search for a new destination", text: $viewModel.searchString)
                     .autocorrectionDisabled()
                     .onSubmit {
                         Task {
-                            await viewModel.search(for: search)
+                            await viewModel.search()
                         }
                     }
             }
@@ -35,10 +34,10 @@ struct MapSheetView: View {
             Spacer()
             
             List {
-                ForEach($viewModel.completions, id: \.self) { completion in
+                ForEach($viewModel.searchCompletions, id: \.self) { completion in
                     Button {
                         Task {
-                            await viewModel.search(for: completion.wrappedValue)
+                            await viewModel.search(with: completion.wrappedValue)
                         }
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
@@ -55,15 +54,29 @@ struct MapSheetView: View {
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
         }
-        .onChange(of: search) {
-            if search.count == 1 {
-                viewModel.update(region: viewModel.visibleRegion)
-            }
-            viewModel.update(queryFragment: search)
-        }
         .padding()
         .presentationDetents([.fraction(0.20), .medium, .large])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled(upThrough: .large))
     }
+}
+
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
+    
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService(),
+        geocoder: CLGeocoder()
+    )
+    
+    return SearchSheetView()
+        .environment(viewModel)
 }
