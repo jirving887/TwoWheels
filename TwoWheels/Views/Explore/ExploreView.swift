@@ -5,7 +5,7 @@
 //  Created by Jonathan Irving on 4/28/25.
 //
 
-import CoreLocation
+import MapKit
 import SwiftData
 import SwiftUI
 
@@ -14,7 +14,7 @@ struct ExploreView: View {
     
     init(modelContext: ModelContext) {
         let dataService = DataService<Destination>(modelContext: modelContext)
-        let searchService = SearchService()
+        let searchService = SearchService { MKLocalSearch(request: $0) }
         let geocoder = CLGeocoder()
         let viewModel = ExploreViewModel(
             dataService: dataService,
