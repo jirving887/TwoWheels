@@ -18,10 +18,10 @@ class ExploreViewModel {
     let completer = MKLocalSearchCompleter()
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
+    var isListSheetPresented = false
     var destinations: [Destination] = []
     var editingDestination: Destination?
     var tappedLocations: [Destination] = []
-    var selectedTab: TabSelection = .map
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
     
@@ -130,7 +130,7 @@ class ExploreViewModel {
     
     func selectDestinationFromList(_ destination: Destination) {
         selectedDestination = destination
-        selectedTab = .map
+        isListSheetPresented = false
     }
     
     private func search(_ request: MKLocalSearch.Request) async {
