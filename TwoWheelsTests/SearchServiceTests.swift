@@ -24,12 +24,3 @@ struct SearchServiceTests {
         #expect(localSearchSpy.startCount == 1)
     }
 }
-
-class MKLocalSearchSpy: MKLocalSearch {
-    var startCount = 0
-    
-    override func start() async throws -> MKLocalSearch.Response {
-        startCount += 1
-        return .init()
-    }
-}
