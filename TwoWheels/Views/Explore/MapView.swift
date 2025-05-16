@@ -77,7 +77,7 @@ struct MapView: View {
                     .cornerRadius(5)
                     
                     Button {
-                        
+                        viewModel.isListSheetPresented.toggle()
                     } label: {
                         Image(systemName: "list.bullet")
                     }

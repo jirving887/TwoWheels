@@ -25,29 +25,24 @@ struct ExploreView: View {
     }
     
     var body: some View {
-        TabView(selection: $viewModel.selectedTab) {
-            Tab("Map", systemImage: "map", value: .map) {
-                MapView()
+        MapView()
+            .sheet(isPresented: $viewModel.isSearchSheetPresented) {
+                SearchSheetView()
             }
-            
-            Tab("Destinations", systemImage: "list.bullet", value: .list) {
+            .sheet(item: $viewModel.editingDestination) {
+                EditDestinationView(destination: $0)
+            }
+            .sheet(isPresented: $viewModel.isInfoSheetPresented) {
+                viewModel.selectedDestination = nil
+            } content: {
+                if let location = viewModel.selectedDestination {
+                    LocationInfoView(location: location)
+                }
+            }
+            .sheet(isPresented: $viewModel.isListSheetPresented) {
                 DestinationsListView()
             }
-        }
-        .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-            SearchSheetView()
-        }
-        .sheet(item: $viewModel.editingDestination) {
-            EditDestinationView(destination: $0)
-        }
-        .sheet(isPresented: $viewModel.isInfoSheetPresented) {
-            viewModel.selectedDestination = nil
-        } content: {
-            if let location = viewModel.selectedDestination {
-                LocationInfoView(location: location)
-            }
-        }
-        .environment(viewModel)
+            .environment(viewModel)
     }
 }
 
