@@ -337,7 +337,7 @@ struct ExploreViewModelTests {
     func selectDestinationFromList_shouldChangeTabSelectionAndSetSelectedDestination() {
         sut.selectDestinationFromList(laneStadiumDestination)
         
-        #expect(sut.selectedTab == .map)
+        #expect(!sut.isListSheetPresented)
         #expect(sut.selectedDestination == laneStadiumDestination)
     }
 }
