@@ -13,21 +13,15 @@ struct SearchServiceTests {
 
     @Test
     func search_shouldCallStartOnce() async throws {
-        let sut = TestableSearchService()
+        var localSearchSpy = MKLocalSearchSpy(request: .init())
+        let sut = SearchService {
+            localSearchSpy = MKLocalSearchSpy(request: $0)
+            return localSearchSpy
+        }
         
         _ = try await sut.search(with: .init())
         
-        #expect(sut.localSearch.startCount == 1)
-    }
-
-}
-
-class TestableSearchService: SearchService {
-    var localSearch: MKLocalSearchSpy!
-    
-    override func makeLocalSearch(_ request: MKLocalSearch.Request) -> MKLocalSearchSpy {
-        localSearch = MKLocalSearchSpy(request: request)
-        return localSearch
+        #expect(localSearchSpy.startCount == 1)
     }
 }
 

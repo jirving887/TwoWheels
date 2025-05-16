@@ -12,15 +12,16 @@ protocol MapSearching {
 }
 
 class SearchService: MapSearching {
+    let makeLocalSearch: (MKLocalSearch.Request) -> MKLocalSearch
+    
+    init(makeLocalSearch: @escaping (MKLocalSearch.Request) -> MKLocalSearch) {
+        self.makeLocalSearch = makeLocalSearch
+    }
+    
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
         let search = makeLocalSearch(request)
         let response = try await search.start()
         
         return response.mapItems
     }
-    
-    func makeLocalSearch(_ request: MKLocalSearch.Request) -> MKLocalSearch {
-        return MKLocalSearch(request: request)
-    }
-
 }

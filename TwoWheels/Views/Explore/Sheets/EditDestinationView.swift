@@ -66,7 +66,7 @@ struct EditDestinationView: View {
     let dataService = DataService<Destination>(modelContext: container.mainContext)
     let viewModel = ExploreViewModel(
         dataService: dataService,
-        searchService: SearchService(),
+        searchService: SearchService { MKLocalSearch(request: $0) },
         geocoder: CLGeocoder()
     )
     
