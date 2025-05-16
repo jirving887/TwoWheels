@@ -13,13 +13,14 @@ protocol MapSearching {
 
 class SearchService: MapSearching {
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {
-        let search = MKLocalSearch(request: request)
+        let search = makeLocalSearch(request)
         let response = try await search.start()
         
         return response.mapItems
     }
-//    
-//    func address(from location: CLLocation) async throws -> [CLPlacemark] {
-//        try await CLGeocoder().reverseGeocodeLocation(location)
-//    }
+    
+    func makeLocalSearch(_ request: MKLocalSearch.Request) -> MKLocalSearch {
+        return MKLocalSearch(request: request)
+    }
+
 }
