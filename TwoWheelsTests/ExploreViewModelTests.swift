@@ -14,19 +14,24 @@ struct ExploreViewModelTests {
     let dataServiceSpy: DataServiceSpy
     let searchServiceSpy: SearchServiceSpy
     let geocoderSpy: GeocoderSpy
+    let directionsServiceSpy: DirectionsServiceSpy
     let sut: ExploreViewModel
     let laneStadiumDestination: Destination
+    let burrussHallDestination: Destination
     
     init() {
         dataServiceSpy = DataServiceSpy()
         searchServiceSpy = SearchServiceSpy()
         geocoderSpy = GeocoderSpy()
+        directionsServiceSpy = DirectionsServiceSpy()
         sut = ExploreViewModel(
             dataService: dataServiceSpy,
             searchService: searchServiceSpy,
-            geocoder: geocoderSpy
+            geocoder: geocoderSpy,
+            directionsService: directionsServiceSpy
         )
         laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
+        burrussHallDestination = Destination(latitude: 37.229000, longitude: -80.423710)
     }
     
     @Test
@@ -35,7 +40,8 @@ struct ExploreViewModelTests {
         let freshSut = ExploreViewModel(
             dataService: dataServiceSpy,
             searchService: searchServiceSpy,
-            geocoder: geocoderSpy
+            geocoder: geocoderSpy,
+            directionsService: directionsServiceSpy
         )
         #expect(freshSut.destinations == [laneStadiumDestination])
     }
@@ -307,7 +313,6 @@ struct ExploreViewModelTests {
     @Test
     func searhResultsUpdated_withMultipleResults_shouldChangeMapPosition() {
         sut.isSearchSheetPresented = true
-        let burrussHallDestination = Destination(latitude: 37.229000, longitude: -80.423710)
         sut.searchResults = [burrussHallDestination, laneStadiumDestination]
         
         #expect(!sut.isSearchSheetPresented)
@@ -342,9 +347,13 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func showDirections_shouldOpenDirectoinsOverviewVew() {
-        sut.showDirections()
+    func showDirections_shouldGetAndDisplayDirections() async throws {
+        directionsServiceSpy.expectedUserLocation = try #require (burrussHallDestination.mapItem)
+        sut.selectedDestination = laneStadiumDestination
         
+        await sut.showDirections()
+        
+        #expect(sut.route != nil)
         #expect(!sut.isInfoSheetPresented)
         #expect(sut.isDirectionsSheetPresented)
     }

@@ -67,7 +67,8 @@ struct EditDestinationView: View {
     let viewModel = ExploreViewModel(
         dataService: dataService,
         searchService: SearchService { MKLocalSearch(request: $0) },
-        geocoder: CLGeocoder()
+        geocoder: CLGeocoder(),
+        directionsService: DirectionsService()
     )
     
     return EditDestinationView(destination: laneStadiumDestination)

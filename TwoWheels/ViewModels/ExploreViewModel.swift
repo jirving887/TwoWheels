@@ -14,6 +14,7 @@ class ExploreViewModel {
     private let dataService: any DataManipulating<Destination>
     private let searchService: MapSearching
     private let geocoder: Geocoding
+    private let directionsService: Directing
     
     let completer = MKLocalSearchCompleter()
     var isSearchSheetPresented = false
@@ -25,6 +26,7 @@ class ExploreViewModel {
     var tappedLocations: [Destination] = []
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
+    var route: MKRoute?
     
     var searchResults: [Destination] = [] {
         didSet {
@@ -50,10 +52,16 @@ class ExploreViewModel {
         }
     }
     
-    init(dataService: any DataManipulating<Destination>, searchService: MapSearching, geocoder: Geocoding) {
+    init(
+        dataService: any DataManipulating<Destination>,
+        searchService: MapSearching,
+        geocoder: Geocoding,
+        directionsService: Directing
+    ) {
         self.dataService = dataService
         self.searchService = searchService
         self.geocoder = geocoder
+        self.directionsService = directionsService
         destinations = dataService.fetch()
     }
     
@@ -134,7 +142,16 @@ class ExploreViewModel {
         isListSheetPresented = false
     }
     
-    func showDirections() {
+    func showDirections() async {
+        guard let destination = selectedDestination?.mapItem else { return }
+        let request = MKDirections.Request()
+        request.source = try? await directionsService.getUserMapItem()
+        request.destination = destination
+        do {
+            route = try await directionsService.getDirections(with: request)
+        } catch {
+            print("Could not get directions, error: \(error)")
+        }
         isInfoSheetPresented = false
         isDirectionsSheetPresented = true
     }
