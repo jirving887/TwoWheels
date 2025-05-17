@@ -19,6 +19,7 @@ class ExploreViewModel {
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
     var isListSheetPresented = false
+    var isDirectionsSheetPresented = false
     var destinations: [Destination] = []
     var editingDestination: Destination?
     var tappedLocations: [Destination] = []
@@ -131,6 +132,11 @@ class ExploreViewModel {
     func selectDestinationFromList(_ destination: Destination) {
         selectedDestination = destination
         isListSheetPresented = false
+    }
+    
+    func showDirections() {
+        isInfoSheetPresented = false
+        isDirectionsSheetPresented = true
     }
     
     private func search(_ request: MKLocalSearch.Request) async {

@@ -340,6 +340,14 @@ struct ExploreViewModelTests {
         #expect(!sut.isListSheetPresented)
         #expect(sut.selectedDestination == laneStadiumDestination)
     }
+    
+    @Test
+    func showDirections_shouldOpenDirectoinsOverviewVew() {
+        sut.showDirections()
+        
+        #expect(!sut.isInfoSheetPresented)
+        #expect(sut.isDirectionsSheetPresented)
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {

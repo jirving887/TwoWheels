@@ -33,12 +33,12 @@ struct LocationInfoView: View {
             
             HStack(alignment: .center, spacing: 10.0) {
                 Button {
-                    // TODO: Implement navigation initiation
+                    viewModel.showDirections()
                 } label: {
                     VStack {
                         Image(systemName: "road.lanes.curved.right")
                             .padding(2)
-                        Text("Navigate")
+                        Text("Get Directions")
                     }
                     .frame(maxHeight: .infinity)
                 }

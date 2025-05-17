@@ -122,23 +122,26 @@ struct ExploreView: View {
                 }
             )
         }
-            .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-                SearchSheetView()
+        .sheet(isPresented: $viewModel.isSearchSheetPresented) {
+            SearchSheetView()
+        }
+        .sheet(item: $viewModel.editingDestination) {
+            EditDestinationView(destination: $0)
+        }
+        .sheet(isPresented: $viewModel.isInfoSheetPresented) {
+            viewModel.selectedDestination = nil
+        } content: {
+            if let location = viewModel.selectedDestination {
+                LocationInfoView(location: location)
             }
-            .sheet(item: $viewModel.editingDestination) {
-                EditDestinationView(destination: $0)
-            }
-            .sheet(isPresented: $viewModel.isInfoSheetPresented) {
-                viewModel.selectedDestination = nil
-            } content: {
-                if let location = viewModel.selectedDestination {
-                    LocationInfoView(location: location)
-                }
-            }
-            .sheet(isPresented: $viewModel.isListSheetPresented) {
-                DestinationsListView()
-            }
-            .environment(viewModel)
+        }
+        .sheet(isPresented: $viewModel.isListSheetPresented) {
+            DestinationsListView()
+        }
+        .sheet(isPresented: $viewModel.isDirectionsSheetPresented) {
+            DirectionsOverviewView()
+        }
+        .environment(viewModel)
     }
 }
 
