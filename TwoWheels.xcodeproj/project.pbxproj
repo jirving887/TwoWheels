@@ -493,6 +493,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TwoWheels/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "TwoWheels needs your location to display on the map and improve navigation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "TwoWheels needs your location to display on the map and improve navigation.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -506,7 +507,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = com.JITech.TwoWheels;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NCT.TwoWheels;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -529,6 +530,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TwoWheels/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "TwoWheels needs your location to display on the map and improve navigation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "TwoWheels needs your location to display on the map and improve navigation.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -542,7 +544,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = com.JITech.TwoWheels;
+				PRODUCT_BUNDLE_IDENTIFIER = com.NCT.TwoWheels;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
