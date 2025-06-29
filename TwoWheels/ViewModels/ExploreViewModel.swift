@@ -144,7 +144,10 @@ class ExploreViewModel {
     }
     
     func showDirections() async {
-        guard let destination = selectedDestination?.mapItem else { return }
+        guard let destination = selectedDestination?.mapItem else {
+            isDirectionsAlertPresented = true
+            return
+        }
         let request = MKDirections.Request()
         request.source = try? await directionsService.getUserMapItem()
         request.destination = destination

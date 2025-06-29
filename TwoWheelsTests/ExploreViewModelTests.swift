@@ -370,6 +370,16 @@ struct ExploreViewModelTests {
         #expect(!sut.isDirectionsSheetPresented)
         
     }
+    
+    @Test
+    func showDirections_withNoSelectedDestination_shouldShowAlert() async throws {
+        sut.selectedDestination = nil
+        
+        await sut.showDirections()
+        
+        #expect(sut.isDirectionsAlertPresented)
+        #expect(!sut.isDirectionsSheetPresented)
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
