@@ -348,6 +348,14 @@ struct ExploreViewModelTests {
     
     @Test
     func showDirections_shouldGetAndDisplayDirections() async throws {
+        sut.selectedDestination = laneStadiumDestination
+        
+        await sut.showDirections()
+        
+        #expect(sut.route != nil)
+        #expect(!sut.isInfoSheetPresented)
+        #expect(sut.isDirectionsSheetPresented)
+    }
         directionsServiceSpy.expectedUserLocation = try #require (burrussHallDestination.mapItem)
         sut.selectedDestination = laneStadiumDestination
         
