@@ -8,16 +8,24 @@
 import MapKit
 
 protocol Directing {
-    func getDirections(with request: MKDirections.Request) async throws -> MKRoute
-    func getUserMapItem() async throws -> MKMapItem
+    func getDirections(with request: MKDirections.Request) async throws -> MKRoute?
+    func getUserMapItem() async throws -> MKMapItem?
 }
 
 class DirectionsService: Directing {
-    func getDirections(with request: MKDirections.Request) async throws -> MKRoute {
-        .init()
+    let makeMKDirections: (MKDirections.Request) -> MKDirections
+    
+    init(makeMKDirections: @escaping (MKDirections.Request) -> MKDirections) {
+        self.makeMKDirections = makeMKDirections
     }
     
-    func getUserMapItem() async throws -> MKMapItem {
+    func getDirections(with request: MKDirections.Request) async throws -> MKRoute? {
+        let directions = makeMKDirections(request)
+        let response = try await directions.calculate()
+        return response.routes.first
+    }
+    
+    func getUserMapItem() async throws -> MKMapItem? {
         .init()
     }
 }

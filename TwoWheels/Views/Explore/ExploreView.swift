@@ -18,7 +18,7 @@ struct ExploreView: View {
         let dataService = DataService<Destination>(modelContext: modelContext)
         let searchService = SearchService { MKLocalSearch(request: $0) }
         let geocoder = CLGeocoder()
-        let directionsService = DirectionsService()
+        let directionsService = DirectionsService { MKDirections(request: $0)}
         let viewModel = ExploreViewModel(
             dataService: dataService,
             searchService: searchService,

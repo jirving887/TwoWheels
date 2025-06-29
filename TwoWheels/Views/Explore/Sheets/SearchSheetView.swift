@@ -61,23 +61,23 @@ struct SearchSheetView: View {
     }
 }
 
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container: ModelContainer
-    do {
-        container = try ModelContainer(for: Destination.self, configurations: config)
-    } catch {
-        fatalError("Failed to create in-memory container: \(error)")
-    }
-    
-    let dataService = DataService<Destination>(modelContext: container.mainContext)
-    let viewModel = ExploreViewModel(
-        dataService: dataService,
-        searchService: SearchService { MKLocalSearch(request: $0) },
-        geocoder: CLGeocoder(),
-        directionsService: DirectionsService()
-    )
-    
-    return SearchSheetView()
-        .environment(viewModel)
-}
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container: ModelContainer
+//    do {
+//        container = try ModelContainer(for: Destination.self, configurations: config)
+//    } catch {
+//        fatalError("Failed to create in-memory container: \(error)")
+//    }
+//    
+//    let dataService = DataService<Destination>(modelContext: container.mainContext)
+//    let viewModel = ExploreViewModel(
+//        dataService: dataService,
+//        searchService: SearchService { MKLocalSearch(request: $0) },
+//        geocoder: CLGeocoder(),
+//        directionsService: DirectionsService()
+//    )
+//    
+//    return SearchSheetView()
+//        .environment(viewModel)
+//}

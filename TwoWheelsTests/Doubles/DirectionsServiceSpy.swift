@@ -14,7 +14,7 @@ class DirectionsServiceSpy: Directing {
     var expectedRoute = MKRoute()
     var expectedUserLocation = MKMapItem()
     
-    func getDirections(with request: MKDirections.Request) async throws -> MKRoute {
+    func getDirections(with request: MKDirections.Request) async throws -> MKRoute? {
         if let error {
             errorCount += 1
             throw error
@@ -22,7 +22,7 @@ class DirectionsServiceSpy: Directing {
         return expectedRoute
     }
     
-    func getUserMapItem() async throws -> MKMapItem {
+    func getUserMapItem() async throws -> MKMapItem? {
         expectedUserLocation
     }
 }
