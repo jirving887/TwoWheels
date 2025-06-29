@@ -21,6 +21,7 @@ class ExploreViewModel {
     var isInfoSheetPresented = false
     var isListSheetPresented = false
     var isDirectionsSheetPresented = false
+    var isDirectionsAlertPresented = false
     var destinations: [Destination] = []
     var editingDestination: Destination?
     var tappedLocations: [Destination] = []
@@ -151,6 +152,8 @@ class ExploreViewModel {
             route = try await directionsService.getDirections(with: request)
         } catch {
             print("Could not get directions, error: \(error)")
+            isDirectionsAlertPresented = true
+            return
         }
         isInfoSheetPresented = false
         isDirectionsSheetPresented = true

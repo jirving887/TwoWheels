@@ -356,6 +356,20 @@ struct ExploreViewModelTests {
         #expect(!sut.isInfoSheetPresented)
         #expect(sut.isDirectionsSheetPresented)
     }
+    
+    @Test
+    func showDirections_withError_shouldShowAlert() async {
+        directionsServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
+        sut.selectedDestination = laneStadiumDestination
+        
+        await sut.showDirections()
+         
+        #expect(directionsServiceSpy.errorCount == 1)
+        #expect(sut.isDirectionsAlertPresented)
+        #expect(sut.isInfoSheetPresented)
+        #expect(!sut.isDirectionsSheetPresented)
+        
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
