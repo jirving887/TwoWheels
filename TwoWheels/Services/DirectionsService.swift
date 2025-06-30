@@ -12,22 +12,53 @@ protocol Directing {
     func getUserMapItem() async throws -> MKMapItem?
 }
 
+protocol Locatable {
+    var location: CLLocation? { get }
+}
+
 class DirectionsService: Directing {
-    let makeMKDirections: (MKDirections.Request) -> MKDirections
+    let directions: (MKDirections.Request) -> MKDirections
+    let updates: () -> any AsyncSequence
     
-    init(makeMKDirections: @escaping (MKDirections.Request) -> MKDirections) {
-        self.makeMKDirections = makeMKDirections
+    init(
+        directions: @escaping (MKDirections.Request) -> MKDirections,
+        updates: @escaping () -> any AsyncSequence
+    ) {
+        self.directions = directions
+        self.updates = updates
     }
     
     func getDirections(with request: MKDirections.Request) async throws -> MKRoute? {
-        let directions = makeMKDirections(request)
+        let directions = directions(request)
         let response = try await directions.calculate()
         return response.routes.first
     }
     
     func getUserMapItem() async throws -> MKMapItem? {
-        .init()
+        let updates = self.updates()
+        
+        do {
+            let update = try await updates.first { locationUpdate in
+                guard let location = locationUpdate as? Locatable,
+                      location.location != nil else {
+                    return false
+                }
+                return true
+            }
+            if let location = update as? Locatable {
+                return makeMapItem(from: location)
+            }
+        } catch {
+            print("failed to get user location with error: \(error)")
+        }
+        return nil
+    }
+    
+    private func makeMapItem(from location: Locatable) -> MKMapItem? {
+        guard let coordinate = location.location?.coordinate else { return nil }
+        let placemark = MKPlacemark(coordinate: coordinate)
+        return MKMapItem(placemark: placemark)
     }
 }
 
-
+extension CLLocationUpdate: Locatable {}
