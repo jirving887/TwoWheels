@@ -12,10 +12,6 @@ protocol Directing {
     func getUserMapItem() async throws -> MKMapItem?
 }
 
-protocol Locatable {
-    var location: CLLocation? { get }
-}
-
 class DirectionsService: Directing {
     let directions: (MKDirections.Request) -> MKDirections
     let updates: () -> any AsyncSequence
@@ -38,14 +34,14 @@ class DirectionsService: Directing {
         let updates = self.updates()
         
         do {
-            let update = try await updates.first { locationUpdate in
-                guard let location = locationUpdate as? Locatable,
-                      location.location != nil else {
-                    return false
+            let userLocation = try await updates.first { update in
+                if let location = update as? Locatable,
+                      location.location != nil {
+                    return true
                 }
-                return true
+                return false
             }
-            if let location = update as? Locatable {
+            if let location = userLocation as? Locatable {
                 return makeMapItem(from: location)
             }
         } catch {
@@ -59,6 +55,10 @@ class DirectionsService: Directing {
         let placemark = MKPlacemark(coordinate: coordinate)
         return MKMapItem(placemark: placemark)
     }
+}
+
+protocol Locatable {
+    var location: CLLocation? { get }
 }
 
 extension CLLocationUpdate: Locatable {}
