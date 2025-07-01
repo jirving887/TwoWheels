@@ -17,10 +17,15 @@ struct DirectionsOverviewView: View {
             Map() {
                 if let route = viewModel.route {
                     MapPolyline(route)
-                        .stroke(Color.blue, lineWidth: 5)
+                        .stroke(.blue, style: StrokeStyle(
+                                lineWidth: 5,
+                                lineCap: .round,
+                                lineJoin: .round
+                            )
+                        )
                 }
             }
-                .cornerRadius(20)
+            .cornerRadius(20)
             
             HStack {
                 GroupBox {
