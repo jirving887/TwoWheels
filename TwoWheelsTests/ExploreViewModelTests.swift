@@ -385,6 +385,13 @@ struct ExploreViewModelTests {
     func distance_withMeters_shouldReturnDistanceInMiles() {
         #expect(sut.distance(from: 1610) == "1.00 mi")
     }
+    
+    @Test
+    func time_withSeconds_shouldReturnTimeInHoursMinutes() {
+        #expect(sut.time(from: 3600) == "1h")
+        #expect(sut.time(from: 217800) == "2d, 12h, 30m")
+        #expect(sut.time(from: 1800) == "30m")
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {

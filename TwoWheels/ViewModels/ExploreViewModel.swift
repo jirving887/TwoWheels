@@ -27,9 +27,15 @@ class ExploreViewModel {
     var tappedLocations: [Destination] = []
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
-    var route: MKRoute?
     var routeDistance = ""
     var routeTime = ""
+    
+    var route: MKRoute? {
+        didSet {
+            routeDistance = distance(from: route?.distance ?? 0)
+            routeTime = time(from: route?.expectedTravelTime ?? 0)
+        }
+    }
     
     var searchResults: [Destination] = [] {
         didSet {
@@ -167,6 +173,18 @@ class ExploreViewModel {
     func distance(from meters: Double) -> String {
         let miles = meters / 1609.34
         return  String(format: "%.2f mi", miles)
+    }
+    
+    func time(from seconds: Double) -> String {
+        let time = Int(seconds)
+        let days: Int = time / 86400
+        let hours: Int = (time % 86400) / 3600
+        let minutes: Int = ((time % 86400) % 3600) / 60
+        var result: [String] = []
+        if days > 0 { result.append("\(days)d") }
+        if hours > 0 { result.append("\(hours)h") }
+        if minutes > 0 { result.append("\(minutes)m") }
+        return result.joined(separator: ", ")
     }
     
     private func search(_ request: MKLocalSearch.Request) async {
