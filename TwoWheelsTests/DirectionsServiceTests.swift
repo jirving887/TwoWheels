@@ -17,7 +17,7 @@ struct DirectionsServiceTests {
         let sut = DirectionsService {
             directionsSpy = MKDirectionsSpy(request: $0)
             return directionsSpy
-        } updates: { LocationGenerator(current: .init()) }
+        } updates: { CLLocationUpdatesFake(current: .init()) }
         
         _ = try await sut.getDirections(with: .init())
         
@@ -31,7 +31,8 @@ struct DirectionsServiceTests {
         let sut = DirectionsService {
             directionsSpy = MKDirectionsSpy(request: $0)
             return directionsSpy
-        } updates: { LocationGenerator(current: Location(location: laneStadiumLocation))
+        } updates: {
+            CLLocationUpdatesFake(current: CLLocationUpdateFake(location: laneStadiumLocation))
         }
         
         let result = try await sut.getUserMapItem()
@@ -39,20 +40,4 @@ struct DirectionsServiceTests {
         #expect(result?.placemark.coordinate.latitude == laneStadiumLocation.coordinate.latitude)
         #expect(result?.placemark.coordinate.longitude == laneStadiumLocation.coordinate.longitude)
     }
-}
-
-struct LocationGenerator: AsyncSequence, AsyncIteratorProtocol {
-    var current = Location()
-
-    mutating func next() async -> Location? {
-        return current
-    }
-
-    func makeAsyncIterator() -> LocationGenerator {
-        self
-    }
-}
-
-struct Location: Locatable {
-    var location: CLLocation?
 }
