@@ -380,6 +380,11 @@ struct ExploreViewModelTests {
         #expect(sut.isDirectionsAlertPresented)
         #expect(!sut.isDirectionsSheetPresented)
     }
+    
+    @Test
+    func distance_withMeters_shouldReturnDistanceInMiles() {
+        #expect(sut.distance(from: 1610) == "1.00 mi")
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {

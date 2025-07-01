@@ -28,6 +28,8 @@ class ExploreViewModel {
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
     var route: MKRoute?
+    var routeDistance = ""
+    var routeTime = ""
     
     var searchResults: [Destination] = [] {
         didSet {
@@ -160,6 +162,11 @@ class ExploreViewModel {
         }
         isInfoSheetPresented = false
         isDirectionsSheetPresented = true
+    }
+    
+    func distance(from meters: Double) -> String {
+        let miles = meters / 1609.34
+        return  String(format: "%.2f mi", miles)
     }
     
     private func search(_ request: MKLocalSearch.Request) async {
