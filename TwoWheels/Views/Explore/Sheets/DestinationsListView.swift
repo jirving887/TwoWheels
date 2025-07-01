@@ -55,30 +55,34 @@ struct DestinationsListView: View {
     }
 }
 
-//#Preview {
-//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//    let container: ModelContainer
-//    do {
-//        container = try ModelContainer(for: Destination.self, configurations: config)
-//    } catch {
-//        fatalError("Failed to create in-memory container: \(error)")
-//    }
-//    
-//    for _ in 1..<10 {
-//        let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
-//        
-//        container.mainContext.insert(laneStadiumDestination)
-//    }
-//    
-//    let dataService = DataService<Destination>(modelContext: container.mainContext)
-//    let viewModel = ExploreViewModel(
-//        dataService: dataService,
-//        searchService: SearchService { MKLocalSearch(request: $0) },
-//        geocoder: CLGeocoder(),
-//        directionsService: DirectionsService()
-//    )
-//    
-//    return DestinationsListView()
-//        .modelContainer(container)
-//        .environment(viewModel)
-//}
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
+    
+    for _ in 1..<10 {
+        let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
+        
+        container.mainContext.insert(laneStadiumDestination)
+    }
+    
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService { MKLocalSearch(request: $0) },
+        geocoder: CLGeocoder(),
+        directionsService: DirectionsService {
+            MKDirections(request: $0)
+        } updates: {
+            CLLocationUpdate.liveUpdates()
+        }
+    )
+    
+    return DestinationsListView()
+        .modelContainer(container)
+        .environment(viewModel)
+}

@@ -110,25 +110,29 @@ struct LocationInfoView: View {
     }
 }
 
-//#Preview {
-//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//    let container: ModelContainer
-//    do {
-//        container = try ModelContainer(for: Destination.self, configurations: config)
-//    } catch {
-//        fatalError("Failed to create in-memory container: \(error)")
-//    }
-//    let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
-//    let dataService = DataService<Destination>(modelContext: container.mainContext)
-//    let viewModel = ExploreViewModel(
-//        dataService: dataService,
-//        searchService: SearchService { MKLocalSearch(request: $0) },
-//        geocoder: CLGeocoder(),
-//        directionsService: DirectionsService()
-//    )
-//
-//    return LocationInfoView(location: laneStadiumDestination)
-//        .modelContainer(container)
-//        .environment(viewModel)
-//}
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container: ModelContainer
+    do {
+        container = try ModelContainer(for: Destination.self, configurations: config)
+    } catch {
+        fatalError("Failed to create in-memory container: \(error)")
+    }
+    let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
+    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let viewModel = ExploreViewModel(
+        dataService: dataService,
+        searchService: SearchService { MKLocalSearch(request: $0) },
+        geocoder: CLGeocoder(),
+        directionsService: DirectionsService {
+            MKDirections(request: $0)
+        } updates: {
+            CLLocationUpdate.liveUpdates()
+        }
+    )
+
+    return LocationInfoView(location: laneStadiumDestination)
+        .modelContainer(container)
+        .environment(viewModel)
+}
 
