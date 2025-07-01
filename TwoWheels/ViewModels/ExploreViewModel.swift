@@ -32,8 +32,8 @@ class ExploreViewModel {
     
     var route: MKRoute? {
         didSet {
-            routeDistance = distance(from: route?.distance ?? 0)
-            routeTime = time(from: route?.expectedTravelTime ?? 0)
+            updateDistance(with: route?.distance ?? 0)
+            updateTime(with: route?.expectedTravelTime ?? 0)
         }
     }
     
@@ -170,12 +170,12 @@ class ExploreViewModel {
         isDirectionsSheetPresented = true
     }
     
-    func distance(from meters: Double) -> String {
+    func updateDistance(with meters: Double) {
         let miles = meters / 1609.34
-        return  String(format: "%.2f mi", miles)
+        routeDistance = String(format: "%.2f mi", miles)
     }
     
-    func time(from seconds: Double) -> String {
+    func updateTime(with seconds: Double) {
         let time = Int(seconds)
         let days: Int = time / 86400
         let hours: Int = (time % 86400) / 3600
@@ -184,7 +184,7 @@ class ExploreViewModel {
         if days > 0 { result.append("\(days)d") }
         if hours > 0 { result.append("\(hours)h") }
         if minutes > 0 { result.append("\(minutes)m") }
-        return result.joined(separator: ", ")
+        routeTime = result.joined(separator: ", ")
     }
     
     private func search(_ request: MKLocalSearch.Request) async {

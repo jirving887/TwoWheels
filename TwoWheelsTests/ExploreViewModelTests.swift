@@ -383,14 +383,24 @@ struct ExploreViewModelTests {
     
     @Test
     func distance_withMeters_shouldReturnDistanceInMiles() {
-        #expect(sut.distance(from: 1610) == "1.00 mi")
+        sut.updateDistance(with: 1610)
+        
+        #expect(sut.routeDistance == "1.00 mi")
     }
     
     @Test
     func time_withSeconds_shouldReturnTimeInHoursMinutes() {
-        #expect(sut.time(from: 3600) == "1h")
-        #expect(sut.time(from: 217800) == "2d, 12h, 30m")
-        #expect(sut.time(from: 1800) == "30m")
+        sut.updateTime(with: 3600)
+        
+        #expect(sut.routeTime == "1h")
+        
+        sut.updateTime(with: 217800)
+        
+        #expect(sut.routeTime == "2d, 12h, 30m")
+        
+        sut.updateTime(with: 1800)
+        
+        #expect(sut.routeTime == "30m")
     }
 }
 
