@@ -382,7 +382,7 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func updateDistance_withMeters_shouldReturnDistanceInMiles() {
+    func updateDistance_withMeters_shouldSetRouteDistance() {
         sut.updateDistance(with: 1610)
         
         #expect(sut.routeDistance == "1.00 mi")
@@ -394,10 +394,11 @@ struct ExploreViewModelTests {
         (seconds: 1800, expectedTime: "30m"),
         (seconds: 86400, expectedTime: "1d"),
     ])
-    func updateTime_withSeconds_shouldReturnTimeInHoursMinutes(seconds: Double, expectedTime: String) {
+    func updateTime_withSeconds_shouldSetRouteTimeAndEta(seconds: Double, expectedTime: String) {
         sut.updateTime(with: seconds)
         
         #expect(sut.routeTime == expectedTime)
+        #expect(sut.eta != "")
     }
 }
 

@@ -29,6 +29,7 @@ class ExploreViewModel {
     var position = MapCameraPosition.userLocation(fallback: .automatic)
     var routeDistance = ""
     var routeTime = ""
+    var eta = ""
     
     var route: MKRoute? {
         didSet {
@@ -185,6 +186,7 @@ class ExploreViewModel {
         if hours > 0 { result.append("\(hours)h") }
         if minutes > 0 { result.append("\(minutes)m") }
         routeTime = result.joined(separator: ", ")
+        eta = Date().addingTimeInterval(seconds).formatted(date: .omitted, time: .shortened)
     }
     
     private func search(_ request: MKLocalSearch.Request) async {
