@@ -8,6 +8,7 @@
 import CoreLocation
 import Foundation
 
+@MainActor
 protocol Geocoding {
     func reverseGeocodeLocation(_ location: CLLocation) async throws -> [CLPlacemark]
 }

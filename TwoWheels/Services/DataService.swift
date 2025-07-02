@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+@MainActor
 protocol DataManipulating<T> {
     associatedtype T : PersistentModel
     func fetch() -> [T]
@@ -16,16 +17,16 @@ protocol DataManipulating<T> {
 }
 
 class DataService<T : PersistentModel>: DataManipulating {
-    private let modelContext: ModelContext
+    private let modelContainer: ModelContainer
     
-    init(modelContext: ModelContext) {
-        self.modelContext = modelContext
+    init(modelContainer: ModelContainer) {
+        self.modelContainer = modelContainer
     }
     
     func fetch() -> [T] {
         do {
             let descriptor = FetchDescriptor<T>()
-            return try modelContext.fetch(descriptor)
+            return try modelContainer.mainContext.fetch(descriptor)
         } catch {
             print("Failed to fetch data with error: \n\(error)")
             return []
@@ -33,10 +34,10 @@ class DataService<T : PersistentModel>: DataManipulating {
     }
     
     func add(_ data: T) {
-        modelContext.insert(data)
+        modelContainer.mainContext.insert(data)
     }
     
     func remove(_ data: T) {
-        modelContext.delete(data)
+        modelContainer.mainContext.delete(data)
     }
 }

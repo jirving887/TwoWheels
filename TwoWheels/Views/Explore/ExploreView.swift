@@ -14,8 +14,8 @@ struct ExploreView: View {
     
     let manager = CLLocationManager()
     
-    init(modelContext: ModelContext) {
-        let dataService = DataService<Destination>(modelContext: modelContext)
+    init(modelContainer: ModelContainer) {
+        let dataService = DataService<Destination>(modelContainer: modelContainer)
         let searchService = SearchService { MKLocalSearch(request: $0) }
         let geocoder = CLGeocoder()
         let directionsService = DirectionsService {
@@ -166,5 +166,5 @@ struct ExploreView: View {
         fatalError("Failed to create in-memory container: \(error)")
     }
     
-    return ExploreView(modelContext: container.mainContext)
+    return ExploreView(modelContainer: container)
 }

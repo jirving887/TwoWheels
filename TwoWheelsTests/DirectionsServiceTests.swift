@@ -5,10 +5,11 @@
 //  Created by Jonathan Irving on 6/29/25.
 //
 
-import MapKit
+@preconcurrency import MapKit
 import Testing
 @testable import TwoWheels
 
+@MainActor
 struct DirectionsServiceTests {
 
     @Test
