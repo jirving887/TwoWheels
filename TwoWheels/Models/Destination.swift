@@ -14,8 +14,6 @@ class Destination : MapSelectable {
     
     @Transient
     var feature: MapFeature?
-    @Transient
-    var mapItem: MKMapItem?
     var title: String
     var address: String
     var longitude: Double
@@ -27,7 +25,6 @@ class Destination : MapSelectable {
     }
     
     init(_ mapItem: MKMapItem) {
-        self.mapItem = mapItem
         title = mapItem.name ?? ""
         address = ""
         latitude = mapItem.placemark.coordinate.latitude

@@ -18,7 +18,9 @@ struct ExploreViewModelTests {
     let directionsServiceSpy: DirectionsServiceSpy
     let sut: ExploreViewModel
     let laneStadiumDestination: Destination
+    let laneStadiumItem: MKMapItem
     let burrussHallDestination: Destination
+    let burrussHallItem: MKMapItem
     
     init() {
         dataServiceSpy = DataServiceSpy()
@@ -32,7 +34,9 @@ struct ExploreViewModelTests {
             directionsService: directionsServiceSpy
         )
         laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
+        laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadiumDestination.coordinate))
         burrussHallDestination = Destination(latitude: 37.229000, longitude: -80.423710)
+        burrussHallItem = MKMapItem(placemark: MKPlacemark(coordinate: burrussHallDestination.coordinate))
     }
     
     @Test
@@ -107,8 +111,11 @@ struct ExploreViewModelTests {
             title: "Lane Stadium 2"
         )
         let expectedSearchResults = [destination1, destination2]
-        searchServiceSpy.expectedSearchResults = expectedSearchResults.map {
-            $0.mapItem ?? MKMapItem()
+        searchServiceSpy.expectedSearchResults = expectedSearchResults.map { result in
+            let placemark = MKPlacemark(coordinate: result.coordinate)
+            let item = MKMapItem(placemark: placemark)
+            item.name = result.title
+            return item
         }
         sut.searchString = "Lane Stadium"
         
@@ -132,8 +139,11 @@ struct ExploreViewModelTests {
             title: "Lane Stadium 2"
         )
         let expectedSearchResults = [destination1, destination2]
-        searchServiceSpy.expectedSearchResults = expectedSearchResults.map {
-            $0.mapItem ?? MKMapItem()
+        searchServiceSpy.expectedSearchResults = expectedSearchResults.map { result in
+            let placemark = MKPlacemark(coordinate: result.coordinate)
+            let item = MKMapItem(placemark: placemark)
+            item.name = result.title
+            return item
         }
         
         await sut.search(with: completion)
@@ -250,27 +260,7 @@ struct ExploreViewModelTests {
         
         #expect(sut.isInfoSheetPresented)
         #expect(!sut.isSearchSheetPresented)
-        #expect(sut.position.item == laneStadiumDestination.mapItem)
-    }
-    
-    @Test
-    func selectedDestinationUpdated_withInvalidDestinationMapItem_shouldUpdateMapPositionAndSheets() {
-        sut.isInfoSheetPresented = false
-        sut.isSearchSheetPresented = true
-        laneStadiumDestination.mapItem = nil
-        sut.selectedDestination = laneStadiumDestination
-        let laneStadiumRegion = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(
-                latitude: 37.22001,
-                longitude: -80.41804
-            ),
-            latitudinalMeters: 200,
-            longitudinalMeters: 200
-        )
-        
-        #expect(sut.isInfoSheetPresented)
-        #expect(!sut.isSearchSheetPresented)
-        #expect(sut.position.region == laneStadiumRegion)
+        #expect(sut.position.item == laneStadiumItem)
     }
     
     @Test
@@ -308,16 +298,23 @@ struct ExploreViewModelTests {
         
         #expect(!sut.isSearchSheetPresented)
         #expect(sut.selectedDestination == laneStadiumDestination)
-        #expect(sut.position.item == laneStadiumDestination.mapItem)
+        #expect(sut.position.item == laneStadiumItem)
     }
     
     @Test
-    func searhResultsUpdated_withMultipleResults_shouldChangeMapPosition() {
+    func searhResultsUpdated_withMultipleResults_shouldChangeMapPositionAndDeselectDestinations() {
         sut.isSearchSheetPresented = true
+        sut.selectedDestination = laneStadiumDestination
+        let burrussHallRegion = MKCoordinateRegion(
+            center: burrussHallDestination.coordinate,
+            latitudinalMeters: 10000,
+            longitudinalMeters: 10000
+        )
         sut.searchResults = [burrussHallDestination, laneStadiumDestination]
         
         #expect(!sut.isSearchSheetPresented)
-        #expect(sut.position.item == burrussHallDestination.mapItem)
+        #expect(sut.selectedDestination == nil)
+        #expect(sut.position.region == burrussHallRegion)
     }
     
     @Test
