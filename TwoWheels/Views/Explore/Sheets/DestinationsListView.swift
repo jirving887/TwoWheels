@@ -74,7 +74,12 @@ struct DestinationsListView: View {
     let viewModel = ExploreViewModel(
         dataService: dataService,
         searchService: SearchService { MKLocalSearch(request: $0) },
-        geocoder: CLGeocoder()
+        geocoder: CLGeocoder(),
+        directionsService: DirectionsService {
+            MKDirections(request: $0)
+        } updates: {
+            CLLocationUpdate.liveUpdates()
+        }
     )
     
     return DestinationsListView()

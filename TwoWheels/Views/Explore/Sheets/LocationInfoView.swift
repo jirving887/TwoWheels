@@ -33,12 +33,14 @@ struct LocationInfoView: View {
             
             HStack(alignment: .center, spacing: 10.0) {
                 Button {
-                    // TODO: Implement navigation initiation
+                    Task {
+                        await viewModel.showDirections()
+                    }
                 } label: {
                     VStack {
                         Image(systemName: "road.lanes.curved.right")
                             .padding(2)
-                        Text("Navigate")
+                        Text("Get Directions")
                     }
                     .frame(maxHeight: .infinity)
                 }
@@ -121,7 +123,12 @@ struct LocationInfoView: View {
     let viewModel = ExploreViewModel(
         dataService: dataService,
         searchService: SearchService { MKLocalSearch(request: $0) },
-        geocoder: CLGeocoder()
+        geocoder: CLGeocoder(),
+        directionsService: DirectionsService {
+            MKDirections(request: $0)
+        } updates: {
+            CLLocationUpdate.liveUpdates()
+        }
     )
 
     return LocationInfoView(location: laneStadiumDestination)

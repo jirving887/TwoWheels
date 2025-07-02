@@ -14,16 +14,30 @@ class ExploreViewModel {
     private let dataService: any DataManipulating<Destination>
     private let searchService: MapSearching
     private let geocoder: Geocoding
+    private let directionsService: Directing
     
     let completer = MKLocalSearchCompleter()
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
     var isListSheetPresented = false
+    var isDirectionsSheetPresented = false
+    var isDirectionsAlertPresented = false
+    var isNavigationAlertPresented = false
     var destinations: [Destination] = []
     var editingDestination: Destination?
     var tappedLocations: [Destination] = []
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
+    var routeDistance = ""
+    var routeTime = ""
+    var eta = ""
+    
+    var route: MKRoute? {
+        didSet {
+            updateDistance(with: route?.distance ?? 0)
+            updateTime(with: route?.expectedTravelTime ?? 0)
+        }
+    }
     
     var searchResults: [Destination] = [] {
         didSet {
@@ -49,10 +63,16 @@ class ExploreViewModel {
         }
     }
     
-    init(dataService: any DataManipulating<Destination>, searchService: MapSearching, geocoder: Geocoding) {
+    init(
+        dataService: any DataManipulating<Destination>,
+        searchService: MapSearching,
+        geocoder: Geocoding,
+        directionsService: Directing
+    ) {
         self.dataService = dataService
         self.searchService = searchService
         self.geocoder = geocoder
+        self.directionsService = directionsService
         destinations = dataService.fetch()
     }
     
@@ -131,6 +151,47 @@ class ExploreViewModel {
     func selectDestinationFromList(_ destination: Destination) {
         selectedDestination = destination
         isListSheetPresented = false
+    }
+    
+    func showDirections() async {
+        guard let destination = selectedDestination?.mapItem else {
+            isDirectionsAlertPresented = true
+            return
+        }
+        let request = MKDirections.Request()
+        request.source = try? await directionsService.getUserMapItem()
+        request.destination = destination
+        do {
+            route = try await directionsService.getDirections(with: request)
+        } catch {
+            print("Could not get directions, error: \(error)")
+            isDirectionsAlertPresented = true
+            return
+        }
+        isInfoSheetPresented = false
+        isDirectionsSheetPresented = true
+    }
+    
+    func updateDistance(with meters: Double) {
+        let miles = meters / 1609.34
+        routeDistance = String(format: "%.2f mi", miles)
+    }
+    
+    func updateTime(with seconds: Double) {
+        let time = Int(seconds)
+        let days: Int = time / 86400
+        let hours: Int = (time % 86400) / 3600
+        let minutes: Int = ((time % 86400) % 3600) / 60
+        var result: [String] = []
+        if days > 0 { result.append("\(days)d") }
+        if hours > 0 { result.append("\(hours)h") }
+        if minutes > 0 { result.append("\(minutes)m") }
+        routeTime = result.joined(separator: ", ")
+        eta = Date().addingTimeInterval(seconds).formatted(date: .omitted, time: .shortened)
+    }
+    
+    func startNavigation() {
+        isNavigationAlertPresented = true
     }
     
     private func search(_ request: MKLocalSearch.Request) async {
