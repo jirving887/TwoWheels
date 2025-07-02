@@ -23,10 +23,10 @@ struct DestinationsListView: View {
                             Image(systemName: "mappin.circle")
                                 .imageScale(.large)
                             
-                            VStack(alignment: .leading) {
-                                Text(destination.title)
-                            }
+                            Text(destination.title)
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     .swipeActions(edge: .trailing) {
