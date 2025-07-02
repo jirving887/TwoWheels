@@ -155,10 +155,12 @@ class ExploreViewModel {
     }
     
     func showDirections() async {
-        guard let destination = selectedDestination?.mapItem else {
+        guard let selectedDestination else {
             isDirectionsAlertPresented = true
             return
         }
+        let placemark = MKPlacemark(coordinate: selectedDestination.coordinate)
+        let destination = MKMapItem(placemark: placemark)
         let request = MKDirections.Request()
         request.source = try? await directionsService.getUserMapItem()
         request.destination = destination
@@ -209,8 +211,9 @@ class ExploreViewModel {
         isSearchSheetPresented = false
         if searchResults.count == 1 {
             selectedDestination = searchResults.first
-        } else if let first = searchResults.first,
-                  let item = first.mapItem {
+        } else if let first = searchResults.first {
+            let placemark = MKPlacemark(coordinate: first.coordinate)
+            let item = MKMapItem(placemark: placemark)
             position = .item(item)
         }
     }
@@ -221,16 +224,9 @@ class ExploreViewModel {
             isInfoSheetPresented = true
             isSearchSheetPresented = false
             withAnimation(.easeInOut) {
-                if let item = selectedDestination.mapItem {
-                    position = .item(item)
-                } else {
-                    let region = MKCoordinateRegion(
-                        center: selectedDestination.coordinate,
-                        latitudinalMeters: 200,
-                        longitudinalMeters: 200
-                    )
-                    position = .region(region)
-                }
+                let placemark = MKPlacemark(coordinate: selectedDestination.coordinate)
+                let item = MKMapItem(placemark: placemark)
+                position = .item(item)
             }
         } else {
             isInfoSheetPresented = false
