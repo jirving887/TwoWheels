@@ -212,9 +212,12 @@ class ExploreViewModel {
         if searchResults.count == 1 {
             selectedDestination = searchResults.first
         } else if let first = searchResults.first {
-            let placemark = MKPlacemark(coordinate: first.coordinate)
-            let item = MKMapItem(placemark: placemark)
-            position = .item(item)
+            let region = MKCoordinateRegion(
+                center: first.coordinate,
+                latitudinalMeters: 10000,
+                longitudinalMeters: 10000
+            )
+            position = .region(region)
         }
     }
     

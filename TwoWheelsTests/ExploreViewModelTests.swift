@@ -304,10 +304,15 @@ struct ExploreViewModelTests {
     @Test
     func searhResultsUpdated_withMultipleResults_shouldChangeMapPosition() {
         sut.isSearchSheetPresented = true
+        let burrussHallRegion = MKCoordinateRegion(
+            center: burrussHallDestination.coordinate,
+            latitudinalMeters: 10000,
+            longitudinalMeters: 10000
+        )
         sut.searchResults = [burrussHallDestination, laneStadiumDestination]
         
         #expect(!sut.isSearchSheetPresented)
-        #expect(sut.position.item == burrussHallItem)
+        #expect(sut.position.region == burrussHallRegion)
     }
     
     @Test
