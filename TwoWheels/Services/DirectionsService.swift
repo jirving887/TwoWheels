@@ -7,12 +7,12 @@
 
 import MapKit
 
-protocol Directing {
+protocol Directing: Sendable {
     func getDirections(with request: MKDirections.Request) async throws -> MKRoute?
     func getUserMapItem() async throws -> MKMapItem?
 }
 
-class DirectionsService: Directing {
+class DirectionsService: Directing, @unchecked Sendable {
     let directions: (MKDirections.Request) -> MKDirections
     let updates: () -> any AsyncSequence
     
@@ -35,13 +35,13 @@ class DirectionsService: Directing {
         
         do {
             let userLocation = try await updates.first { update in
-                if let location = update as? Locatable,
+                if let location = update as? (any Locatable),
                       location.location != nil {
                     return true
                 }
                 return false
             }
-            if let location = userLocation as? Locatable {
+            if let location = userLocation as? (any Locatable) {
                 return makeMapItem(from: location)
             }
         } catch {
@@ -50,7 +50,7 @@ class DirectionsService: Directing {
         return nil
     }
     
-    private func makeMapItem(from location: Locatable) -> MKMapItem? {
+    private func makeMapItem(from location: any Locatable) -> MKMapItem? {
         guard let coordinate = location.location?.coordinate else { return nil }
         let placemark = MKPlacemark(coordinate: coordinate)
         return MKMapItem(placemark: placemark)

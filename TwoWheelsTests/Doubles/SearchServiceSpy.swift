@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 @testable import TwoWheels
 
-class SearchServiceSpy: MapSearching {
+class SearchServiceSpy: MapSearching, @unchecked Sendable {
     var expectedSearchResults: [MKMapItem] = []
     var error: Error?
     var errorCount = 0

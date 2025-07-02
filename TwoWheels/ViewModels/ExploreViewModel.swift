@@ -6,15 +6,16 @@
 //
 
 import Foundation
-import MapKit
+@preconcurrency import MapKit
 import SwiftUI
 
+@MainActor
 @Observable
 class ExploreViewModel {
     private let dataService: any DataManipulating<Destination>
-    private let searchService: MapSearching
-    private let geocoder: Geocoding
-    private let directionsService: Directing
+    private let searchService: any MapSearching
+    private let geocoder: any Geocoding
+    private let directionsService: any Directing
     
     let completer = MKLocalSearchCompleter()
     var isSearchSheetPresented = false
@@ -65,9 +66,9 @@ class ExploreViewModel {
     
     init(
         dataService: any DataManipulating<Destination>,
-        searchService: MapSearching,
-        geocoder: Geocoding,
-        directionsService: Directing
+        searchService: any MapSearching,
+        geocoder: any Geocoding,
+        directionsService: any Directing
     ) {
         self.dataService = dataService
         self.searchService = searchService

@@ -7,11 +7,11 @@
 
 import MapKit
 
-protocol MapSearching {
+protocol MapSearching: Sendable {
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem]
 }
 
-class SearchService: MapSearching {
+class SearchService: MapSearching, @unchecked Sendable {
     let makeLocalSearch: (MKLocalSearch.Request) -> MKLocalSearch
     
     init(makeLocalSearch: @escaping (MKLocalSearch.Request) -> MKLocalSearch) {

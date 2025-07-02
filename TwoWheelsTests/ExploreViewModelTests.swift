@@ -10,6 +10,7 @@ import Testing
 @testable import TwoWheels
 import _MapKit_SwiftUI
 
+@MainActor
 struct ExploreViewModelTests {
     let dataServiceSpy: DataServiceSpy
     let searchServiceSpy: SearchServiceSpy

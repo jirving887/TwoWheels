@@ -9,7 +9,7 @@ import CoreLocation
 import Foundation
 @testable import TwoWheels
 
-class GeocoderSpy: Geocoding {
+class GeocoderSpy: Geocoding, @unchecked Sendable {
     var expectedPlacemarks: [CLPlacemark] = []
     var error: Error?
     var errorCount = 0

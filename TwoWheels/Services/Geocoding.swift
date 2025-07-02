@@ -8,8 +8,8 @@
 import CoreLocation
 import Foundation
 
-protocol Geocoding {
+protocol Geocoding: Sendable {
     func reverseGeocodeLocation(_ location: CLLocation) async throws -> [CLPlacemark]
 }
 
-extension CLGeocoder: Geocoding {}
+extension CLGeocoder: Geocoding, @unchecked @retroactive Sendable {}
