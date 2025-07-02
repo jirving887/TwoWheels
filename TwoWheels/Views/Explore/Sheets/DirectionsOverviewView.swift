@@ -28,19 +28,40 @@ struct DirectionsOverviewView: View {
             .cornerRadius(20)
             
             HStack {
-                GroupBox {
-                    Text("Distance: \(String(describing: viewModel.route?.distance))")
+                VStack {
+                    Text("Distance:")
+                        .font(.headline)
+                    Text(viewModel.routeDistance)
                 }
-                .tint(.blue)
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.red)
+                .cornerRadius(20)
                 
-                GroupBox {
-                    Text("Travel Time: \(String(describing: viewModel.route?.expectedTravelTime))")
+                VStack {
+                    Text("Time:")
+                        .font(.headline)
+                    Text(viewModel.routeTime)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.01)
                 }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.orange)
+                .cornerRadius(20)
                 
-                GroupBox {
-                    Text("ETA: \(String(describing: Date().addingTimeInterval(TimeInterval(viewModel.route?.expectedTravelTime ?? 0))))")
+                VStack {
+                    Text("ETA:")
+                        .font(.headline)
+                    Text(viewModel.eta)
                 }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.yellow)
+                .cornerRadius(20)
             }
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxHeight: UIScreen.main.bounds.height * 0.1)
             
             Button {
             } label: {
@@ -76,6 +97,10 @@ struct DirectionsOverviewView: View {
             CLLocationUpdate.liveUpdates()
         }
     )
+    
+    viewModel.routeDistance = "80.00 mi"
+    viewModel.routeTime = "10d, 23h, 59m"
+    viewModel.eta = "11:59 PM"
     
     return DirectionsOverviewView()
         .environment(viewModel)
