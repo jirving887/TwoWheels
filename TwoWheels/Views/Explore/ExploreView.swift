@@ -36,20 +36,20 @@ struct ExploreView: View {
         MapReader { proxy in
             Map(position: $viewModel.position, selection: $viewModel.selectedDestination) {
                 ForEach(viewModel.destinations) { destination in
-                    Marker(coordinate: destination.coordinate) {
-                        Image(systemName: "star")
+                    if !viewModel.searchResults.contains(destination) {
+                        Marker(coordinate: destination.coordinate) {
+                            Image(systemName: "star")
+                        }
+                        .tint(.yellow)
+                        .tag(destination)
                     }
-                    .tint(.yellow)
-                    .tag(destination)
                 }
                 
                 ForEach(viewModel.searchResults) { result in
-                    if let item = result.mapItem {
-                        Marker(coordinate: item.placemark.coordinate) {
-                            Image(systemName: "mappin")
-                        }
-                        .tag(result)
+                    Marker(coordinate: result.coordinate) {
+                        Image(systemName: "mappin")
                     }
+                    .tag(result)
                 }
                 
                 ForEach(viewModel.tappedLocations) { location in
