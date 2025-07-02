@@ -5,8 +5,9 @@
 //  Created by Jonathan Irving on 5/17/25.
 //
 
-import MapKit
+@preconcurrency import MapKit
 
+@MainActor
 protocol Directing {
     func getDirections(with request: MKDirections.Request) async throws -> MKRoute?
     func getUserMapItem() async throws -> MKMapItem?
@@ -14,11 +15,11 @@ protocol Directing {
 
 class DirectionsService: Directing {
     let directions: (MKDirections.Request) -> MKDirections
-    let updates: () -> any AsyncSequence
+    let updates: @Sendable () -> any AsyncSequence
     
     init(
         directions: @escaping (MKDirections.Request) -> MKDirections,
-        updates: @escaping () -> any AsyncSequence
+        updates: @escaping @Sendable () -> any AsyncSequence
     ) {
         self.directions = directions
         self.updates = updates
@@ -30,19 +31,19 @@ class DirectionsService: Directing {
         return response.routes.first
     }
     
-    func getUserMapItem() async throws -> MKMapItem? {
+    nonisolated func getUserMapItem() async throws -> MKMapItem? {
         let updates = self.updates()
         
         do {
             let userLocation = try await updates.first { update in
-                if let location = update as? Locatable,
+                if let location = update as? (any Locatable),
                       location.location != nil {
                     return true
                 }
                 return false
             }
-            if let location = userLocation as? Locatable {
-                return makeMapItem(from: location)
+            if let location = userLocation as? (any Locatable) {
+                return await makeMapItem(from: location)
             }
         } catch {
             print("failed to get user location with error: \(error)")
@@ -50,7 +51,7 @@ class DirectionsService: Directing {
         return nil
     }
     
-    private func makeMapItem(from location: Locatable) -> MKMapItem? {
+    private func makeMapItem(from location: any Locatable) -> MKMapItem? {
         guard let coordinate = location.location?.coordinate else { return nil }
         let placemark = MKPlacemark(coordinate: coordinate)
         return MKMapItem(placemark: placemark)

@@ -63,7 +63,7 @@ struct EditDestinationView: View {
         fatalError("Failed to create in-memory container: \(error)")
     }
     
-    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let dataService = DataService<Destination>(modelContainer: container)
     let viewModel = ExploreViewModel(
         dataService: dataService,
         searchService: SearchService { MKLocalSearch(request: $0) },

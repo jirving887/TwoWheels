@@ -11,7 +11,7 @@ import Foundation
 
 class GeocoderSpy: Geocoding {
     var expectedPlacemarks: [CLPlacemark] = []
-    var error: Error?
+    var error: (any Error)?
     var errorCount = 0
     
     func reverseGeocodeLocation(_ location: CLLocation) async throws -> [CLPlacemark] {
