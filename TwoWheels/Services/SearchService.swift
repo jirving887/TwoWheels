@@ -5,8 +5,9 @@
 //  Created by Jonathan Irving on 3/16/25.
 //
 
-import MapKit
+@preconcurrency import MapKit
 
+@MainActor
 protocol MapSearching {
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem]
 }

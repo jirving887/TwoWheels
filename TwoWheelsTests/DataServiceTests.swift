@@ -19,7 +19,7 @@ final class DataServiceTests {
     init() throws {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try ModelContainer(for: Destination.self, configurations: config)
-        sut = DataService(modelContext: container.mainContext)
+        sut = DataService(modelContainer: container)
         laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
     }
     

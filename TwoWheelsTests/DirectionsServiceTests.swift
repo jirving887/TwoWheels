@@ -14,7 +14,7 @@ struct DirectionsServiceTests {
     @Test
     func getDirections_shouldCallCalculate() async throws {
         var directionsSpy = MKDirectionsSpy(request: .init())
-        let sut = DirectionsService {
+        let sut = await DirectionsService {
             directionsSpy = MKDirectionsSpy(request: $0)
             return directionsSpy
         } updates: { CLLocationUpdatesFake(current: .init()) }
@@ -28,7 +28,7 @@ struct DirectionsServiceTests {
     func getUserMapItem_shouldReturnMapItem() async throws {
         let laneStadiumLocation = CLLocation(latitude: 37.22001, longitude: -80.41804)
         var directionsSpy = MKDirectionsSpy(request: .init())
-        let sut = DirectionsService {
+        let sut = await DirectionsService {
             directionsSpy = MKDirectionsSpy(request: $0)
             return directionsSpy
         } updates: {

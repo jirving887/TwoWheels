@@ -21,8 +21,7 @@ struct TwoWheelsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ExploreView(modelContext: container.mainContext)
+            ExploreView(modelContainer: container)
         }
-        .modelContainer(container)
     }
 }

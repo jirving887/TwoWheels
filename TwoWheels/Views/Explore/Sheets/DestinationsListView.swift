@@ -70,7 +70,7 @@ struct DestinationsListView: View {
         container.mainContext.insert(laneStadiumDestination)
     }
     
-    let dataService = DataService<Destination>(modelContext: container.mainContext)
+    let dataService = DataService<Destination>(modelContainer: container)
     let viewModel = ExploreViewModel(
         dataService: dataService,
         searchService: SearchService { MKLocalSearch(request: $0) },
