@@ -35,7 +35,7 @@ struct DirectionsOverviewView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.red)
+                .background(.red.opacity(0.3))
                 .cornerRadius(20)
                 
                 VStack {
@@ -47,7 +47,7 @@ struct DirectionsOverviewView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.orange)
+                .background(.orange.opacity(0.3))
                 .cornerRadius(20)
                 
                 VStack {
@@ -57,7 +57,7 @@ struct DirectionsOverviewView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.yellow)
+                .background(.yellow.opacity(0.3))
                 .cornerRadius(20)
             }
             .fixedSize(horizontal: false, vertical: true)
