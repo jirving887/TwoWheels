@@ -11,7 +11,7 @@ import MapKit
 
 class SearchServiceSpy: MapSearching, @unchecked Sendable {
     var expectedSearchResults: [MKMapItem] = []
-    var error: Error?
+    var error: (any Error)?
     var errorCount = 0
     
     func search(with request: MKLocalSearch.Request) async throws -> [MKMapItem] {

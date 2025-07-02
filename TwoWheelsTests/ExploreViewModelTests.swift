@@ -8,7 +8,7 @@
 import MapKit
 import Testing
 @testable import TwoWheels
-import _MapKit_SwiftUI
+public import _MapKit_SwiftUI
 
 @MainActor
 struct ExploreViewModelTests {

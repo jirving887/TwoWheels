@@ -9,7 +9,7 @@ import MapKit
 @testable import TwoWheels
 
 class DirectionsServiceSpy: Directing, @unchecked Sendable{
-    var error: Error?
+    var error: (any Error)?
     var errorCount = 0
     var expectedRoute = MKRoute()
     var expectedUserLocation = MKMapItem()

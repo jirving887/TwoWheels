@@ -8,7 +8,7 @@
 import Foundation
 @testable import TwoWheels
 
-class DataServiceSpy: DataManipulating {
+class DataServiceSpy: DataManipulating, @unchecked Sendable {
     var destinations: [Destination] = []
     var destinationTitles: [String] {
         destinations.map { $0.title }

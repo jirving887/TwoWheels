@@ -8,14 +8,14 @@
 import Foundation
 import SwiftData
 
-protocol DataManipulating<T> {
+protocol DataManipulating<T>: Sendable {
     associatedtype T : PersistentModel
     func fetch() -> [T]
     func add(_ data: T)
     func remove(_ data: T)
 }
 
-class DataService<T : PersistentModel>: DataManipulating {
+class DataService<T : PersistentModel>: DataManipulating, @unchecked Sendable {
     private let modelContext: ModelContext
     
     init(modelContext: ModelContext) {
