@@ -64,6 +64,7 @@ struct DirectionsOverviewView: View {
             .frame(maxHeight: UIScreen.main.bounds.height * 0.1)
             
             Button {
+                viewModel.startNavigation()
             } label: {
                 Text("Go")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

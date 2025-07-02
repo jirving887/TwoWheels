@@ -22,6 +22,7 @@ class ExploreViewModel {
     var isListSheetPresented = false
     var isDirectionsSheetPresented = false
     var isDirectionsAlertPresented = false
+    var isNavigationAlertPresented = false
     var destinations: [Destination] = []
     var editingDestination: Destination?
     var tappedLocations: [Destination] = []
@@ -187,6 +188,10 @@ class ExploreViewModel {
         if minutes > 0 { result.append("\(minutes)m") }
         routeTime = result.joined(separator: ", ")
         eta = Date().addingTimeInterval(seconds).formatted(date: .omitted, time: .shortened)
+    }
+    
+    func startNavigation() {
+        isNavigationAlertPresented = true
     }
     
     private func search(_ request: MKLocalSearch.Request) async {

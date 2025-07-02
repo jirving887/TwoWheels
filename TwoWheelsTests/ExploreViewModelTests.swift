@@ -400,6 +400,13 @@ struct ExploreViewModelTests {
         #expect(sut.routeTime == expectedTime)
         #expect(sut.eta != "")
     }
+    
+    @Test
+    func startNavigation_shouldShowAlert() {
+        sut.startNavigation()
+        
+        #expect(sut.isNavigationAlertPresented)
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
