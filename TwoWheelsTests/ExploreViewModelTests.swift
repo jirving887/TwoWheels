@@ -302,8 +302,9 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func searhResultsUpdated_withMultipleResults_shouldChangeMapPosition() {
+    func searhResultsUpdated_withMultipleResults_shouldChangeMapPositionAndDeselectDestinations() {
         sut.isSearchSheetPresented = true
+        sut.selectedDestination = laneStadiumDestination
         let burrussHallRegion = MKCoordinateRegion(
             center: burrussHallDestination.coordinate,
             latitudinalMeters: 10000,
@@ -312,6 +313,7 @@ struct ExploreViewModelTests {
         sut.searchResults = [burrussHallDestination, laneStadiumDestination]
         
         #expect(!sut.isSearchSheetPresented)
+        #expect(sut.selectedDestination == nil)
         #expect(sut.position.region == burrussHallRegion)
     }
     

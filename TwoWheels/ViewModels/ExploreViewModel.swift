@@ -212,6 +212,7 @@ class ExploreViewModel {
         if searchResults.count == 1 {
             selectedDestination = searchResults.first
         } else if let first = searchResults.first {
+            selectedDestination = nil
             let region = MKCoordinateRegion(
                 center: first.coordinate,
                 latitudinalMeters: 10000,
