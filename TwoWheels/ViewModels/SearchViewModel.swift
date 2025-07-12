@@ -11,4 +11,8 @@ import Foundation
 @Observable
 class SearchViewModel {
     var searchResults: [Destination] = []
+
+    func search() async {
+
+    }
 }

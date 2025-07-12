@@ -17,4 +17,13 @@ struct SearchViewModelTests {
 
         #expect(sut.searchResults.isEmpty)
     }
+
+    @Test
+    func search_withEmptySting_shouldReturnNoResults() async {
+        let sut = SearchViewModel()
+
+        await sut.search()
+        
+        #expect(sut.searchResults == [])
+    }
 }
