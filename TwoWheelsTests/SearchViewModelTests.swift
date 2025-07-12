@@ -34,6 +34,27 @@ struct SearchViewModelTests {
     }
 
     @Test
+    func search_withNonEmptyString_shouldCallSearchService() async throws {
+        let region = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(
+                latitude: 37.22001,
+                longitude: -80.41804
+            ),
+            latitudinalMeters: 1000,
+            longitudinalMeters: 1000
+        )
+        let sut = makeSUT(region: region)
+        sut.searchString = "Lane Stadium"
+        
+        await sut.search()
+
+        let request = try #require(searchServiceSpy.request)
+        #expect(searchServiceSpy.callCount == 1)
+        #expect(request.naturalLanguageQuery == "Lane Stadium")
+        #expect(request.region == region)
+    }
+
+    @Test
     func search_withNonEmptyString_shouldUpdateSearchResults() async {
         let destination1 = Destination(
             latitude: 37.22001,
