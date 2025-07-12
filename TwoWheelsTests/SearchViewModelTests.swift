@@ -147,9 +147,29 @@ struct SearchViewModelTests {
         #expect(sut.completer.queryFragment == "Lane Stadium")
     }
 
+    @Test
+    func search_withNonEmptyString_shouldInvokeCompletionClosure() async {
+        var expectedSearchResults: [String] = []
+        let sut = makeSUT { destinations in
+            expectedSearchResults = destinations.map { $0.title }
+        }
+        sut.searchString = "Lane Stadium"
+
+        await sut.search()
+
+        #expect(expectedSearchResults == ["Lane Stadium", "Burruss Hall"])
+    }
+
     // MARK: Helpers
 
-    func makeSUT(region: MKCoordinateRegion = .init()) -> SearchViewModel {
-        SearchViewModel(region: region, searchService: searchServiceSpy)
+    func makeSUT(
+        region: MKCoordinateRegion = .init(),
+        onSearchComplete: @escaping ([Destination]) -> Void = { _ in }
+    ) -> SearchViewModel {
+        SearchViewModel(
+            region: region,
+            searchService: searchServiceSpy,
+            onSearchComplete: onSearchComplete
+        )
     }
 }

@@ -38,11 +38,7 @@ class ExploreViewModel {
         }
     }
     
-    var searchResults: [Destination] = [] {
-        didSet {
-            searchResultsUpdated()
-        }
-    }
+    var searchResults: [Destination] = []
     
     var selectedDestination: Destination? {
         didSet {
@@ -152,7 +148,8 @@ class ExploreViewModel {
         isNavigationAlertPresented = true
     }
     
-    private func searchResultsUpdated() {
+    func searchResultsUpdated(_ results: [Destination]) {
+        searchResults = results
         isSearchSheetPresented = false
         if searchResults.count == 1 {
             selectedDestination = searchResults.first

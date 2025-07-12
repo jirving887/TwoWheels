@@ -127,7 +127,7 @@ struct ExploreView: View {
             )
         }
         .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-            SearchSheetView(region: viewModel.visibleRegion)
+            SearchSheetView(region: viewModel.visibleRegion) { viewModel.searchResultsUpdated($0) }
         }
         .sheet(item: $viewModel.editingDestination) {
             EditDestinationView(destination: $0)

@@ -11,11 +11,12 @@ import SwiftUI
 struct SearchSheetView: View {
     @State private var viewModel: SearchViewModel
 
-    init(region: MKCoordinateRegion) {
+    init(region: MKCoordinateRegion, onSearchComplete: @escaping ([Destination]) -> Void) {
         let searchService = SearchService { MKLocalSearch(request: $0) }
         _viewModel = State(initialValue: SearchViewModel(
             region: region,
-            searchService: searchService
+            searchService: searchService,
+            onSearchComplete: onSearchComplete
         ))
     }
 
@@ -78,5 +79,5 @@ struct SearchSheetView: View {
         longitudinalMeters: 1000
     )
 
-    return SearchSheetView(region: region)
+    return SearchSheetView(region: region) { _ in }
 }

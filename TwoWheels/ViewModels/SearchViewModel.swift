@@ -13,20 +13,30 @@ import MapKit
 class SearchViewModel {
     private let searchService: any MapSearching
     private let region: MKCoordinateRegion
+    private let onSearchComplete: ([Destination]) -> Void
 
     let completer = MKLocalSearchCompleter()
-    
-    var searchCompletions: [MKLocalSearchCompletion] = []
     var searchResults: [Destination] = []
+
+    var searchCompletions: [MKLocalSearchCompletion] {
+        get { completer.results }
+        set {}
+    }
+
     var searchString = "" {
         didSet {
             searchStringUpdated()
         }
     }
 
-    init(region: MKCoordinateRegion, searchService: any MapSearching) {
+    init(
+        region: MKCoordinateRegion,
+        searchService: any MapSearching,
+        onSearchComplete: @escaping ([Destination]) -> Void
+    ) {
         self.region = region
         self.searchService = searchService
+        self.onSearchComplete = onSearchComplete
     }
 
     func search() async {
@@ -53,6 +63,7 @@ class SearchViewModel {
         } catch {
             searchResults = []
         }
+        onSearchComplete(searchResults)
     }
 
     private func searchStringUpdated() {

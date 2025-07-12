@@ -167,13 +167,21 @@ struct ExploreViewModelTests {
         
         #expect(!sut.isInfoSheetPresented)
     }
-    
+
+    @Test
+    func searchResultsUpdated_shouldUpdateSearchResultsArray() {
+        sut.searchResultsUpdated([burrussHallDestination, laneStadiumDestination])
+
+        let results = sut.searchResults.map { $0.title }
+        #expect(results == ["", "Lane Stadium"])
+    }
+
     @Test
     func searchResultsUpdated_withEmptyArray_shouldOnlyDismissSheet() {
         sut.isSearchSheetPresented = true
         let originalRegion = sut.position.region
-        sut.searchResults = []
-        
+        sut.searchResultsUpdated([])
+
         #expect(!sut.isSearchSheetPresented)
         #expect(sut.selectedDestination == nil)
         #expect(sut.position.region == originalRegion)
@@ -183,8 +191,8 @@ struct ExploreViewModelTests {
     func searchResultsUpdated_withSingleResult_shouldSetSelectedDestination() {
         sut.isSearchSheetPresented = true
         
-        sut.searchResults = [laneStadiumDestination]
-        
+        sut.searchResultsUpdated([laneStadiumDestination])
+
         #expect(!sut.isSearchSheetPresented)
         #expect(sut.selectedDestination == laneStadiumDestination)
         #expect(sut.position.item == laneStadiumItem)
@@ -199,8 +207,8 @@ struct ExploreViewModelTests {
             latitudinalMeters: 10000,
             longitudinalMeters: 10000
         )
-        sut.searchResults = [burrussHallDestination, laneStadiumDestination]
-        
+        sut.searchResultsUpdated([burrussHallDestination, laneStadiumDestination])
+
         #expect(!sut.isSearchSheetPresented)
         #expect(sut.selectedDestination == nil)
         #expect(sut.position.region == burrussHallRegion)
