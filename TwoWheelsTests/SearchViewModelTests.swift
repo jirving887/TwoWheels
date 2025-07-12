@@ -12,9 +12,21 @@ import MapKit
 @MainActor
 struct SearchViewModelTests {
     let searchServiceSpy: SearchServiceSpy
+    let laneStadiumDestination: Destination
+    let burrussHallDestination: Destination
 
     init() {
         searchServiceSpy = SearchServiceSpy()
+        laneStadiumDestination = Destination(
+            latitude: 37.22001,
+            longitude: -80.41804,
+            title: "Lane Stadium"
+        )
+        burrussHallDestination = Destination(
+            latitude: 37.229000,
+            longitude: -80.423710,
+            title: "Burruss Hall"
+        )
     }
 
     @Test
@@ -56,17 +68,10 @@ struct SearchViewModelTests {
 
     @Test
     func search_withNonEmptyString_shouldUpdateSearchResults() async {
-        let destination1 = Destination(
-            latitude: 37.22001,
-            longitude: -80.41804,
-            title: "Lane Stadium 1"
-        )
-        let destination2 = Destination(
-            latitude: 37.22001,
-            longitude: -80.41804,
-            title: "Lane Stadium 2"
-        )
-        let expectedSearchResults = [destination1, destination2]
+        let expectedSearchResults = [
+            laneStadiumDestination,
+            burrussHallDestination
+        ]
         searchServiceSpy.expectedSearchResults = expectedSearchResults.map { result in
             let placemark = MKPlacemark(coordinate: result.coordinate)
             let item = MKMapItem(placemark: placemark)
@@ -78,8 +83,8 @@ struct SearchViewModelTests {
 
         await sut.search()
 
-        #expect(sut.searchResults[0].title == "Lane Stadium 1")
-        #expect(sut.searchResults[1].title == "Lane Stadium 2")
+        #expect(sut.searchResults[0].title == "Lane Stadium")
+        #expect(sut.searchResults[1].title == "Burruss Hall")
     }
 
     // MARK: Helpers
