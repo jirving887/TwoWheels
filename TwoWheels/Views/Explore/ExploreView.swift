@@ -16,7 +16,6 @@ struct ExploreView: View {
     
     init(modelContainer: ModelContainer) {
         let dataService = DataService<Destination>(modelContainer: modelContainer)
-        let searchService = SearchService { MKLocalSearch(request: $0) }
         let geocoder = CLGeocoder()
         let directionsService = DirectionsService {
             MKDirections(request: $0)
@@ -25,7 +24,6 @@ struct ExploreView: View {
         }
         let viewModel = ExploreViewModel(
             dataService: dataService,
-            searchService: searchService,
             geocoder: geocoder,
             directionsService: directionsService
         )
@@ -129,7 +127,7 @@ struct ExploreView: View {
             )
         }
         .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-            SearchSheetView()
+            SearchSheetView(region: viewModel.visibleRegion)
         }
         .sheet(item: $viewModel.editingDestination) {
             EditDestinationView(destination: $0)

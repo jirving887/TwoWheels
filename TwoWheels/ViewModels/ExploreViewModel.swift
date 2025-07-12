@@ -13,11 +13,9 @@ import SwiftUI
 @MainActor
 class ExploreViewModel {
     private let dataService: any DataManipulating<Destination>
-    private let searchService: any MapSearching
     private let geocoder: any Geocoding
     private let directionsService: any Directing
-    
-    let completer = MKLocalSearchCompleter()
+
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
     var isListSheetPresented = false
@@ -46,18 +44,6 @@ class ExploreViewModel {
         }
     }
     
-    var searchString: String = "" {
-        didSet {
-            searchStringUpdated()
-        }
-    }
-    
-    var searchCompletions: [MKLocalSearchCompletion] {
-        get {
-            completer.results
-        } set {}
-    }
-    
     var selectedDestination: Destination? {
         didSet {
             selectedDestinationUpdated()
@@ -66,12 +52,10 @@ class ExploreViewModel {
     
     init(
         dataService: any DataManipulating<Destination>,
-        searchService: any MapSearching,
         geocoder: any Geocoding,
         directionsService: any Directing
     ) {
         self.dataService = dataService
-        self.searchService = searchService
         self.geocoder = geocoder
         self.directionsService = directionsService
         destinations = dataService.fetch()
@@ -85,33 +69,6 @@ class ExploreViewModel {
     func deleteDestination(_ destination: Destination) {
         dataService.remove(destination)
         destinations = dataService.fetch()
-    }
-    
-    func search() async {
-        guard !searchString.isEmpty else {
-            searchResults = []
-            return
-        }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = searchString
-        request.region = visibleRegion
-        await search(request)
-    }
-    
-    func search(with completion: MKLocalSearchCompletion) async {
-        let request = MKLocalSearch.Request(completion: completion)
-        await search(request)
-    }
-    
-    func searchStringUpdated() {
-        guard !searchString.isEmpty else {
-            searchCompletions = []
-            return
-        }
-        if searchString.count == 1 {
-            completer.region = visibleRegion
-        }
-        completer.queryFragment = searchString
     }
     
     func addressFromLocation(_ location: CLLocation) async -> String {
@@ -135,8 +92,6 @@ class ExploreViewModel {
     func reset() {
         searchResults = []
         selectedDestination = nil
-        searchCompletions = []
-        searchString = ""
     }
     
     func addPin(_ pin: Destination) {
@@ -195,16 +150,6 @@ class ExploreViewModel {
     
     func startNavigation() {
         isNavigationAlertPresented = true
-    }
-    
-    private func search(_ request: MKLocalSearch.Request) async {
-        do {
-            searchResults = try await searchService.search(with: request).compactMap {
-                Destination($0)
-            }
-        } catch {
-            searchResults = []
-        }
     }
     
     private func searchResultsUpdated() {

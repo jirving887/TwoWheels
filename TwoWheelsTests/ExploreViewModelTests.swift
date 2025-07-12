@@ -13,7 +13,6 @@ public import _MapKit_SwiftUI
 @MainActor
 struct ExploreViewModelTests {
     let dataServiceSpy: DataServiceSpy
-    let searchServiceSpy: SearchServiceSpy
     let geocoderSpy: GeocoderSpy
     let directionsServiceSpy: DirectionsServiceSpy
     let sut: ExploreViewModel
@@ -24,12 +23,10 @@ struct ExploreViewModelTests {
     
     init() {
         dataServiceSpy = DataServiceSpy()
-        searchServiceSpy = SearchServiceSpy()
         geocoderSpy = GeocoderSpy()
         directionsServiceSpy = DirectionsServiceSpy()
         sut = ExploreViewModel(
             dataService: dataServiceSpy,
-            searchService: searchServiceSpy,
             geocoder: geocoderSpy,
             directionsService: directionsServiceSpy
         )
@@ -44,7 +41,6 @@ struct ExploreViewModelTests {
         dataServiceSpy.destinations = [laneStadiumDestination]
         let freshSut = ExploreViewModel(
             dataService: dataServiceSpy,
-            searchService: searchServiceSpy,
             geocoder: geocoderSpy,
             directionsService: directionsServiceSpy
         )
@@ -89,109 +85,6 @@ struct ExploreViewModelTests {
             "Lane Stadium 4"
         ])
         #expect(sut.destinations == dataServiceSpy.destinations)
-    }
-    
-    @Test
-    func search_withEmptyString_shouldReturnNoResults() async {
-        await sut.search()
-        
-        #expect(sut.searchResults == [])
-    }
-    
-    @Test
-    func search_withNonEmptyString_shouldReturnRelevantResults() async {
-        let destination1 = Destination(
-            latitude: 37.22001,
-            longitude: -80.41804,
-            title: "Lane Stadium 1"
-        )
-        let destination2 = Destination(
-            latitude: 37.22001,
-            longitude: -80.41804,
-            title: "Lane Stadium 2"
-        )
-        let expectedSearchResults = [destination1, destination2]
-        searchServiceSpy.expectedSearchResults = expectedSearchResults.map { result in
-            let placemark = MKPlacemark(coordinate: result.coordinate)
-            let item = MKMapItem(placemark: placemark)
-            item.name = result.title
-            return item
-        }
-        sut.searchString = "Lane Stadium"
-        
-        await sut.search()
-        
-        #expect(sut.searchResults[0].title == "Lane Stadium 1")
-        #expect(sut.searchResults[1].title == "Lane Stadium 2")
-    }
-    
-    @Test
-    func search_withSearchCompletion_shouldReturnRelevantResults() async {
-        let completion = MKLocalSearchCompletion()
-        let destination1 = Destination(
-            latitude: 37.22001,
-            longitude: -80.41804,
-            title: "Lane Stadium 1"
-        )
-        let destination2 = Destination(
-            latitude: 37.22001,
-            longitude: -80.41804,
-            title: "Lane Stadium 2"
-        )
-        let expectedSearchResults = [destination1, destination2]
-        searchServiceSpy.expectedSearchResults = expectedSearchResults.map { result in
-            let placemark = MKPlacemark(coordinate: result.coordinate)
-            let item = MKMapItem(placemark: placemark)
-            item.name = result.title
-            return item
-        }
-        
-        await sut.search(with: completion)
-        
-        #expect(sut.searchResults[0].title == "Lane Stadium 1")
-        #expect(sut.searchResults[1].title == "Lane Stadium 2")
-    }
-    
-    @Test
-    func search_withError_shouldThrowError() async {
-        searchServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
-        
-        await sut.search(with: MKLocalSearchCompletion())
-        
-        #expect(searchServiceSpy.errorCount == 1)
-        #expect(sut.searchResults.isEmpty)
-    }
-    
-    @Test
-    func searchStringUpdated_withEmptyString_shouldEmptySearchCompletions() {
-        sut.searchString = "L"
-        sut.searchString = ""
-        
-        #expect(sut.searchCompletions.isEmpty)
-    }
-    
-    @Test
-    func searchStringUpdated_withSingleCharacter_shouldUpdateCompleterRegion() {
-        let laneStadiumRegion = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(
-                latitude: 37.22001,
-                longitude: -80.41804
-            ),
-            latitudinalMeters: 1000,
-            longitudinalMeters: 1000
-        )
-        sut.visibleRegion = laneStadiumRegion
-        
-        sut.searchString = "L"
-        
-        #expect(sut.completer.region == laneStadiumRegion)
-    }
-    
-    @Test
-    func searchStringUpdated_withMultipleCharacters_shouldUpdateCompleterQuery() {
-        sut.searchString = "Lane Stadium"
-        
-        #expect(sut.completer.queryFragment == "Lane Stadium")
     }
     
     @Test
@@ -241,15 +134,11 @@ struct ExploreViewModelTests {
     func reset_shouldClearSearchResultsAndSelectedLocationAndSearchCompletions() {
         sut.searchResults = Array(repeating: laneStadiumDestination, count: 4)
         sut.selectedDestination = laneStadiumDestination
-        sut.searchCompletions = Array(repeating: MKLocalSearchCompletion(), count: 4)
-        sut.searchString = "Lane Stadium"
         
         sut.reset()
         
         #expect(sut.searchResults.isEmpty)
         #expect(sut.selectedDestination == nil)
-        #expect(sut.searchCompletions.isEmpty)
-        #expect(sut.searchString.isEmpty)
     }
     
     @Test
