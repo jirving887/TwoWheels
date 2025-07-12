@@ -108,6 +108,17 @@ struct SearchViewModelTests {
         #expect(sut.searchResults[1].title == "Burruss Hall")
     }
 
+    @Test
+    func search_withError_shouldThrowError() async {
+        searchServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
+        let sut = makeSUT()
+
+        await sut.search(with: MKLocalSearchCompletion())
+
+        #expect(searchServiceSpy.errorCount == 1)
+        #expect(sut.searchResults.isEmpty)
+    }
+
     // MARK: Helpers
 
     func makeSUT(region: MKCoordinateRegion = .init()) -> SearchViewModel {
