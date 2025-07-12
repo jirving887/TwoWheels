@@ -32,6 +32,11 @@ class SearchViewModel {
         request.region = region
         await search(request)
     }
+    
+    func search(with completion: MKLocalSearchCompletion) async {
+        let request = MKLocalSearch.Request(completion: completion)
+        await search(request)
+    }
 
     private func search(_ request: MKLocalSearch.Request) async {
         do {

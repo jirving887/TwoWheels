@@ -87,6 +87,27 @@ struct SearchViewModelTests {
         #expect(sut.searchResults[1].title == "Burruss Hall")
     }
 
+    @Test
+    func search_withSearchCompletion_shouldUpdateSearchResults() async {
+        let completion = MKLocalSearchCompletion()
+        let expectedSearchResults = [
+            laneStadiumDestination,
+            burrussHallDestination
+        ]
+        searchServiceSpy.expectedSearchResults = expectedSearchResults.map { result in
+            let placemark = MKPlacemark(coordinate: result.coordinate)
+            let item = MKMapItem(placemark: placemark)
+            item.name = result.title
+            return item
+        }
+        let sut = makeSUT()
+
+        await sut.search(with: completion)
+
+        #expect(sut.searchResults[0].title == "Lane Stadium")
+        #expect(sut.searchResults[1].title == "Burruss Hall")
+    }
+
     // MARK: Helpers
 
     func makeSUT(region: MKCoordinateRegion = .init()) -> SearchViewModel {
