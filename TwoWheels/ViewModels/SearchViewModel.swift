@@ -14,8 +14,15 @@ class SearchViewModel {
     private let searchService: any MapSearching
     private let region: MKCoordinateRegion
 
+    let completer = MKLocalSearchCompleter()
+    
+    var searchCompletions: [MKLocalSearchCompletion] = []
     var searchResults: [Destination] = []
-    var searchString = ""
+    var searchString = "" {
+        didSet {
+            searchStringUpdated()
+        }
+    }
 
     init(region: MKCoordinateRegion, searchService: any MapSearching) {
         self.region = region
@@ -32,7 +39,7 @@ class SearchViewModel {
         request.region = region
         await search(request)
     }
-    
+
     func search(with completion: MKLocalSearchCompletion) async {
         let request = MKLocalSearch.Request(completion: completion)
         await search(request)
@@ -46,5 +53,16 @@ class SearchViewModel {
         } catch {
             searchResults = []
         }
+    }
+
+    private func searchStringUpdated() {
+        guard !searchString.isEmpty else {
+            searchCompletions = []
+            return
+        }
+        if searchString.count == 1 {
+            completer.region = region
+        }
+        completer.queryFragment = searchString
     }
 }

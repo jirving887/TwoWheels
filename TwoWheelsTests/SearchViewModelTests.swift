@@ -58,10 +58,7 @@ struct SearchViewModelTests {
     @Test
     func search_withNonEmptyString_shouldCallSearchService() async throws {
         let region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(
-                latitude: 37.22001,
-                longitude: -80.41804
-            ),
+            center: laneStadiumDestination.coordinate,
             latitudinalMeters: 1000,
             longitudinalMeters: 1000
         )
@@ -117,6 +114,37 @@ struct SearchViewModelTests {
 
         #expect(searchServiceSpy.errorCount == 1)
         #expect(sut.searchResults.isEmpty)
+    }
+
+    @Test
+    func searchStringUpdated_withEmptyString_shouldEmptySearchCompletions() {
+        let sut = makeSUT()
+        sut.searchString = "L"
+        sut.searchString = ""
+
+        #expect(sut.searchCompletions.isEmpty)
+    }
+
+    @Test
+    func searchStringUpdated_withSingleCharacter_shouldUpdateCompleterRegion() {
+        let region = MKCoordinateRegion(
+            center: laneStadiumDestination.coordinate,
+            latitudinalMeters: 1000,
+            longitudinalMeters: 1000
+        )
+        let sut = makeSUT(region: region)
+
+        sut.searchString = "L"
+
+        #expect(sut.completer.region == region)
+    }
+
+    @Test
+    func searchStringUpdated_withMultipleCharacters_shouldUpdateCompleterQuery() {
+        let sut = makeSUT()
+        sut.searchString = "Lane Stadium"
+
+        #expect(sut.completer.queryFragment == "Lane Stadium")
     }
 
     // MARK: Helpers
