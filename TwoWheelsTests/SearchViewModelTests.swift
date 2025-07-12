@@ -88,6 +88,16 @@ struct SearchViewModelTests {
     }
 
     @Test
+    func search_withSearchCompletion_shouldCallSearchService() async throws {
+        let completion = MKLocalSearchCompletion()
+        let sut = makeSUT()
+
+        await sut.search(with: completion)
+
+        #expect(searchServiceSpy.callCount == 1)
+    }
+
+    @Test
     func search_withSearchCompletion_shouldUpdateSearchResults() async {
         let completion = MKLocalSearchCompletion()
         let sut = makeSUT()
