@@ -14,11 +14,16 @@ class EditDestinationViewModel {
     let originalAddress: String
     var title: String
     var address: String
+    var isShowingEmptyTitleAlert = true
 
     init(destination: Destination) {
         originalTitle = destination.title
         originalAddress = destination.address
         title = originalTitle
         address = originalAddress
+    }
+
+    func saveDestination() {
+
     }
 }

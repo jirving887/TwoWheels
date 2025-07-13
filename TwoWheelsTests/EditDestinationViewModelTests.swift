@@ -10,21 +10,39 @@ import Testing
 
 @MainActor
 struct EditDestinationViewModelTests {
+    let destination: Destination
 
-    @Test
-    func init_withDestination_shouldHaveInfo() {
-        let laneStadiumDestination = Destination(
+    init() {
+        destination = Destination(
             latitude: 37.22001,
             longitude: -80.41804,
             title: "Lane Stadium"
         )
-        
-        let sut = EditDestinationViewModel(destination: laneStadiumDestination)
-
-        #expect(sut.originalTitle == laneStadiumDestination.title)
-        #expect(sut.originalAddress == laneStadiumDestination.address)
-        #expect(sut.title == laneStadiumDestination.title)
-        #expect(sut.address == laneStadiumDestination.address)
     }
 
+    @Test
+    func init_withDestination_shouldHaveInfo() {
+        let sut = makeSUT()
+
+        #expect(sut.originalTitle == destination.title)
+        #expect(sut.originalAddress == destination.address)
+        #expect(sut.title == destination.title)
+        #expect(sut.address == destination.address)
+    }
+
+    @Test
+    func saveDestinaton_withEmptyName_shouldShowAlert() {
+        let sut = makeSUT()
+        sut.title = ""
+
+        sut.saveDestination()
+
+        #expect(sut.isShowingEmptyTitleAlert)
+    }
+
+    // MARK: Helpers
+
+    func makeSUT() -> EditDestinationViewModel {
+        EditDestinationViewModel(destination: destination)
+    }
 }
