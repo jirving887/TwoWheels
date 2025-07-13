@@ -10,27 +10,30 @@ import SwiftData
 import MapKit
 
 struct EditDestinationView: View {
-    @Environment(ExploreViewModel.self) var viewModel
     @Environment(\.dismiss) private var dismiss
-    
-    @Bindable var destination: Destination
-    var newDestination: Bool {
-        !viewModel.destinations.contains(destination)
+
+    @State private var viewModel: EditDestinationViewModel
+
+    init(destination: Destination, dataService: any DataManipulating<Destination>) {
+        _viewModel = State(initialValue: EditDestinationViewModel(
+            destination: destination,
+            dataService: dataService
+        ))
     }
-    
+
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Name")) {
-                    TextField("Destination Name", text: $destination.title)
+                    TextField("Destination Name", text: $viewModel.title)
                 }
                 
                 Section(header: Text("Address")) {
-                    TextField("Destination Address", text: $destination.address, axis: .vertical)
+                    TextField("Destination Address", text: $viewModel.address, axis: .vertical)
                         .lineLimit(1...5)
                 }
             }
-            .navigationTitle("\(newDestination ? "New" : "Edit") Destination")
+            .navigationTitle("\(viewModel.updating() ? "New" : "Edit") Destination")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
@@ -40,10 +43,8 @@ struct EditDestinationView: View {
                 }
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button(newDestination ? "Add" : "Save") {
-                        if newDestination {
-                            viewModel.addDestination(destination)
-                        }
+                    Button("Save") {
+                        viewModel.saveDestination()
                         dismiss()
                     }
                 }
@@ -54,7 +55,7 @@ struct EditDestinationView: View {
 
 #Preview {
     let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
-    
+
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container: ModelContainer
     do {
@@ -64,17 +65,9 @@ struct EditDestinationView: View {
     }
     
     let dataService = DataService<Destination>(modelContainer: container)
-    let viewModel = ExploreViewModel(
-        dataService: dataService,
-        geocoder: CLGeocoder(),
-        directionsService: DirectionsService {
-            MKDirections(request: $0)
-        } updates: {
-            CLLocationUpdate.liveUpdates()
-        }
-    )
     
-    return EditDestinationView(destination: laneStadiumDestination)
-        .modelContainer(container)
-        .environment(viewModel)
+    return EditDestinationView(
+        destination: laneStadiumDestination,
+        dataService: dataService
+    )
 }

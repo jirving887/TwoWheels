@@ -13,9 +13,10 @@ struct ExploreView: View {
     @State private var viewModel: ExploreViewModel
     
     let manager = CLLocationManager()
-    
+    let dataService: any DataManipulating<Destination>
+
     init(modelContainer: ModelContainer) {
-        let dataService = DataService<Destination>(modelContainer: modelContainer)
+        dataService = DataService<Destination>(modelContainer: modelContainer)
         let geocoder = CLGeocoder()
         let directionsService = DirectionsService {
             MKDirections(request: $0)
@@ -130,7 +131,9 @@ struct ExploreView: View {
             SearchSheetView(region: viewModel.visibleRegion) { viewModel.searchResultsUpdated($0) }
         }
         .sheet(item: $viewModel.editingDestination) {
-            EditDestinationView(destination: $0)
+            viewModel.destinations = dataService.fetch()
+        } content: {
+            EditDestinationView(destination: $0, dataService: dataService)
         }
         .sheet(isPresented: $viewModel.isInfoSheetPresented) {
             viewModel.selectedDestination = nil
