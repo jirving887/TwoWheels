@@ -10,13 +10,14 @@ import SwiftData
 import SwiftUI
 
 struct ExploreView: View {
+    private let dataService: any DataManipulating<Destination>
+    
     @State private var viewModel: ExploreViewModel
     
     let manager = CLLocationManager()
-    let dataService: any DataManipulating<Destination>
 
-    init(modelContainer: ModelContainer) {
-        dataService = DataService<Destination>(modelContainer: modelContainer)
+    init(dataService: any DataManipulating<Destination>) {
+        self.dataService = dataService
         let geocoder = CLGeocoder()
         let directionsService = DirectionsService {
             MKDirections(request: $0)
@@ -166,6 +167,8 @@ struct ExploreView: View {
     } catch {
         fatalError("Failed to create in-memory container: \(error)")
     }
-    
-    return ExploreView(modelContainer: container)
+
+    let dataService = DataService<Destination>(modelContainer: container)
+
+    return ExploreView(dataService: dataService)
 }
