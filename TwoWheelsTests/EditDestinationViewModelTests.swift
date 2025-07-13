@@ -10,9 +10,11 @@ import Testing
 
 @MainActor
 struct EditDestinationViewModelTests {
+    let dataServiceSpy: DataServiceSpy
     let destination: Destination
 
     init() {
+        dataServiceSpy = DataServiceSpy()
         destination = Destination(
             latitude: 37.22001,
             longitude: -80.41804,
@@ -24,8 +26,6 @@ struct EditDestinationViewModelTests {
     func init_withDestination_shouldHaveInfo() {
         let sut = makeSUT()
 
-        #expect(sut.originalTitle == destination.title)
-        #expect(sut.originalAddress == destination.address)
         #expect(sut.title == destination.title)
         #expect(sut.address == destination.address)
     }
@@ -47,9 +47,22 @@ struct EditDestinationViewModelTests {
         #expect(sut.isShowingEmptyTitleAlert)
     }
 
+    @Test
+    func saveDestination_withNonEmptyTitle_shouldSaveDestination() {
+        let sut = makeSUT()
+        sut.title = "New Title"
+        sut.address = "New Address"
+
+        sut.saveDestination()
+
+        #expect(dataServiceSpy.destinations.count == 1)
+        #expect(dataServiceSpy.destinations.first?.title == "New Title")
+        #expect(dataServiceSpy.destinations.first?.address == "New Address")
+    }
+
     // MARK: Helpers
 
     func makeSUT() -> EditDestinationViewModel {
-        EditDestinationViewModel(destination: destination)
+        EditDestinationViewModel(destination: destination, dataService: dataServiceSpy)
     }
 }
