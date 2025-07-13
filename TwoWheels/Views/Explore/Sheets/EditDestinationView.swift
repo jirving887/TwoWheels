@@ -50,6 +50,9 @@ struct EditDestinationView: View {
                 }
             }
         }
+        .alert("A name is required to save a destination.", isPresented: $viewModel.isShowingEmptyTitleAlert) {
+            Button("OK", role: .cancel) {}
+        }
     }
 }
 
