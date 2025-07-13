@@ -27,8 +27,14 @@ class EditDestinationViewModel {
     func saveDestination() {
         isShowingEmptyTitleAlert = title.isEmpty
         if !title.isEmpty {
-            destination.title = title
-            destination.address = address
+            save()
+        }
+    }
+
+    private func save() {
+        destination.title = title
+        destination.address = address
+        if !dataService.fetch().contains(destination) {
             dataService.add(destination)
         }
     }
