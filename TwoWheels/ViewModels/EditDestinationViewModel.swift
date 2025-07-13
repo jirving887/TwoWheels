@@ -31,10 +31,14 @@ class EditDestinationViewModel {
         }
     }
 
+    func updating() -> Bool {
+        dataService.fetch().contains(destination)
+    }
+
     private func save() {
         destination.title = title
         destination.address = address
-        if !dataService.fetch().contains(destination) {
+        if !updating() {
             dataService.add(destination)
         }
     }

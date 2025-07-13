@@ -73,6 +73,21 @@ struct EditDestinationViewModelTests {
         #expect(destination.title == "Lane Stadium 2")
     }
 
+    @Test
+    func updating_withNewDestination_shouldReturnFalse() {
+        let sut = makeSUT()
+
+        #expect(!sut.updating())
+    }
+
+    @Test
+    func updating_withExistingDestination_shouldReturnTrue() {
+        dataServiceSpy.destinations = [destination]
+        let sut = makeSUT()
+        
+        #expect(sut.updating())
+    }
+
     // MARK: Helpers
 
     func makeSUT() -> EditDestinationViewModel {
