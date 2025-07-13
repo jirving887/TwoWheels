@@ -14,7 +14,7 @@ class EditDestinationViewModel {
     let originalAddress: String
     var title: String
     var address: String
-    var isShowingEmptyTitleAlert = true
+    var isShowingEmptyTitleAlert = false
 
     init(destination: Destination) {
         originalTitle = destination.title
@@ -24,6 +24,6 @@ class EditDestinationViewModel {
     }
 
     func saveDestination() {
-
+        isShowingEmptyTitleAlert = title.isEmpty
     }
 }

@@ -31,7 +31,14 @@ struct EditDestinationViewModelTests {
     }
 
     @Test
-    func saveDestinaton_withEmptyName_shouldShowAlert() {
+    func init_shouldNotShowAlert() {
+        let sut = makeSUT()
+
+        #expect(!sut.isShowingEmptyTitleAlert)
+    }
+
+    @Test
+    func saveDestinaton_withEmptyTitle_shouldShowAlert() {
         let sut = makeSUT()
         sut.title = ""
 
