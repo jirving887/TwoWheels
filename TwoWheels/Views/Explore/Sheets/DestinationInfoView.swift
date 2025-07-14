@@ -13,7 +13,8 @@ struct DestinationInfoView: View {
     @Environment(ExploreViewModel.self) var viewModel
     
     let destination: Destination
-    let saved: Bool
+    let isPin: Bool
+    let isSaved: Bool
     
     var body: some View {
         VStack() {
@@ -50,14 +51,14 @@ struct DestinationInfoView: View {
                     viewModel.editingDestination = destination
                 } label: {
                     VStack {
-                        Image(systemName: saved ? "pencil" : "plus.circle")
+                        Image(systemName: isSaved ? "pencil" : "plus.circle")
                             .padding(2)
-                        Text(saved ? "Edit Destination" : "Add Destination")
+                        Text(isSaved ? "Edit Destination" : "Add Destination")
                     }
                     .frame(maxHeight: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(saved ? .yellow : .green)
+                .tint(isSaved ? .yellow : .green)
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 if let url = destination.url {
@@ -76,7 +77,7 @@ struct DestinationInfoView: View {
                     .frame(width: UIScreen.main.bounds.width / 4)
                 }
                 
-                if viewModel.tappedLocations.contains(destination) {
+                if isPin {
                     Button {
                         viewModel.removePin(destination)
                     } label: {
@@ -127,7 +128,7 @@ struct DestinationInfoView: View {
         }
     )
 
-    return DestinationInfoView(destination: laneStadiumDestination, saved: false)
+    return DestinationInfoView(destination: laneStadiumDestination, isPin: false, isSaved: false)
         .modelContainer(container)
         .environment(viewModel)
 }

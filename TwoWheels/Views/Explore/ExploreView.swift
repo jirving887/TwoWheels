@@ -140,7 +140,7 @@ struct ExploreView: View {
             viewModel.selectedDestination = nil
         } content: {
             if let destination = viewModel.selectedDestination {
-                DestinationInfoView(destination: destination, saved: viewModel.isSaved(destination))
+                DestinationInfoView(destination: destination, isPin: viewModel.isPin(destination), isSaved: viewModel.isSaved(destination))
             }
         }
         .sheet(isPresented: $viewModel.isListSheetPresented) {

@@ -221,7 +221,21 @@ struct ExploreViewModelTests {
         #expect(sut.tappedLocations == [laneStadiumDestination])
         #expect(sut.selectedDestination == laneStadiumDestination)
     }
-    
+
+    @Test
+    func isPin_withPinnedDestination_shouldReturnTrue() {
+        sut.tappedLocations = [laneStadiumDestination]
+
+        #expect(sut.isPin(laneStadiumDestination))
+    }
+
+    @Test
+    func isPin_withNotPinnedDestination_shouldReturnFalse() {
+        sut.tappedLocations = []
+
+        #expect(!sut.isPin(laneStadiumDestination))
+    }
+
     @Test
     func removePin_shouldRemovePin() {
         sut.tappedLocations.append(laneStadiumDestination)
