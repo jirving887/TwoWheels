@@ -121,11 +121,6 @@ struct DestinationInfoView: View {
         .presentationDetents([.fraction(0.33)])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled)
-        .onAppear {
-//            Task {
-//                destination.address = await viewModel.addressFromLocation(CLLocation(latitude: destination.latitude, longitude: destination.longitude))
-//            }
-        }
     }
 }
 
