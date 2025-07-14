@@ -13,14 +13,16 @@ import MapKit
 class DestinationInfoViewModel {
     private let directionsService: any Directing
     private let destination: Destination
+    private let onEdit: () -> Void
 
     var isDirectionsSheetPresented = false
     var isDirectionsAlertPresented = false
     var route: MKRoute?
 
-    init(directionsService: any Directing, destination: Destination) {
+    init(directionsService: any Directing, destination: Destination, onEdit: @escaping () -> Void) {
         self.directionsService = directionsService
         self.destination = destination
+        self.onEdit = onEdit
     }
 
     func showDirections() async {
@@ -39,5 +41,9 @@ class DestinationInfoViewModel {
         }
         isDirectionsAlertPresented = false
         isDirectionsSheetPresented = true
+    }
+
+    func edit() {
+        onEdit()
     }
 }

@@ -55,9 +55,25 @@ struct DestinationInfoViewModelTests {
 
     }
 
+    @Test
+    func edit_callsEditClosure() {
+        var editing = false
+        let sut = makeSUT {
+            editing = true
+        }
+
+        sut.edit()
+
+        #expect(editing)
+    }
+
     // MARK: Helpers
 
-    func makeSUT() -> DestinationInfoViewModel {
-        DestinationInfoViewModel(directionsService: directionsServiceSpy, destination: laneStadiumDestination)
+    func makeSUT(onEdit: @escaping () -> Void = {}) -> DestinationInfoViewModel {
+        DestinationInfoViewModel(
+            directionsService: directionsServiceSpy,
+            destination: laneStadiumDestination,
+            onEdit: onEdit
+        )
     }
 }
