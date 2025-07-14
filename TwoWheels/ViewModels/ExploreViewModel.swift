@@ -175,6 +175,13 @@ class ExploreViewModel {
     private func selectedDestinationUpdated() {
         if let selectedDestination,
            isValid(selectedDestination) {
+            Task {
+                let location = CLLocation(
+                    latitude: selectedDestination.coordinate.latitude,
+                    longitude: selectedDestination.coordinate.longitude
+                )
+                selectedDestination.address = await addressFromLocation(location)
+            }
             isInfoSheetPresented = true
             isSearchSheetPresented = false
             withAnimation(.easeInOut) {
