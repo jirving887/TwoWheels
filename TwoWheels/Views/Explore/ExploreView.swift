@@ -139,8 +139,8 @@ struct ExploreView: View {
         .sheet(isPresented: $viewModel.isInfoSheetPresented) {
             viewModel.selectedDestination = nil
         } content: {
-            if let location = viewModel.selectedDestination {
-                LocationInfoView(location: location)
+            if let destination = viewModel.selectedDestination {
+                DestinationInfoView(destination: destination)
             }
         }
         .sheet(isPresented: $viewModel.isListSheetPresented) {

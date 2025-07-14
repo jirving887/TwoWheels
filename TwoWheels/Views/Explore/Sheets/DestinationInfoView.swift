@@ -1,5 +1,5 @@
 //
-//  LocationInfoView.swift
+//  DestinationInfoView.swift
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 5/1/24.
@@ -9,23 +9,23 @@ import MapKit
 import SwiftData
 import SwiftUI
 
-struct LocationInfoView: View {
+struct DestinationInfoView: View {
     @Environment(ExploreViewModel.self) var viewModel
     
-    let location: Destination
+    let destination: Destination
     
     var saved: Bool {
-        viewModel.destinations.contains(location)
+        viewModel.destinations.contains(destination)
     }
     
     var body: some View {
         VStack() {
             VStack(alignment: .leading) {
-                Text(location.title)
+                Text(destination.title)
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
-                Text(location.address)
+                Text(destination.address)
                     .font(.title2)
                     .multilineTextAlignment(.leading)
             }
@@ -50,7 +50,7 @@ struct LocationInfoView: View {
                 
                 Button {
                     viewModel.isInfoSheetPresented = false
-                    viewModel.editingDestination = location
+                    viewModel.editingDestination = destination
                 } label: {
                     VStack {
                         Image(systemName: saved ? "pencil" : "plus.circle")
@@ -63,7 +63,7 @@ struct LocationInfoView: View {
                 .tint(saved ? .yellow : .green)
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
-                if let url = location.url {
+                if let url = destination.url {
                     Button {
                         UIApplication.shared.open(url)
                     } label: {
@@ -79,9 +79,9 @@ struct LocationInfoView: View {
                     .frame(width: UIScreen.main.bounds.width / 4)
                 }
                 
-                if viewModel.tappedLocations.contains(location) {
+                if viewModel.tappedLocations.contains(destination) {
                     Button {
-                        viewModel.removePin(location)
+                        viewModel.removePin(destination)
                     } label: {
                         VStack {
                             Image(systemName: "trash")
@@ -104,7 +104,7 @@ struct LocationInfoView: View {
         .presentationBackgroundInteraction(.enabled)
         .onAppear {
             Task {
-                location.address = await viewModel.addressFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude))
+                destination.address = await viewModel.addressFromLocation(CLLocation(latitude: destination.latitude, longitude: destination.longitude))
             }
         }
     }
@@ -130,7 +130,7 @@ struct LocationInfoView: View {
         }
     )
 
-    return LocationInfoView(location: laneStadiumDestination)
+    return DestinationInfoView(destination: laneStadiumDestination)
         .modelContainer(container)
         .environment(viewModel)
 }
