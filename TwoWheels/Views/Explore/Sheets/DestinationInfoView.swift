@@ -10,12 +10,27 @@ import SwiftData
 import SwiftUI
 
 struct DestinationInfoView: View {
-    @Environment(ExploreViewModel.self) var viewModel
-    
-    let destination: Destination
-    let isPin: Bool
-    let isSaved: Bool
-    
+//    @Environment(ExploreViewModel.self) var viewModel
+    @State private var viewModel: DestinationInfoViewModel
+
+    private let destination: Destination
+    private let isPin: Bool
+    private let isSaved: Bool
+
+    init(destination: Destination, isPin: Bool, isSaved: Bool) {
+        self.destination = destination
+        self.isPin = isPin
+        self.isSaved = isSaved
+        _viewModel = State(initialValue: DestinationInfoViewModel(
+            directionsService: DirectionsService {
+                MKDirections(request: $0)
+            } updates: {
+                CLLocationUpdate.liveUpdates()
+            },
+            destination: destination
+        ))
+    }
+
     var body: some View {
         VStack() {
             VStack(alignment: .leading) {
@@ -32,7 +47,7 @@ struct DestinationInfoView: View {
             HStack(alignment: .center, spacing: 10.0) {
                 Button {
                     Task {
-                        await viewModel.showDirections()
+//                        await viewModel.showDirections()
                     }
                 } label: {
                     VStack {
@@ -47,8 +62,7 @@ struct DestinationInfoView: View {
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 Button {
-                    viewModel.isInfoSheetPresented = false
-                    viewModel.editingDestination = destination
+//                    viewModel.edit()
                 } label: {
                     VStack {
                         Image(systemName: isSaved ? "pencil" : "plus.circle")
@@ -79,7 +93,7 @@ struct DestinationInfoView: View {
                 
                 if isPin {
                     Button {
-                        viewModel.removePin(destination)
+//                        viewModel.removePin()
                     } label: {
                         VStack {
                             Image(systemName: "trash")
@@ -101,9 +115,9 @@ struct DestinationInfoView: View {
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled)
         .onAppear {
-            Task {
-                destination.address = await viewModel.addressFromLocation(CLLocation(latitude: destination.latitude, longitude: destination.longitude))
-            }
+//            Task {
+//                destination.address = await viewModel.addressFromLocation(CLLocation(latitude: destination.latitude, longitude: destination.longitude))
+//            }
         }
     }
 }
@@ -129,7 +143,5 @@ struct DestinationInfoView: View {
     )
 
     return DestinationInfoView(destination: laneStadiumDestination, isPin: false, isSaved: false)
-        .modelContainer(container)
-        .environment(viewModel)
 }
 

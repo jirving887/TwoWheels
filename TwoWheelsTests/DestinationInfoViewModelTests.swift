@@ -5,18 +5,59 @@
 //  Created by Jonathan Irving on 7/14/25.
 //
 
+import Foundation
 import Testing
 @testable import TwoWheels
 
 @MainActor
 struct DestinationInfoViewModelTests {
+    let directionsServiceSpy: DirectionsServiceSpy
+    let laneStadiumDestination: Destination
+
+    init() {
+        directionsServiceSpy = DirectionsServiceSpy()
+        laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
+    }
 
     @Test
     func init_shouldNotShowModals() {
-        let sut = DestinationInfoViewModel()
+        let sut = makeSUT()
 
         #expect(!sut.isDirectionsSheetPresented)
         #expect(!sut.isDirectionsAlertPresented)
     }
 
+    @Test
+    func showDirections_onSuccess_shouldGetAndDisplayDirections() async {
+        let sut = makeSUT()
+        sut.isDirectionsAlertPresented = true
+        sut.isDirectionsSheetPresented = false
+
+        await sut.showDirections()
+
+        #expect(sut.route != nil)
+        #expect(sut.isDirectionsSheetPresented)
+        #expect(!sut.isDirectionsAlertPresented)
+    }
+
+    @Test
+    func showDirections_withError_shouldShowAlert() async {
+        directionsServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
+        let sut = makeSUT()
+        sut.isDirectionsAlertPresented = false
+        sut.isDirectionsSheetPresented = true
+
+        await sut.showDirections()
+
+        #expect(directionsServiceSpy.errorCount == 1)
+        #expect(sut.isDirectionsAlertPresented)
+        #expect(!sut.isDirectionsSheetPresented)
+
+    }
+
+    // MARK: Helpers
+
+    func makeSUT() -> DestinationInfoViewModel {
+        DestinationInfoViewModel(directionsService: directionsServiceSpy, destination: laneStadiumDestination)
+    }
 }
