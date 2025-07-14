@@ -67,13 +67,26 @@ struct DestinationInfoViewModelTests {
         #expect(editing)
     }
 
+    @Test
+    func removePin_callsUnPinClosure() {
+        var destinations = [laneStadiumDestination]
+        let sut = makeSUT {} onUnPin: {
+            destinations.removeAll(where: { $0 == laneStadiumDestination })
+        }
+
+        sut.removePin()
+
+        #expect(destinations.isEmpty)
+    }
+
     // MARK: Helpers
 
-    func makeSUT(onEdit: @escaping () -> Void = {}) -> DestinationInfoViewModel {
+    func makeSUT(onEdit: @escaping () -> Void = {}, onUnPin: @escaping () -> Void = {}) -> DestinationInfoViewModel {
         DestinationInfoViewModel(
             directionsService: directionsServiceSpy,
             destination: laneStadiumDestination,
-            onEdit: onEdit
+            onEdit: onEdit,
+            onUnPin: onUnPin
         )
     }
 }

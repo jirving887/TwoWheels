@@ -10,14 +10,19 @@ import SwiftData
 import SwiftUI
 
 struct DestinationInfoView: View {
-//    @Environment(ExploreViewModel.self) var viewModel
     @State private var viewModel: DestinationInfoViewModel
 
     private let destination: Destination
     private let isPin: Bool
     private let isSaved: Bool
 
-    init(destination: Destination, isPin: Bool, isSaved: Bool) {
+    init(
+        destination: Destination,
+        isPin: Bool,
+        isSaved: Bool,
+        onEdit: @escaping () -> Void,
+        onUnPin: @escaping () -> Void
+    ) {
         self.destination = destination
         self.isPin = isPin
         self.isSaved = isSaved
@@ -27,7 +32,9 @@ struct DestinationInfoView: View {
             } updates: {
                 CLLocationUpdate.liveUpdates()
             },
-            destination: destination
+            destination: destination,
+            onEdit: onEdit,
+            onUnPin: onUnPin
         ))
     }
 
@@ -47,7 +54,7 @@ struct DestinationInfoView: View {
             HStack(alignment: .center, spacing: 10.0) {
                 Button {
                     Task {
-//                        await viewModel.showDirections()
+                        await viewModel.showDirections()
                     }
                 } label: {
                     VStack {
@@ -62,7 +69,7 @@ struct DestinationInfoView: View {
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 Button {
-//                    viewModel.edit()
+                    viewModel.edit()
                 } label: {
                     VStack {
                         Image(systemName: isSaved ? "pencil" : "plus.circle")
@@ -93,7 +100,7 @@ struct DestinationInfoView: View {
                 
                 if isPin {
                     Button {
-//                        viewModel.removePin()
+                        viewModel.removePin()
                     } label: {
                         VStack {
                             Image(systemName: "trash")
@@ -123,25 +130,8 @@ struct DestinationInfoView: View {
 }
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container: ModelContainer
-    do {
-        container = try ModelContainer(for: Destination.self, configurations: config)
-    } catch {
-        fatalError("Failed to create in-memory container: \(error)")
-    }
     let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
-    let dataService = DataService<Destination>(modelContainer: container)
-    let viewModel = ExploreViewModel(
-        dataService: dataService,
-        geocoder: CLGeocoder(),
-        directionsService: DirectionsService {
-            MKDirections(request: $0)
-        } updates: {
-            CLLocationUpdate.liveUpdates()
-        }
-    )
 
-    return DestinationInfoView(destination: laneStadiumDestination, isPin: false, isSaved: false)
+    return DestinationInfoView(destination: laneStadiumDestination, isPin: false, isSaved: false) {} onUnPin: {}
 }
 
