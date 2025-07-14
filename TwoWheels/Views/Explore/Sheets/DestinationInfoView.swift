@@ -13,10 +13,7 @@ struct DestinationInfoView: View {
     @Environment(ExploreViewModel.self) var viewModel
     
     let destination: Destination
-    
-    var saved: Bool {
-        viewModel.destinations.contains(destination)
-    }
+    let saved: Bool
     
     var body: some View {
         VStack() {
@@ -130,7 +127,7 @@ struct DestinationInfoView: View {
         }
     )
 
-    return DestinationInfoView(destination: laneStadiumDestination)
+    return DestinationInfoView(destination: laneStadiumDestination, saved: false)
         .modelContainer(container)
         .environment(viewModel)
 }

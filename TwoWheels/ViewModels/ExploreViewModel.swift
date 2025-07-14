@@ -163,7 +163,11 @@ class ExploreViewModel {
             position = .region(region)
         }
     }
-    
+
+    func isSaved(_ destination: Destination) -> Bool {
+        destinations.contains(destination)
+    }
+
     private func selectedDestinationUpdated() {
         if let selectedDestination,
            isValid(selectedDestination) {

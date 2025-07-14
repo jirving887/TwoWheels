@@ -302,6 +302,18 @@ struct ExploreViewModelTests {
         
         #expect(sut.isNavigationAlertPresented)
     }
+
+    @Test
+    func isSaved_withSavedDestination_shouldReturnTrue() {
+        sut.destinations = [laneStadiumDestination]
+
+        #expect(sut.isSaved(laneStadiumDestination))
+    }
+
+    @Test
+    func isSaved_withUnSavedDestination_shouldReturnFalse() {
+        #expect(!sut.isSaved(laneStadiumDestination))
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
