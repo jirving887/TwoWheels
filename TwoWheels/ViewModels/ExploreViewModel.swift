@@ -54,17 +54,17 @@ class ExploreViewModel {
         self.dataService = dataService
         self.geocoder = geocoder
         self.directionsService = directionsService
-        destinations = dataService.fetch()
+        refreshDestinations()
     }
     
     func addDestination(_ destination: Destination) {
         dataService.add(destination)
-        destinations = dataService.fetch()
+        refreshDestinations()
     }
     
     func deleteDestination(_ destination: Destination) {
         dataService.remove(destination)
-        destinations = dataService.fetch()
+        refreshDestinations()
     }
     
     func addressFromLocation(_ location: CLLocation) async -> String {
@@ -170,6 +170,10 @@ class ExploreViewModel {
 
     func isSaved(_ destination: Destination) -> Bool {
         destinations.contains(destination)
+    }
+
+    func refreshDestinations() {
+        destinations = dataService.fetch()
     }
 
     private func selectedDestinationUpdated() {

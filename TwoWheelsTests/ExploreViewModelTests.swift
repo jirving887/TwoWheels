@@ -86,7 +86,17 @@ struct ExploreViewModelTests {
         ])
         #expect(sut.destinations == dataServiceSpy.destinations)
     }
-    
+
+    @Test
+    func refreshDestinations_shouldCallDataService() {
+        sut.destinations = []
+        dataServiceSpy.destinations = [laneStadiumDestination]
+
+        sut.refreshDestinations()
+
+        #expect(sut.destinations == dataServiceSpy.destinations)
+    }
+
     @Test
     func addressFromLocation_shouldReturnAddressString() async {
         let laneStadiumLocation2D = CLLocationCoordinate2D(
