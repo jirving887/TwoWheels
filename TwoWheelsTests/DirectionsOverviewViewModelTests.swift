@@ -17,7 +17,7 @@ struct DirectionsOverviewViewModelTests {
         (meters: 3991.173, miles: "2.48 mi"),
         (meters: 4667.1, miles: "2.90 mi")
     ])
-    func calculateDistance_withMeters_shouldSetRouteDistance(meters: Double, miles: String) {
+    func calculateDistance_withMeters_shouldCalculateCorrectDistance(meters: Double, miles: String) {
         let sut = DirectionsOverviewViewModel()
 
         #expect(sut.calculateDistance(with: meters) == miles)
@@ -29,9 +29,16 @@ struct DirectionsOverviewViewModelTests {
         (seconds: 1800, expectedTime: "30m"),
         (seconds: 86400, expectedTime: "1d"),
     ])
-    func calculateTime_withSeconds_shouldSetRouteTimeAndEta(seconds: Double, expectedTime: String){
+    func calculateTime_withSeconds_shouldCalculateAndFormatCorrectTime(seconds: Double, expectedTime: String){
         let sut = DirectionsOverviewViewModel()
 
         #expect(sut.calculateTime(with: seconds) == expectedTime)
+    }
+
+    @Test
+    func calculateEta_shouldReturnCorrectEta() {
+        let sut = DirectionsOverviewViewModel()
+
+        #expect(sut.calculateEta(with: 3600) != "" )
     }
 }

@@ -26,4 +26,8 @@ class DirectionsOverviewViewModel {
         if minutes > 0 { result.append("\(minutes)m") }
         return result.joined(separator: ", ")
     }
+
+    func calculateEta(with seconds: Double) -> String {
+        Date().addingTimeInterval(seconds).formatted(date: .omitted, time: .shortened)
+    }
 }
