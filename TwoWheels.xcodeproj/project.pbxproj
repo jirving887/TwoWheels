@@ -28,6 +28,7 @@
 		ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */; };
 		ABD980562DBB07D60073EA06 /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD980552DBB07D60073EA06 /* TabSelection.swift */; };
 		ABE6E9122D875EAB0043872D /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6E9112D875EAB0043872D /* SearchService.swift */; };
+		ABEFFDD82E28615100818D6B /* DirectionsOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEFFDD72E28615100818D6B /* DirectionsOverviewViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		ABD980552DBB07D60073EA06 /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
 		ABE6E9112D875EAB0043872D /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		ABEE50D62CE18E3600F1753A /* TwoWheelsTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TwoWheelsTests.xctestplan; sourceTree = "<group>"; };
+		ABEFFDD72E28615100818D6B /* DirectionsOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsOverviewViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -96,6 +98,7 @@
 				AB01374F2E229D0700ACB55E /* SearchViewModel.swift */,
 				AB0137892E22E19000ACB55E /* EditDestinationViewModel.swift */,
 				ABB9D7DA2E25A5A80068AB6D /* DestinationInfoViewModel.swift */,
+				ABEFFDD72E28615100818D6B /* DirectionsOverviewViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB31698F2DBFD10900579E00 /* ExploreView.swift in Sources */,
+				ABEFFDD82E28615100818D6B /* DirectionsOverviewViewModel.swift in Sources */,
 				ABC892B82DCFDEC8008FE692 /* Geocoding.swift in Sources */,
 				AB0FEAD02CF5324200524E8D /* TwoWheelsTests.swift in Sources */,
 				ABD980562DBB07D60073EA06 /* TabSelection.swift in Sources */,
