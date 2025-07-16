@@ -149,12 +149,6 @@ struct ExploreView: View {
         .sheet(isPresented: $viewModel.isListSheetPresented) {
             DestinationsListView()
         }
-        .sheet(isPresented: $viewModel.isDirectionsSheetPresented) {
-            DirectionsOverviewView()
-        }
-        .alert("Directions Unavailable", isPresented: $viewModel.isDirectionsAlertPresented) {
-            Button("OK", role: .cancel) {}
-        }
         .alert("Navigation Coming Soon", isPresented: $viewModel.isNavigationAlertPresented) {
             Button("OK", role: .cancel) {}
         }

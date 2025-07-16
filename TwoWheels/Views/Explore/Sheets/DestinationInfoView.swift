@@ -121,6 +121,12 @@ struct DestinationInfoView: View {
         .presentationDetents([.fraction(0.33)])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled)
+        .sheet(isPresented: $viewModel.isDirectionsSheetPresented) {
+            DirectionsOverviewView()
+        }
+        .alert("Directions Unavailable", isPresented: $viewModel.isDirectionsAlertPresented) {
+            Button("OK", role: .cancel) {}
+        }
     }
 }
 
