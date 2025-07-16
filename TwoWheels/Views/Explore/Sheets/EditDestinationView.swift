@@ -45,8 +45,9 @@ struct EditDestinationView: View {
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("Save") {
-                        viewModel.saveDestination()
-                        dismiss()
+                        viewModel.saveDestination {
+                            dismiss()
+                        }
                     }
                 }
             }

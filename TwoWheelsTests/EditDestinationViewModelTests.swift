@@ -37,36 +37,48 @@ struct EditDestinationViewModelTests {
 
     @Test
     func saveDestinaton_withEmptyTitle_shouldShowAlert() {
+        var dismissed = false
         let sut = makeSUT()
         sut.title = ""
 
-        sut.saveDestination()
+        sut.saveDestination {
+            dismissed = true
+        }
 
         #expect(sut.isShowingEmptyTitleAlert)
+        #expect(!dismissed)
     }
 
     @Test
     func saveDestination_withNonEmptyTitle_shouldSaveDestination() {
+        var dismissed = false
         var destinations: [Destination] = []
         let sut = makeSUT() { destinations.append($0) }
         sut.title = "New Title"
         sut.address = "New Address"
 
-        sut.saveDestination()
+        sut.saveDestination {
+            dismissed = true
+        }
 
         #expect(destinations.count == 1)
         #expect(destinations.first?.title == "New Title")
         #expect(destinations.first?.address == "New Address")
+        #expect(dismissed)
     }
 
     @Test
     func saveDestination_withExistingDestination_shouldUpdateDestination() {
+        var dismissed = false
         let sut = makeSUT(isSaved: true)
         sut.title = "Lane Stadium 2"
 
-        sut.saveDestination()
+        sut.saveDestination {
+            dismissed = true
+        }
 
         #expect(laneStadiumDestination.title == "Lane Stadium 2")
+        #expect(dismissed)
     }
 
     // MARK: Helpers

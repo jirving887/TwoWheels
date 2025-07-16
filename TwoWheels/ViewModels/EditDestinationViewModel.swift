@@ -26,10 +26,11 @@ class EditDestinationViewModel {
         address = destination.address
     }
 
-    func saveDestination() {
+    func saveDestination(onSuccess: () -> Void) {
         isShowingEmptyTitleAlert = title.isEmpty
         if !title.isEmpty {
             save()
+            onSuccess()
         }
     }
 
