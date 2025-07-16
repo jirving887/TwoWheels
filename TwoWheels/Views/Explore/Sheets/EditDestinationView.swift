@@ -14,10 +14,11 @@ struct EditDestinationView: View {
 
     @State private var viewModel: EditDestinationViewModel
 
-    init(destination: Destination, dataService: any DataManipulating<Destination>) {
+    init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void) {
         _viewModel = State(initialValue: EditDestinationViewModel(
             destination: destination,
-            dataService: dataService
+            isSaved: isSaved,
+            onSave: onSave
         ))
     }
 
@@ -33,7 +34,7 @@ struct EditDestinationView: View {
                         .lineLimit(1...5)
                 }
             }
-            .navigationTitle("\(viewModel.updating() ? "New" : "Edit") Destination")
+            .navigationTitle("\(viewModel.isSaved ? "New" : "Edit") Destination")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
@@ -59,18 +60,9 @@ struct EditDestinationView: View {
 #Preview {
     let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
 
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container: ModelContainer
-    do {
-        container = try ModelContainer(for: Destination.self, configurations: config)
-    } catch {
-        fatalError("Failed to create in-memory container: \(error)")
-    }
-    
-    let dataService = DataService<Destination>(modelContainer: container)
-    
     return EditDestinationView(
         destination: laneStadiumDestination,
-        dataService: dataService
+        isSaved: false,
+        onSave: { _ in }
     )
 }

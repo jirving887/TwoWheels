@@ -10,12 +10,10 @@ import Testing
 
 @MainActor
 struct EditDestinationViewModelTests {
-    let dataServiceSpy: DataServiceSpy
-    let destination: Destination
+    let laneStadiumDestination: Destination
 
     init() {
-        dataServiceSpy = DataServiceSpy()
-        destination = Destination(
+        laneStadiumDestination = Destination(
             latitude: 37.22001,
             longitude: -80.41804,
             title: "Lane Stadium"
@@ -26,8 +24,8 @@ struct EditDestinationViewModelTests {
     func init_withDestination_shouldHaveInfo() {
         let sut = makeSUT()
 
-        #expect(sut.title == destination.title)
-        #expect(sut.address == destination.address)
+        #expect(sut.title == laneStadiumDestination.title)
+        #expect(sut.address == laneStadiumDestination.address)
     }
 
     @Test
@@ -49,48 +47,31 @@ struct EditDestinationViewModelTests {
 
     @Test
     func saveDestination_withNonEmptyTitle_shouldSaveDestination() {
-        let sut = makeSUT()
+        var destinations: [Destination] = []
+        let sut = makeSUT() { destinations.append($0) }
         sut.title = "New Title"
         sut.address = "New Address"
 
         sut.saveDestination()
 
-        #expect(dataServiceSpy.destinations.count == 1)
-        #expect(dataServiceSpy.destinations.first?.title == "New Title")
-        #expect(dataServiceSpy.destinations.first?.address == "New Address")
+        #expect(destinations.count == 1)
+        #expect(destinations.first?.title == "New Title")
+        #expect(destinations.first?.address == "New Address")
     }
 
     @Test
     func saveDestination_withExistingDestination_shouldUpdateDestination() {
-        dataServiceSpy.destinations = [destination]
-        let sut = makeSUT()
+        let sut = makeSUT(isSaved: true)
         sut.title = "Lane Stadium 2"
 
         sut.saveDestination()
 
-        #expect(dataServiceSpy.destinations.count == 1)
-        #expect(dataServiceSpy.destinations.first?.title == "Lane Stadium 2")
-        #expect(destination.title == "Lane Stadium 2")
-    }
-
-    @Test
-    func updating_withNewDestination_shouldReturnFalse() {
-        let sut = makeSUT()
-
-        #expect(!sut.updating())
-    }
-
-    @Test
-    func updating_withExistingDestination_shouldReturnTrue() {
-        dataServiceSpy.destinations = [destination]
-        let sut = makeSUT()
-        
-        #expect(sut.updating())
+        #expect(laneStadiumDestination.title == "Lane Stadium 2")
     }
 
     // MARK: Helpers
 
-    func makeSUT() -> EditDestinationViewModel {
-        EditDestinationViewModel(destination: destination, dataService: dataServiceSpy)
+    func makeSUT(isSaved: Bool = false, onSave: @escaping (Destination) -> Void = { _ in }) -> EditDestinationViewModel {
+        EditDestinationViewModel(destination: laneStadiumDestination, isSaved: isSaved, onSave: onSave)
     }
 }

@@ -10,14 +10,11 @@ import SwiftData
 import SwiftUI
 
 struct ExploreView: View {
-    private let dataService: any DataManipulating<Destination>
-    
     @State private var viewModel: ExploreViewModel
     
     let manager = CLLocationManager()
 
     init(dataService: any DataManipulating<Destination>) {
-        self.dataService = dataService
         let geocoder = CLGeocoder()
         let directionsService = DirectionsService {
             MKDirections(request: $0)
@@ -132,9 +129,11 @@ struct ExploreView: View {
             SearchSheetView(region: viewModel.visibleRegion) { viewModel.searchResultsUpdated($0) }
         }
         .sheet(item: $viewModel.editingDestination) {
-            viewModel.destinations = dataService.fetch()
+            viewModel.refreshDestinations()
         } content: {
-            EditDestinationView(destination: $0, dataService: dataService)
+            EditDestinationView(destination: $0, isSaved: viewModel.isSaved($0)) {
+                viewModel.addDestination($0)
+            }
         }
         .sheet(isPresented: $viewModel.isInfoSheetPresented) {
             viewModel.selectedDestination = nil

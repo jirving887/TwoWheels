@@ -10,16 +10,18 @@ import Foundation
 @MainActor
 @Observable
 class EditDestinationViewModel {
-    private let dataService: any DataManipulating<Destination>
     private let destination: Destination
+    private let onSave: (Destination) -> Void
 
     var title: String
     var address: String
+    let isSaved: Bool
     var isShowingEmptyTitleAlert = false
 
-    init(destination: Destination, dataService: any DataManipulating<Destination>) {
+    init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void) {
         self.destination = destination
-        self.dataService = dataService
+        self.isSaved = isSaved
+        self.onSave = onSave
         title = destination.title
         address = destination.address
     }
@@ -31,15 +33,11 @@ class EditDestinationViewModel {
         }
     }
 
-    func updating() -> Bool {
-        dataService.fetch().contains(destination)
-    }
-
     private func save() {
         destination.title = title
         destination.address = address
-        if !updating() {
-            dataService.add(destination)
+        if !isSaved {
+            onSave(destination)
         }
     }
 }
