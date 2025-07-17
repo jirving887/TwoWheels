@@ -92,7 +92,7 @@ struct EditDestinationViewModelTests {
 
     // MARK: Helpers
 
-    func makeSUT(isSaved: Bool = false, onSave: @escaping (Destination) -> Void = { _ in }) -> EditDestinationViewModel {
+    private func makeSUT(isSaved: Bool = false, onSave: @escaping (Destination) -> Void = { _ in }) -> EditDestinationViewModel {
         EditDestinationViewModel(destination: laneStadiumDestination, isSaved: isSaved, onSave: onSave)
     }
 }
