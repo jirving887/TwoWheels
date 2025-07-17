@@ -34,7 +34,7 @@ struct EditDestinationView: View {
                         .lineLimit(1...5)
                 }
             }
-            .navigationTitle("\(viewModel.isSaved ? "New" : "Edit") Destination")
+            .navigationTitle("\(viewModel.isSaved ? "Edit" : "New") Destination")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
