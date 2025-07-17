@@ -81,6 +81,15 @@ struct EditDestinationViewModelTests {
         #expect(dismissed)
     }
 
+    @Test
+    func showDeleteConfirmation_shouldShowConfirmationAlert() {
+        let sut = makeSUT(isSaved: true)
+
+        sut.showDeleteConfirmation()
+
+        #expect(sut.isShowingDeleteConfirmationAlert)
+    }
+
     // MARK: Helpers
 
     func makeSUT(isSaved: Bool = false, onSave: @escaping (Destination) -> Void = { _ in }) -> EditDestinationViewModel {

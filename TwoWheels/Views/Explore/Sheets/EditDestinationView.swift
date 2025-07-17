@@ -39,6 +39,7 @@ struct EditDestinationView: View {
             .overlay(alignment: .bottomTrailing) {
                 if viewModel.isSaved {
                     Button {
+                        viewModel.showDeleteConfirmation()
                     } label: {
                         Image(systemName: "trash.circle.fill")
                             .resizable()
@@ -67,6 +68,12 @@ struct EditDestinationView: View {
         }
         .alert("A name is required to save a destination.", isPresented: $viewModel.isShowingEmptyTitleAlert) {
             Button("OK", role: .cancel) {}
+        }
+        .alert("Are you sure you want to delete this destination?", isPresented: $viewModel.isShowingDeleteConfirmationAlert) {
+            Button("Yes", role: .destructive) {
+            }
+
+            Button("No", role: .cancel) {}
         }
     }
 }

@@ -17,6 +17,7 @@ class EditDestinationViewModel {
     var address: String
     let isSaved: Bool
     var isShowingEmptyTitleAlert = false
+    var isShowingDeleteConfirmationAlert = false
 
     init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void) {
         self.destination = destination
@@ -33,6 +34,10 @@ class EditDestinationViewModel {
             save()
             onSuccess()
         }
+    }
+
+    func showDeleteConfirmation() {
+        isShowingDeleteConfirmationAlert = true
     }
 
     private func save() {
