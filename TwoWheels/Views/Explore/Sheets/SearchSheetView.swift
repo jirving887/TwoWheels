@@ -6,12 +6,20 @@
 //
 
 import MapKit
-import SwiftData
 import SwiftUI
 
 struct SearchSheetView: View {
-    @Environment(ExploreViewModel.self) var viewModel
-    
+    @State private var viewModel: SearchViewModel
+
+    init(region: MKCoordinateRegion, onSearchComplete: @escaping ([Destination]) -> Void) {
+        let searchService = SearchService { MKLocalSearch(request: $0) }
+        _viewModel = State(initialValue: SearchViewModel(
+            region: region,
+            searchService: searchService,
+            onSearchComplete: onSearchComplete
+        ))
+    }
+
     var body: some View {
         @Bindable var viewModel = viewModel
         VStack {
@@ -34,18 +42,18 @@ struct SearchSheetView: View {
             Spacer()
             
             List {
-                ForEach($viewModel.searchCompletions, id: \.self) { completion in
+                ForEach(viewModel.searchCompletions, id: \.self) { completion in
                     Button {
                         Task {
-                            await viewModel.search(with: completion.wrappedValue)
+                            await viewModel.search(with: completion)
                         }
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(completion.wrappedValue.title)
+                            Text(completion.title)
                                 .font(.headline)
                                 .fontDesign(.rounded)
                             
-                            Text(completion.wrappedValue.subtitle)
+                            Text(completion.subtitle)
                         }
                     }
                     .listRowBackground(Color.clear)
@@ -62,26 +70,14 @@ struct SearchSheetView: View {
 }
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container: ModelContainer
-    do {
-        container = try ModelContainer(for: Destination.self, configurations: config)
-    } catch {
-        fatalError("Failed to create in-memory container: \(error)")
-    }
-    
-    let dataService = DataService<Destination>(modelContainer: container)
-    let viewModel = ExploreViewModel(
-        dataService: dataService,
-        searchService: SearchService { MKLocalSearch(request: $0) },
-        geocoder: CLGeocoder(),
-        directionsService: DirectionsService {
-            MKDirections(request: $0)
-        } updates: {
-            CLLocationUpdate.liveUpdates()
-        }
+    let region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(
+            latitude: 37.22001,
+            longitude: -80.41804
+        ),
+        latitudinalMeters: 1000,
+        longitudinalMeters: 1000
     )
-    
-    return SearchSheetView()
-        .environment(viewModel)
+
+    return SearchSheetView(region: region) { _ in }
 }
