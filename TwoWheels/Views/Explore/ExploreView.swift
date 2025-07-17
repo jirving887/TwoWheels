@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ExploreView: View {
     @State private var viewModel: ExploreViewModel
-    
+
     let manager = CLLocationManager()
 
     init(dataService: any DataManipulating<Destination>) {
@@ -22,7 +22,7 @@ struct ExploreView: View {
         )
         _viewModel = State(initialValue: viewModel)
     }
-    
+
     var body: some View {
         MapReader { proxy in
             Map(position: $viewModel.position, selection: $viewModel.selectedDestination) {
@@ -35,21 +35,21 @@ struct ExploreView: View {
                         .tag(destination)
                     }
                 }
-                
+
                 ForEach(viewModel.searchResults) { result in
                     Marker(coordinate: result.coordinate) {
                         Image(systemName: "mappin")
                     }
                     .tag(result)
                 }
-                
+
                 ForEach(viewModel.tappedLocations) { location in
                     Marker(coordinate: location.coordinate) {
                         Image(systemName: "mappin")
                     }
                     .tag(location)
                 }
-                
+
                 UserAnnotation()
             }
             .mapControls {
@@ -74,7 +74,7 @@ struct ExploreView: View {
                         .background(Color(UIColor.systemBackground))
                         .cornerRadius(5)
                     }
-                    
+
                     Button {
                         viewModel.isSearchSheetPresented.toggle()
                     } label: {

@@ -29,7 +29,7 @@ struct EditDestinationView: View {
                 Section(header: Text("Name")) {
                     TextField("Destination Name", text: $viewModel.title)
                 }
-                
+
                 Section(header: Text("Address")) {
                     TextField("Destination Address", text: $viewModel.address, axis: .vertical)
                         .lineLimit(1...5)
@@ -57,7 +57,7 @@ struct EditDestinationView: View {
                         dismiss()
                     }
                 }
-                
+
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("Save") {
                         viewModel.saveDestination {

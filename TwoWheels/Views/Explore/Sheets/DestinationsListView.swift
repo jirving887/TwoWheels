@@ -37,6 +37,6 @@ struct DestinationsListView: View {
         let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
         destinations.append(laneStadiumDestination)
     }
-    
+
     return DestinationsListView(destinations: destinations) { _ in }
 }
