@@ -81,9 +81,42 @@ struct EditDestinationViewModelTests {
         #expect(dismissed)
     }
 
+    @Test
+    func showDeleteConfirmation_shouldShowConfirmationAlert() {
+        let sut = makeSUT(isSaved: true)
+
+        sut.showDeleteConfirmation()
+
+        #expect(sut.isShowingDeleteConfirmationAlert)
+    }
+
+    @Test
+    func deleteDestination_withSavedDestination_shouldInvokeDeleteClosure() {
+        var didCallDelete = false
+        let sut = makeSUT(isSaved: true, onDelete: { _ in
+            didCallDelete = true
+        })
+
+        sut.deleteDestination()
+
+        #expect(didCallDelete)
+    }
+
+    @Test
+    func deleteDestination_withUnSavedDestination_shouldNotInvokeDeleteClosure() {
+        var didCallDelete = false
+        let sut = makeSUT(isSaved: false, onDelete: { _ in
+            didCallDelete = true
+        })
+
+        sut.deleteDestination()
+
+        #expect(!didCallDelete)
+    }
+
     // MARK: Helpers
 
-    func makeSUT(isSaved: Bool = false, onSave: @escaping (Destination) -> Void = { _ in }) -> EditDestinationViewModel {
-        EditDestinationViewModel(destination: laneStadiumDestination, isSaved: isSaved, onSave: onSave)
+    private func makeSUT(isSaved: Bool = false, onSave: @escaping (Destination) -> Void = { _ in }, onDelete: @escaping (Destination) -> Void = { _ in }) -> EditDestinationViewModel {
+        EditDestinationViewModel(destination: laneStadiumDestination, isSaved: isSaved, onSave: onSave, onDelete: onDelete)
     }
 }

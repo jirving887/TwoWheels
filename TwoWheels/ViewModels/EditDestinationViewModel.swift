@@ -12,16 +12,23 @@ import Foundation
 class EditDestinationViewModel {
     private let destination: Destination
     private let onSave: (Destination) -> Void
+    private let onDelete: (Destination) -> Void
 
     var title: String
     var address: String
     let isSaved: Bool
     var isShowingEmptyTitleAlert = false
+    var isShowingDeleteConfirmationAlert = false
 
-    init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void) {
+    init(
+        destination: Destination, isSaved: Bool,
+        onSave: @escaping (Destination) -> Void,
+        onDelete: @escaping (Destination) -> Void
+    ) {
         self.destination = destination
         self.isSaved = isSaved
         self.onSave = onSave
+        self.onDelete = onDelete
         title = destination.title
         address = destination.address
     }
@@ -32,6 +39,16 @@ class EditDestinationViewModel {
         if !emptyTitle {
             save()
             onSuccess()
+        }
+    }
+
+    func showDeleteConfirmation() {
+        isShowingDeleteConfirmationAlert = true
+    }
+
+    func deleteDestination() {
+        if isSaved {
+            onDelete(destination)
         }
     }
 
