@@ -27,8 +27,9 @@ class EditDestinationViewModel {
     }
 
     func saveDestination(onSuccess: () -> Void) {
-        isShowingEmptyTitleAlert = title.isEmpty
-        if !title.isEmpty {
+        let emptyTitle = title.trimmingCharacters(in: .whitespaces).isEmpty
+        isShowingEmptyTitleAlert = emptyTitle
+        if !emptyTitle {
             save()
             onSuccess()
         }
