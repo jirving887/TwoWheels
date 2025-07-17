@@ -41,8 +41,23 @@ struct DestinationInfoViewModelTests {
     }
 
     @Test
-    func showDirections_withError_shouldShowAlert() async {
-        directionsServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
+    func showDirections_withDirectionsError_shouldShowAlert() async {
+        directionsServiceSpy.directionsError = NSError(domain: "", code: 0, userInfo: nil)
+        let sut = makeSUT()
+        sut.isDirectionsAlertPresented = false
+        sut.isDirectionsSheetPresented = true
+
+        await sut.showDirections(to: laneStadiumDestination)
+
+        #expect(directionsServiceSpy.errorCount == 1)
+        #expect(sut.isDirectionsAlertPresented)
+        #expect(!sut.isDirectionsSheetPresented)
+
+    }
+
+    @Test
+    func showDirections_withLocationError_shouldShowAlert() async {
+        directionsServiceSpy.locationError = NSError(domain: "", code: 0, userInfo: nil)
         let sut = makeSUT()
         sut.isDirectionsAlertPresented = false
         sut.isDirectionsSheetPresented = true

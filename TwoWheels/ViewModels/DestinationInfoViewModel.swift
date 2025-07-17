@@ -33,7 +33,14 @@ class DestinationInfoViewModel {
         let destinationPlacemark = MKPlacemark(coordinate: destination.coordinate)
         let destinationItem = MKMapItem(placemark: destinationPlacemark)
         let request = MKDirections.Request()
-        request.source = try? await directionsService.getUserMapItem()
+        do {
+            request.source = try await directionsService.getUserMapItem()
+        } catch {
+            print("Failed to get user location: \(error)")
+            isDirectionsSheetPresented = false
+            isDirectionsAlertPresented = true
+            return
+        }
         request.destination = destinationItem
         do {
             route = try await directionsService.getDirections(with: request)
