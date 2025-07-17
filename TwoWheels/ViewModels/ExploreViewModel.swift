@@ -14,7 +14,6 @@ import SwiftUI
 class ExploreViewModel {
     private let dataService: any DataManipulating<Destination>
     private let geocoder: any Geocoding
-    private let directionsService: any Directing
 
     var isSearchSheetPresented = false
     var isInfoSheetPresented = false
@@ -32,7 +31,6 @@ class ExploreViewModel {
     
     var selectedDestination: Destination? {
         didSet {
-            print("UPDATING SELECTED DESTINATION")
             selectedDestinationUpdated()
         }
     }
@@ -40,11 +38,9 @@ class ExploreViewModel {
     init(
         dataService: any DataManipulating<Destination>,
         geocoder: any Geocoding,
-        directionsService: any Directing
     ) {
         self.dataService = dataService
         self.geocoder = geocoder
-        self.directionsService = directionsService
         refreshDestinations()
     }
     

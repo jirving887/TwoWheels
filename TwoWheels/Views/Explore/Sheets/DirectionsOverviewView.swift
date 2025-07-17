@@ -90,16 +90,11 @@ struct DirectionsOverviewView: View {
     }
     
     let dataService = DataService<Destination>(modelContainer: container)
-    let masterViewModel = ExploreViewModel(
+    let exploreViewModel = ExploreViewModel(
         dataService: dataService,
-        geocoder: CLGeocoder(),
-        directionsService: DirectionsService {
-            MKDirections(request: $0)
-        } updates: {
-            CLLocationUpdate.liveUpdates()
-        }
+        geocoder: CLGeocoder()
     )
     
     return DirectionsOverviewView(route: .init())
-        .environment(masterViewModel)
+        .environment(exploreViewModel)
 }

@@ -27,8 +27,7 @@ struct ExploreViewModelTests {
         directionsServiceSpy = DirectionsServiceSpy()
         sut = ExploreViewModel(
             dataService: dataServiceSpy,
-            geocoder: geocoderSpy,
-            directionsService: directionsServiceSpy
+            geocoder: geocoderSpy
         )
         laneStadiumDestination = Destination(latitude: 37.22001, longitude: -80.41804, title: "Lane Stadium")
         laneStadiumItem = MKMapItem(placemark: MKPlacemark(coordinate: laneStadiumDestination.coordinate))
@@ -41,8 +40,7 @@ struct ExploreViewModelTests {
         dataServiceSpy.destinations = [laneStadiumDestination]
         let freshSut = ExploreViewModel(
             dataService: dataServiceSpy,
-            geocoder: geocoderSpy,
-            directionsService: directionsServiceSpy
+            geocoder: geocoderSpy
         )
         #expect(freshSut.destinations == [laneStadiumDestination])
     }

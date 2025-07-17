@@ -16,15 +16,9 @@ struct ExploreView: View {
 
     init(dataService: any DataManipulating<Destination>) {
         let geocoder = CLGeocoder()
-        let directionsService = DirectionsService {
-            MKDirections(request: $0)
-        } updates: {
-            CLLocationUpdate.liveUpdates()
-        }
         let viewModel = ExploreViewModel(
             dataService: dataService,
-            geocoder: geocoder,
-            directionsService: directionsService
+            geocoder: geocoder
         )
         _viewModel = State(initialValue: viewModel)
     }
