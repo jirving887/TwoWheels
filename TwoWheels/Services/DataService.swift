@@ -9,11 +9,11 @@ import Foundation
 import SwiftData
 
 @MainActor
-protocol DataManipulating<T> {
-    associatedtype T: PersistentModel
-    func fetch() -> [T]
-    func add(_ data: T)
-    func remove(_ data: T)
+protocol DataManipulating<Model> {
+    associatedtype Model: PersistentModel
+    func fetch() -> [Model]
+    func add(_ data: Model)
+    func remove(_ data: Model)
 }
 
 class DataService<T: PersistentModel>: DataManipulating {

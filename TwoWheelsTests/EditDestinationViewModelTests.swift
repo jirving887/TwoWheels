@@ -116,7 +116,16 @@ struct EditDestinationViewModelTests {
 
     // MARK: Helpers
 
-    private func makeSUT(isSaved: Bool = false, onSave: @escaping (Destination) -> Void = { _ in }, onDelete: @escaping (Destination) -> Void = { _ in }) -> EditDestinationViewModel {
-        EditDestinationViewModel(destination: laneStadiumDestination, isSaved: isSaved, onSave: onSave, onDelete: onDelete)
+    private func makeSUT(
+        isSaved: Bool = false,
+        onSave: @escaping (Destination) -> Void = { _ in },
+        onDelete: @escaping (Destination) -> Void = { _ in }
+    ) -> EditDestinationViewModel {
+        EditDestinationViewModel(
+            destination: laneStadiumDestination,
+            isSaved: isSaved,
+            onSave: onSave,
+            onDelete: onDelete
+        )
     }
 }

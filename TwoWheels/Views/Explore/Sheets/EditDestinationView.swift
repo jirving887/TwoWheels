@@ -14,7 +14,12 @@ struct EditDestinationView: View {
 
     @State private var viewModel: EditDestinationViewModel
 
-    init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void, onDelete: @escaping (Destination) -> Void) {
+    init(
+        destination: Destination,
+        isSaved: Bool,
+        onSave: @escaping (Destination) -> Void,
+        onDelete: @escaping (Destination) -> Void
+    ) {
         _viewModel = State(initialValue: EditDestinationViewModel(
             destination: destination,
             isSaved: isSaved,
@@ -67,10 +72,16 @@ struct EditDestinationView: View {
                 }
             }
         }
-        .alert("A name is required to save a destination.", isPresented: $viewModel.isShowingEmptyTitleAlert) {
+        .alert(
+            "A name is required to save a destination.",
+            isPresented: $viewModel.isShowingEmptyTitleAlert
+        ) {
             Button("OK", role: .cancel) {}
         }
-        .alert("Are you sure you want to delete this destination?", isPresented: $viewModel.isShowingDeleteConfirmationAlert) {
+        .alert(
+            "Are you sure you want to delete this destination?",
+            isPresented: $viewModel.isShowingDeleteConfirmationAlert
+        ) {
             Button("Yes", role: .destructive) {
                 viewModel.deleteDestination()
                 dismiss()
