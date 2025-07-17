@@ -19,9 +19,9 @@ struct SearchServiceTests {
             localSearchSpy = MKLocalSearchSpy(request: $0)
             return localSearchSpy
         }
-        
+
         _ = try await sut.search(with: .init())
-        
+
         #expect(localSearchSpy.startCount == 1)
     }
 }

@@ -53,7 +53,7 @@ struct EditDestinationViewModelTests {
     func saveDestination_withNonEmptyTitle_shouldSaveDestination() {
         var dismissed = false
         var destinations: [Destination] = []
-        let sut = makeSUT() { destinations.append($0) }
+        let sut = makeSUT { destinations.append($0) }
         sut.title = "New Title"
         sut.address = "New Address"
 
@@ -116,7 +116,16 @@ struct EditDestinationViewModelTests {
 
     // MARK: Helpers
 
-    private func makeSUT(isSaved: Bool = false, onSave: @escaping (Destination) -> Void = { _ in }, onDelete: @escaping (Destination) -> Void = { _ in }) -> EditDestinationViewModel {
-        EditDestinationViewModel(destination: laneStadiumDestination, isSaved: isSaved, onSave: onSave, onDelete: onDelete)
+    private func makeSUT(
+        isSaved: Bool = false,
+        onSave: @escaping (Destination) -> Void = { _ in },
+        onDelete: @escaping (Destination) -> Void = { _ in }
+    ) -> EditDestinationViewModel {
+        EditDestinationViewModel(
+            destination: laneStadiumDestination,
+            isSaved: isSaved,
+            onSave: onSave,
+            onDelete: onDelete
+        )
     }
 }

@@ -64,7 +64,7 @@ struct SearchViewModelTests {
         )
         let sut = makeSUT(region: region)
         sut.searchString = "Lane Stadium"
-        
+
         await sut.search()
 
         let request = try #require(searchServiceSpy.request)

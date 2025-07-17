@@ -10,8 +10,8 @@ import SwiftData
 import SwiftUI
 
 @Model
-class Destination : MapSelectable {
-    
+class Destination: MapSelectable {
+
     @Transient
     var feature: MapFeature?
     var title: String
@@ -19,11 +19,11 @@ class Destination : MapSelectable {
     var longitude: Double
     var latitude: Double
     var url: URL?
-    
+
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
-    
+
     init(_ mapItem: MKMapItem) {
         title = mapItem.name ?? ""
         address = ""
@@ -31,7 +31,7 @@ class Destination : MapSelectable {
         longitude = mapItem.placemark.coordinate.longitude
         url = mapItem.url
     }
-    
+
     convenience init(latitude: Double, longitude: Double, title: String = "") {
         let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let placemark = MKPlacemark(coordinate: coordinates)
@@ -39,7 +39,7 @@ class Destination : MapSelectable {
         item.name = title
         self.init(item)
     }
-    
+
     required convenience init(_ feature: MapFeature?) {
         let placemark = MKPlacemark(coordinate: feature?.coordinate ?? CLLocationCoordinate2D())
         let item = MKMapItem(placemark: placemark)

@@ -20,7 +20,7 @@ struct ExploreViewModelTests {
     let laneStadiumItem: MKMapItem
     let burrussHallDestination: Destination
     let burrussHallItem: MKMapItem
-    
+
     init() {
         dataServiceSpy = DataServiceSpy()
         geocoderSpy = GeocoderSpy()
@@ -34,7 +34,7 @@ struct ExploreViewModelTests {
         burrussHallDestination = Destination(latitude: 37.229000, longitude: -80.423710)
         burrussHallItem = MKMapItem(placemark: MKPlacemark(coordinate: burrussHallDestination.coordinate))
     }
-    
+
     @Test
     func init_withNonEmptyDataService_shouldHaveData() {
         dataServiceSpy.destinations = [laneStadiumDestination]
@@ -44,15 +44,15 @@ struct ExploreViewModelTests {
         )
         #expect(freshSut.destinations == [laneStadiumDestination])
     }
-    
+
     @Test
     func addDestination_shouldAddDestination() {
         sut.addDestination(laneStadiumDestination)
-        
+
         #expect(dataServiceSpy.destinationTitles == ["Lane Stadium"])
         #expect(sut.destinations == dataServiceSpy.destinations)
     }
-    
+
     @Test
     func deleteDestination_shouldDeleteDestination() {
         for num in 0..<3 {
@@ -72,9 +72,9 @@ struct ExploreViewModelTests {
             )
             sut.addDestination(newDestination)
         }
-        
+
         sut.deleteDestination(laneStadiumDestination)
-        
+
         #expect(dataServiceSpy.destinationTitles == [
             "Lane Stadium 0",
             "Lane Stadium 1",
@@ -101,7 +101,7 @@ struct ExploreViewModelTests {
             latitude: 37.22001,
             longitude: -80.41804
         )
-        let laneStadiumAddressDictionary: [String : Any] = [
+        let laneStadiumAddressDictionary: [String: Any] = [
             "thoroughfare": "Beamer Way",
             "subThoroughfare": "185",
             "locality": "Blacksburg",
@@ -121,58 +121,58 @@ struct ExploreViewModelTests {
             latitude: 37.22001,
             longitude: -80.41804
         )
-        
+
         let address = await sut.addressFromLocation(laneStadiumLocation)
         let expectedAddress = "185 Beamer Way Blacksburg, VA 24061 United States"
-        
+
         #expect(expectedAddress.contains(address.trimmingCharacters(in: .whitespaces)))
     }
-    
+
     @Test
     func addressFromLocation_withError_shouldThrowError() async {
         geocoderSpy.error = NSError(domain: "", code: 0, userInfo: nil)
-        
+
         let address = await sut.addressFromLocation(CLLocation(latitude: 0, longitude: 0))
-        
+
         #expect(geocoderSpy.errorCount == 1)
         #expect(address == "Unable to determine address")
     }
-    
+
     @Test
     func reset_shouldClearSearchResultsAndSelectedLocationAndSearchCompletions() {
         sut.searchResults = Array(repeating: laneStadiumDestination, count: 4)
         sut.selectedDestination = laneStadiumDestination
-        
+
         sut.reset()
-        
+
         #expect(sut.searchResults.isEmpty)
         #expect(sut.selectedDestination == nil)
     }
-    
+
     @Test
     func selectedDestinationUpdated_withValidDestination_shouldUpdateMapPositionAndSheets() {
         sut.isInfoSheetPresented = false
         sut.isSearchSheetPresented = true
         sut.selectedDestination = laneStadiumDestination
-        
+
         #expect(sut.isInfoSheetPresented)
         #expect(!sut.isSearchSheetPresented)
         #expect(sut.position.item == laneStadiumItem)
     }
-    
+
     @Test
     func selectedDestinationUpdated_withNilDestination_shouldCloseInfoSheet() {
         sut.isInfoSheetPresented = true
         sut.selectedDestination = nil
-        
+
         #expect(!sut.isInfoSheetPresented)
     }
-    
+
     @Test
     func selectedDestinationUpdated_withEmptyFeature_shouldCloseInfoSheet() {
         let destination = Destination(latitude: 0.0, longitude: 0.0)
         sut.selectedDestination = destination
-        
+
         #expect(!sut.isInfoSheetPresented)
     }
 
@@ -194,18 +194,18 @@ struct ExploreViewModelTests {
         #expect(sut.selectedDestination == nil)
         #expect(sut.position.region == originalRegion)
     }
-    
+
     @Test
     func searchResultsUpdated_withSingleResult_shouldSetSelectedDestination() {
         sut.isSearchSheetPresented = true
-        
+
         sut.searchResultsUpdated([laneStadiumDestination])
 
         #expect(!sut.isSearchSheetPresented)
         #expect(sut.selectedDestination == laneStadiumDestination)
         #expect(sut.position.item == laneStadiumItem)
     }
-    
+
     @Test
     func searhResultsUpdated_withMultipleResults_shouldChangeMapPositionAndDeselectDestinations() {
         sut.isSearchSheetPresented = true
@@ -221,11 +221,11 @@ struct ExploreViewModelTests {
         #expect(sut.selectedDestination == nil)
         #expect(sut.position.region == burrussHallRegion)
     }
-    
+
     @Test
     func addPin_shouldAddPin() {
         sut.addPin(laneStadiumDestination)
-        
+
         #expect(sut.tappedLocations == [laneStadiumDestination])
         #expect(sut.selectedDestination == laneStadiumDestination)
     }
@@ -248,25 +248,25 @@ struct ExploreViewModelTests {
     func removePin_shouldRemovePin() {
         sut.tappedLocations.append(laneStadiumDestination)
         sut.isInfoSheetPresented = true
-        
+
         sut.removePin(laneStadiumDestination)
-        
+
         #expect(sut.tappedLocations.isEmpty)
         #expect(!sut.isInfoSheetPresented)
     }
-    
+
     @Test
     func selectDestinationFromList_shouldChangeTabSelectionAndSetSelectedDestination() {
         sut.selectDestinationFromList(laneStadiumDestination)
-        
+
         #expect(!sut.isListSheetPresented)
         #expect(sut.selectedDestination == laneStadiumDestination)
     }
-    
+
     @Test
     func startNavigation_shouldShowAlert() {
         sut.startNavigation()
-        
+
         #expect(sut.isNavigationAlertPresented)
     }
 

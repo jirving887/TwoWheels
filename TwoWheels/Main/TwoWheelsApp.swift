@@ -20,7 +20,7 @@ struct TwoWheelsApp: App {
         }
         dataService = DataService(modelContainer: container)
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ExploreView(dataService: dataService)

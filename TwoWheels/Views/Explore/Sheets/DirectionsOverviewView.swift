@@ -18,7 +18,7 @@ struct DirectionsOverviewView: View {
 
     var body: some View {
         VStack {
-            Map() {
+            Map {
                 MapPolyline(route)
                     .stroke(.blue, style: StrokeStyle(
                             lineWidth: 5,
@@ -28,7 +28,7 @@ struct DirectionsOverviewView: View {
                     )
             }
             .cornerRadius(20)
-            
+
             HStack {
                 VStack {
                     Text("Distance:")
@@ -39,7 +39,7 @@ struct DirectionsOverviewView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.red.opacity(0.3))
                 .cornerRadius(20)
-                
+
                 VStack {
                     Text("Time:")
                         .font(.headline)
@@ -51,7 +51,7 @@ struct DirectionsOverviewView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.orange.opacity(0.3))
                 .cornerRadius(20)
-                
+
                 VStack {
                     Text("ETA:")
                         .font(.headline)
@@ -64,7 +64,7 @@ struct DirectionsOverviewView: View {
             }
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxHeight: UIScreen.main.bounds.height * 0.1)
-            
+
             Button {
                 twoWheelsViewModel.startNavigation()
             } label: {
@@ -88,13 +88,13 @@ struct DirectionsOverviewView: View {
     } catch {
         fatalError("Failed to create in-memory container: \(error)")
     }
-    
+
     let dataService = DataService<Destination>(modelContainer: container)
     let exploreViewModel = ExploreViewModel(
         dataService: dataService,
         geocoder: CLGeocoder()
     )
-    
+
     return DirectionsOverviewView(route: .init())
         .environment(exploreViewModel)
 }

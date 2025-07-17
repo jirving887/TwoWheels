@@ -25,7 +25,7 @@ struct SearchSheetView: View {
         VStack {
             HStack {
                 Image(systemName: "magnifyingglass")
-                
+
                 TextField("Search for a new destination", text: $viewModel.searchString)
                     .autocorrectionDisabled()
                     .onSubmit {
@@ -38,9 +38,9 @@ struct SearchSheetView: View {
             .background(.gray.opacity(0.1))
             .cornerRadius(8)
             .foregroundColor(.primary)
-            
+
             Spacer()
-            
+
             List {
                 ForEach(viewModel.searchCompletions, id: \.self) { completion in
                     Button {
@@ -52,7 +52,7 @@ struct SearchSheetView: View {
                             Text(completion.title)
                                 .font(.headline)
                                 .fontDesign(.rounded)
-                            
+
                             Text(completion.subtitle)
                         }
                     }

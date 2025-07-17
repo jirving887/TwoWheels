@@ -96,7 +96,10 @@ struct DestinationInfoViewModelTests {
 
     // MARK: Helpers
 
-    private func makeSUT(onEdit: @escaping () -> Void = {}, onUnPin: @escaping () -> Void = {}) -> DestinationInfoViewModel {
+    private func makeSUT(
+        onEdit: @escaping () -> Void = {},
+        onUnPin: @escaping () -> Void = {}
+    ) -> DestinationInfoViewModel {
         DestinationInfoViewModel(
             directionsService: directionsServiceSpy,
             onEdit: onEdit,
