@@ -33,7 +33,7 @@ struct DestinationInfoViewModelTests {
         sut.isDirectionsAlertPresented = true
         sut.isDirectionsSheetPresented = false
 
-        await sut.showDirections()
+        await sut.showDirections(to: laneStadiumDestination)
 
         #expect(sut.route != nil)
         #expect(sut.isDirectionsSheetPresented)
@@ -47,7 +47,7 @@ struct DestinationInfoViewModelTests {
         sut.isDirectionsAlertPresented = false
         sut.isDirectionsSheetPresented = true
 
-        await sut.showDirections()
+        await sut.showDirections(to: laneStadiumDestination)
 
         #expect(directionsServiceSpy.errorCount == 1)
         #expect(sut.isDirectionsAlertPresented)
@@ -84,7 +84,6 @@ struct DestinationInfoViewModelTests {
     func makeSUT(onEdit: @escaping () -> Void = {}, onUnPin: @escaping () -> Void = {}) -> DestinationInfoViewModel {
         DestinationInfoViewModel(
             directionsService: directionsServiceSpy,
-            destination: laneStadiumDestination,
             onEdit: onEdit,
             onUnPin: onUnPin
         )

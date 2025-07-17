@@ -12,7 +12,6 @@ import MapKit
 @Observable
 class DestinationInfoViewModel {
     private let directionsService: any Directing
-    private let destination: Destination
     private let onEdit: () -> Void
     private let onUnPin: () -> Void
 
@@ -22,17 +21,15 @@ class DestinationInfoViewModel {
 
     init(
         directionsService: any Directing,
-        destination: Destination,
         onEdit: @escaping () -> Void,
         onUnPin: @escaping () -> Void
     ) {
         self.directionsService = directionsService
-        self.destination = destination
         self.onEdit = onEdit
         self.onUnPin = onUnPin
     }
 
-    func showDirections() async {
+    func showDirections(to destination: Destination) async {
         let placemark = MKPlacemark(coordinate: destination.coordinate)
         let destination = MKMapItem(placemark: placemark)
         let request = MKDirections.Request()

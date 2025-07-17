@@ -27,21 +27,12 @@ class ExploreViewModel {
     var tappedLocations: [Destination] = []
     var visibleRegion = MKCoordinateRegion.init()
     var position = MapCameraPosition.userLocation(fallback: .automatic)
-    var routeDistance = ""
-    var routeTime = ""
-    var eta = ""
-    
-    var route: MKRoute? {
-        didSet {
-            updateDistance(with: route?.distance ?? 0)
-            updateTime(with: route?.expectedTravelTime ?? 0)
-        }
-    }
-    
+
     var searchResults: [Destination] = []
     
     var selectedDestination: Destination? {
         didSet {
+            print("UPDATING SELECTED DESTINATION")
             selectedDestinationUpdated()
         }
     }
@@ -109,45 +100,6 @@ class ExploreViewModel {
         isListSheetPresented = false
     }
     
-    func showDirections() async {
-        guard let selectedDestination else {
-            isDirectionsAlertPresented = true
-            return
-        }
-        let placemark = MKPlacemark(coordinate: selectedDestination.coordinate)
-        let destination = MKMapItem(placemark: placemark)
-        let request = MKDirections.Request()
-        request.source = try? await directionsService.getUserMapItem()
-        request.destination = destination
-        do {
-            route = try await directionsService.getDirections(with: request)
-        } catch {
-            print("Could not get directions, error: \(error)")
-            isDirectionsAlertPresented = true
-            return
-        }
-        isInfoSheetPresented = false
-        isDirectionsSheetPresented = true
-    }
-    
-    func updateDistance(with meters: Double) {
-        let miles = meters / 1609.34
-        routeDistance = String(format: "%.2f mi", miles)
-    }
-    
-    func updateTime(with seconds: Double) {
-        let time = Int(seconds)
-        let days: Int = time / 86400
-        let hours: Int = (time % 86400) / 3600
-        let minutes: Int = ((time % 86400) % 3600) / 60
-        var result: [String] = []
-        if days > 0 { result.append("\(days)d") }
-        if hours > 0 { result.append("\(hours)h") }
-        if minutes > 0 { result.append("\(minutes)m") }
-        routeTime = result.joined(separator: ", ")
-        eta = Date().addingTimeInterval(seconds).formatted(date: .omitted, time: .shortened)
-    }
-    
     func startNavigation() {
         isNavigationAlertPresented = true
     }
@@ -177,6 +129,7 @@ class ExploreViewModel {
     }
 
     private func selectedDestinationUpdated() {
+        isInfoSheetPresented = false
         if let selectedDestination,
            isValid(selectedDestination) {
             Task {

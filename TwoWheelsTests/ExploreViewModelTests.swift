@@ -266,61 +266,6 @@ struct ExploreViewModelTests {
     }
     
     @Test
-    func showDirections_shouldGetAndDisplayDirections() async {
-        sut.selectedDestination = laneStadiumDestination
-        
-        await sut.showDirections()
-        
-        #expect(sut.route != nil)
-        #expect(!sut.isInfoSheetPresented)
-        #expect(sut.isDirectionsSheetPresented)
-    }
-    
-    @Test
-    func showDirections_withError_shouldShowAlert() async {
-        directionsServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
-        sut.selectedDestination = laneStadiumDestination
-        
-        await sut.showDirections()
-         
-        #expect(directionsServiceSpy.errorCount == 1)
-        #expect(sut.isDirectionsAlertPresented)
-        #expect(sut.isInfoSheetPresented)
-        #expect(!sut.isDirectionsSheetPresented)
-        
-    }
-    
-    @Test
-    func showDirections_withNoSelectedDestination_shouldShowAlert() async throws {
-        sut.selectedDestination = nil
-        
-        await sut.showDirections()
-        
-        #expect(sut.isDirectionsAlertPresented)
-        #expect(!sut.isDirectionsSheetPresented)
-    }
-    
-    @Test
-    func updateDistance_withMeters_shouldSetRouteDistance() {
-        sut.updateDistance(with: 1610)
-        
-        #expect(sut.routeDistance == "1.00 mi")
-    }
-    
-    @Test(arguments: [
-        (seconds: 3600, expectedTime: "1h"),
-        (seconds: 217800, expectedTime: "2d, 12h, 30m"),
-        (seconds: 1800, expectedTime: "30m"),
-        (seconds: 86400, expectedTime: "1d"),
-    ])
-    func updateTime_withSeconds_shouldSetRouteTimeAndEta(seconds: Double, expectedTime: String) {
-        sut.updateTime(with: seconds)
-        
-        #expect(sut.routeTime == expectedTime)
-        #expect(sut.eta != "")
-    }
-    
-    @Test
     func startNavigation_shouldShowAlert() {
         sut.startNavigation()
         

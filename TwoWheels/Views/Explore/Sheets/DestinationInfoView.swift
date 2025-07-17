@@ -32,7 +32,6 @@ struct DestinationInfoView: View {
             } updates: {
                 CLLocationUpdate.liveUpdates()
             },
-            destination: destination,
             onEdit: onEdit,
             onUnPin: onUnPin
         ))
@@ -54,7 +53,7 @@ struct DestinationInfoView: View {
             HStack(alignment: .center, spacing: 10.0) {
                 Button {
                     Task {
-                        await viewModel.showDirections()
+                        await viewModel.showDirections(to: destination)
                     }
                 } label: {
                     VStack {
