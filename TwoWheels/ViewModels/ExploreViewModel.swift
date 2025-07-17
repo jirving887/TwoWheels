@@ -28,13 +28,13 @@ class ExploreViewModel {
     var position = MapCameraPosition.userLocation(fallback: .automatic)
 
     var searchResults: [Destination] = []
-    
+
     var selectedDestination: Destination? {
         didSet {
             selectedDestinationUpdated()
         }
     }
-    
+
     init(
         dataService: any DataManipulating<Destination>,
         geocoder: any Geocoding,
@@ -43,22 +43,22 @@ class ExploreViewModel {
         self.geocoder = geocoder
         refreshDestinations()
     }
-    
+
     func addDestination(_ destination: Destination) {
         dataService.add(destination)
         refreshDestinations()
     }
-    
+
     func deleteDestination(_ destination: Destination) {
         dataService.remove(destination)
         refreshDestinations()
     }
-    
+
     func addressFromLocation(_ location: CLLocation) async -> String {
         do {
             let placemarks =  try await geocoder.reverseGeocodeLocation(location)
             let placemark = placemarks.first
-            return 
+            return
                 """
                 \(placemark?.subThoroughfare ?? "") \
                 \(placemark?.thoroughfare ?? "") \
@@ -71,12 +71,12 @@ class ExploreViewModel {
             return "Unable to determine address"
         }
     }
-    
+
     func reset() {
         searchResults = []
         selectedDestination = nil
     }
-    
+
     func addPin(_ pin: Destination) {
         tappedLocations.append(pin)
         selectedDestination = pin
@@ -90,16 +90,16 @@ class ExploreViewModel {
         tappedLocations.removeAll { $0 == pin }
         isInfoSheetPresented = false
     }
-    
+
     func selectDestinationFromList(_ destination: Destination) {
         selectedDestination = destination
         isListSheetPresented = false
     }
-    
+
     func startNavigation() {
         isNavigationAlertPresented = true
     }
-    
+
     func searchResultsUpdated(_ results: [Destination]) {
         searchResults = results
         isSearchSheetPresented = false
@@ -146,7 +146,7 @@ class ExploreViewModel {
             isInfoSheetPresented = false
         }
     }
-    
+
     private func isValid(_ destination: Destination) -> Bool {
         destination.latitude != 0 &&
         destination.longitude != 0

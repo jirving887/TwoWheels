@@ -27,9 +27,9 @@ struct DirectionsOverviewViewModelTests {
         (seconds: 3600, expectedTime: "1h"),
         (seconds: 217800, expectedTime: "2d, 12h, 30m"),
         (seconds: 1800, expectedTime: "30m"),
-        (seconds: 86400, expectedTime: "1d"),
+        (seconds: 86400, expectedTime: "1d")
     ])
-    func calculateTime_withSeconds_shouldCalculateAndFormatCorrectTime(seconds: Double, expectedTime: String){
+    func calculateTime_withSeconds_shouldCalculateAndFormatCorrectTime(seconds: Double, expectedTime: String) {
         let sut = DirectionsOverviewViewModel()
 
         #expect(sut.calculateTime(with: seconds) == expectedTime)

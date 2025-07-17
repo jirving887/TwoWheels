@@ -9,7 +9,7 @@ import MapKit
 
 class MKLocalSearchSpy: MKLocalSearch {
     var startCount = 0
-    
+
     override func start() async throws -> MKLocalSearch.Response {
         startCount += 1
         return .init()

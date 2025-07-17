@@ -14,7 +14,12 @@ struct EditDestinationView: View {
 
     @State private var viewModel: EditDestinationViewModel
 
-    init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void, onDelete: @escaping (Destination) -> Void) {
+    init(
+        destination: Destination,
+        isSaved: Bool,
+        onSave: @escaping (Destination) -> Void,
+        onDelete: @escaping (Destination) -> Void
+    ) {
         _viewModel = State(initialValue: EditDestinationViewModel(
             destination: destination,
             isSaved: isSaved,
@@ -29,7 +34,7 @@ struct EditDestinationView: View {
                 Section(header: Text("Name")) {
                     TextField("Destination Name", text: $viewModel.title)
                 }
-                
+
                 Section(header: Text("Address")) {
                     TextField("Destination Address", text: $viewModel.address, axis: .vertical)
                         .lineLimit(1...5)
@@ -57,7 +62,7 @@ struct EditDestinationView: View {
                         dismiss()
                     }
                 }
-                
+
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("Save") {
                         viewModel.saveDestination {
@@ -67,10 +72,16 @@ struct EditDestinationView: View {
                 }
             }
         }
-        .alert("A name is required to save a destination.", isPresented: $viewModel.isShowingEmptyTitleAlert) {
+        .alert(
+            "A name is required to save a destination.",
+            isPresented: $viewModel.isShowingEmptyTitleAlert
+        ) {
             Button("OK", role: .cancel) {}
         }
-        .alert("Are you sure you want to delete this destination?", isPresented: $viewModel.isShowingDeleteConfirmationAlert) {
+        .alert(
+            "Are you sure you want to delete this destination?",
+            isPresented: $viewModel.isShowingDeleteConfirmationAlert
+        ) {
             Button("Yes", role: .destructive) {
                 viewModel.deleteDestination()
                 dismiss()

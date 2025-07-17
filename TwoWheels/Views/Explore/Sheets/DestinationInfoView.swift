@@ -38,7 +38,7 @@ struct DestinationInfoView: View {
     }
 
     var body: some View {
-        VStack() {
+        VStack {
             VStack(alignment: .leading) {
                 Text(destination.title)
                     .font(.title)
@@ -49,7 +49,7 @@ struct DestinationInfoView: View {
                     .multilineTextAlignment(.leading)
             }
             .padding()
-            
+
             HStack(alignment: .center, spacing: 10.0) {
                 Button {
                     Task {
@@ -66,7 +66,7 @@ struct DestinationInfoView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .frame(width: UIScreen.main.bounds.width / 4)
-                
+
                 Button {
                     viewModel.edit()
                 } label: {
@@ -80,7 +80,7 @@ struct DestinationInfoView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(isSaved ? .yellow : .green)
                 .frame(width: UIScreen.main.bounds.width / 4)
-                
+
                 if let url = destination.url {
                     Button {
                         UIApplication.shared.open(url)
@@ -96,7 +96,7 @@ struct DestinationInfoView: View {
                     .tint(.orange)
                     .frame(width: UIScreen.main.bounds.width / 4)
                 }
-                
+
                 if isPin {
                     Button {
                         viewModel.removePin()
@@ -136,4 +136,3 @@ struct DestinationInfoView: View {
 
     return DestinationInfoView(destination: laneStadiumDestination, isPin: false, isSaved: false) {} onUnPin: {}
 }
-
