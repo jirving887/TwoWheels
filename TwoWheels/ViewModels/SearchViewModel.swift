@@ -19,8 +19,7 @@ class SearchViewModel {
     var searchResults: [Destination] = []
 
     var searchCompletions: [MKLocalSearchCompletion] {
-        get { completer.results }
-        set {}
+        completer.results
     }
 
     var searchString = "" {
@@ -68,7 +67,8 @@ class SearchViewModel {
 
     private func searchStringUpdated() {
         guard !searchString.isEmpty else {
-            searchCompletions = []
+            completer.queryFragment = ""
+            completer.resultTypes = []
             return
         }
         if searchString.count == 1 {

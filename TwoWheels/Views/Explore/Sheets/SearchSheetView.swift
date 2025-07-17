@@ -42,18 +42,18 @@ struct SearchSheetView: View {
             Spacer()
             
             List {
-                ForEach($viewModel.searchCompletions, id: \.self) { completion in
+                ForEach(viewModel.searchCompletions, id: \.self) { completion in
                     Button {
                         Task {
-                            await viewModel.search(with: completion.wrappedValue)
+                            await viewModel.search(with: completion)
                         }
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(completion.wrappedValue.title)
+                            Text(completion.title)
                                 .font(.headline)
                                 .fontDesign(.rounded)
                             
-                            Text(completion.wrappedValue.subtitle)
+                            Text(completion.subtitle)
                         }
                     }
                     .listRowBackground(Color.clear)
