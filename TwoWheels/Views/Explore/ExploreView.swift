@@ -13,21 +13,12 @@ struct ExploreView: View {
     @State private var viewModel: ExploreViewModel
     
     let manager = CLLocationManager()
-    
-    init(modelContainer: ModelContainer) {
-        let dataService = DataService<Destination>(modelContainer: modelContainer)
-        let searchService = SearchService { MKLocalSearch(request: $0) }
+
+    init(dataService: any DataManipulating<Destination>) {
         let geocoder = CLGeocoder()
-        let directionsService = DirectionsService {
-            MKDirections(request: $0)
-        } updates: {
-            CLLocationUpdate.liveUpdates()
-        }
         let viewModel = ExploreViewModel(
             dataService: dataService,
-            searchService: searchService,
-            geocoder: geocoder,
-            directionsService: directionsService
+            geocoder: geocoder
         )
         _viewModel = State(initialValue: viewModel)
     }
@@ -129,26 +120,28 @@ struct ExploreView: View {
             )
         }
         .sheet(isPresented: $viewModel.isSearchSheetPresented) {
-            SearchSheetView()
+            SearchSheetView(region: viewModel.visibleRegion) { viewModel.searchResultsUpdated($0) }
         }
         .sheet(item: $viewModel.editingDestination) {
-            EditDestinationView(destination: $0)
+            viewModel.refreshDestinations()
+        } content: {
+            EditDestinationView(destination: $0, isSaved: viewModel.isSaved($0)) {
+                viewModel.addDestination($0)
+            }
         }
         .sheet(isPresented: $viewModel.isInfoSheetPresented) {
             viewModel.selectedDestination = nil
         } content: {
-            if let location = viewModel.selectedDestination {
-                LocationInfoView(location: location)
+            if let destination = viewModel.selectedDestination {
+                DestinationInfoView(destination: destination, isPin: viewModel.isPin(destination), isSaved: viewModel.isSaved(destination)) {
+                    viewModel.editingDestination = destination
+                } onUnPin: {
+                    viewModel.removePin(destination)
+                }
             }
         }
         .sheet(isPresented: $viewModel.isListSheetPresented) {
             DestinationsListView()
-        }
-        .sheet(isPresented: $viewModel.isDirectionsSheetPresented) {
-            DirectionsOverviewView()
-        }
-        .alert("Directions Unavailable", isPresented: $viewModel.isDirectionsAlertPresented) {
-            Button("OK", role: .cancel) {}
         }
         .alert("Navigation Coming Soon", isPresented: $viewModel.isNavigationAlertPresented) {
             Button("OK", role: .cancel) {}
@@ -165,6 +158,8 @@ struct ExploreView: View {
     } catch {
         fatalError("Failed to create in-memory container: \(error)")
     }
-    
-    return ExploreView(modelContainer: container)
+
+    let dataService = DataService<Destination>(modelContainer: container)
+
+    return ExploreView(dataService: dataService)
 }

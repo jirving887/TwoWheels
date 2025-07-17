@@ -1,5 +1,5 @@
 //
-//  LocationInfoView.swift
+//  DestinationInfoView.swift
 //  TwoWheels
 //
 //  Created by Jonathan Irving on 5/1/24.
@@ -9,23 +9,42 @@ import MapKit
 import SwiftData
 import SwiftUI
 
-struct LocationInfoView: View {
-    @Environment(ExploreViewModel.self) var viewModel
-    
-    let location: Destination
-    
-    var saved: Bool {
-        viewModel.destinations.contains(location)
+struct DestinationInfoView: View {
+    @State private var viewModel: DestinationInfoViewModel
+
+    private let destination: Destination
+    private let isPin: Bool
+    private let isSaved: Bool
+
+    init(
+        destination: Destination,
+        isPin: Bool,
+        isSaved: Bool,
+        onEdit: @escaping () -> Void,
+        onUnPin: @escaping () -> Void
+    ) {
+        self.destination = destination
+        self.isPin = isPin
+        self.isSaved = isSaved
+        _viewModel = State(initialValue: DestinationInfoViewModel(
+            directionsService: DirectionsService {
+                MKDirections(request: $0)
+            } updates: {
+                CLLocationUpdate.liveUpdates()
+            },
+            onEdit: onEdit,
+            onUnPin: onUnPin
+        ))
     }
-    
+
     var body: some View {
         VStack() {
             VStack(alignment: .leading) {
-                Text(location.title)
+                Text(destination.title)
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
-                Text(location.address)
+                Text(destination.address)
                     .font(.title2)
                     .multilineTextAlignment(.leading)
             }
@@ -34,7 +53,7 @@ struct LocationInfoView: View {
             HStack(alignment: .center, spacing: 10.0) {
                 Button {
                     Task {
-                        await viewModel.showDirections()
+                        await viewModel.showDirections(to: destination)
                     }
                 } label: {
                     VStack {
@@ -49,21 +68,20 @@ struct LocationInfoView: View {
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
                 Button {
-                    viewModel.isInfoSheetPresented = false
-                    viewModel.editingDestination = location
+                    viewModel.edit()
                 } label: {
                     VStack {
-                        Image(systemName: saved ? "pencil" : "plus.circle")
+                        Image(systemName: isSaved ? "pencil" : "plus.circle")
                             .padding(2)
-                        Text(saved ? "Edit Destination" : "Add Destination")
+                        Text(isSaved ? "Edit Destination" : "Add Destination")
                     }
                     .frame(maxHeight: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(saved ? .yellow : .green)
+                .tint(isSaved ? .yellow : .green)
                 .frame(width: UIScreen.main.bounds.width / 4)
                 
-                if let url = location.url {
+                if let url = destination.url {
                     Button {
                         UIApplication.shared.open(url)
                     } label: {
@@ -79,9 +97,9 @@ struct LocationInfoView: View {
                     .frame(width: UIScreen.main.bounds.width / 4)
                 }
                 
-                if viewModel.tappedLocations.contains(location) {
+                if isPin {
                     Button {
-                        viewModel.removePin(location)
+                        viewModel.removePin()
                     } label: {
                         VStack {
                             Image(systemName: "trash")
@@ -102,37 +120,20 @@ struct LocationInfoView: View {
         .presentationDetents([.fraction(0.33)])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled)
-        .onAppear {
-            Task {
-                location.address = await viewModel.addressFromLocation(CLLocation(latitude: location.latitude, longitude: location.longitude))
+        .sheet(isPresented: $viewModel.isDirectionsSheetPresented) {
+            if let route = viewModel.route {
+                DirectionsOverviewView(route: route)
             }
+        }
+        .alert("Directions Unavailable", isPresented: $viewModel.isDirectionsAlertPresented) {
+            Button("OK", role: .cancel) {}
         }
     }
 }
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container: ModelContainer
-    do {
-        container = try ModelContainer(for: Destination.self, configurations: config)
-    } catch {
-        fatalError("Failed to create in-memory container: \(error)")
-    }
     let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
-    let dataService = DataService<Destination>(modelContainer: container)
-    let viewModel = ExploreViewModel(
-        dataService: dataService,
-        searchService: SearchService { MKLocalSearch(request: $0) },
-        geocoder: CLGeocoder(),
-        directionsService: DirectionsService {
-            MKDirections(request: $0)
-        } updates: {
-            CLLocationUpdate.liveUpdates()
-        }
-    )
 
-    return LocationInfoView(location: laneStadiumDestination)
-        .modelContainer(container)
-        .environment(viewModel)
+    return DestinationInfoView(destination: laneStadiumDestination, isPin: false, isSaved: false) {} onUnPin: {}
 }
 
