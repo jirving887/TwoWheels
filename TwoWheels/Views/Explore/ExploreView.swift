@@ -83,15 +83,17 @@ struct ExploreView: View {
                     .frame(minWidth: 45, minHeight: 45)
                     .background(Color(UIColor.systemBackground))
                     .cornerRadius(5)
-                    
-                    Button {
-                        viewModel.isListSheetPresented.toggle()
-                    } label: {
-                        Image(systemName: "list.bullet")
+
+                    if !viewModel.destinations.isEmpty {
+                        Button {
+                            viewModel.isListSheetPresented.toggle()
+                        } label: {
+                            Image(systemName: "list.bullet")
+                        }
+                        .frame(minWidth: 45, minHeight: 45)
+                        .background(Color(UIColor.systemBackground))
+                        .cornerRadius(5)
                     }
-                    .frame(minWidth: 45, minHeight: 45)
-                    .background(Color(UIColor.systemBackground))
-                    .cornerRadius(5)
                 }
                 .padding(.trailing, 5)
                 .padding(.bottom, 20)
@@ -127,6 +129,8 @@ struct ExploreView: View {
         } content: {
             EditDestinationView(destination: $0, isSaved: viewModel.isSaved($0)) {
                 viewModel.addDestination($0)
+            } onDelete: {
+                viewModel.deleteDestination($0)
             }
         }
         .sheet(isPresented: $viewModel.isInfoSheetPresented) {
@@ -141,7 +145,8 @@ struct ExploreView: View {
             }
         }
         .sheet(isPresented: $viewModel.isListSheetPresented) {
-            DestinationsListView()
+            DestinationsListView(destinations: viewModel.destinations) { viewModel.selectDestinationFromList($0)
+            }
         }
         .alert("Navigation Coming Soon", isPresented: $viewModel.isNavigationAlertPresented) {
             Button("OK", role: .cancel) {}

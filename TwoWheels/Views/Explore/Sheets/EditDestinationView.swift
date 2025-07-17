@@ -14,11 +14,12 @@ struct EditDestinationView: View {
 
     @State private var viewModel: EditDestinationViewModel
 
-    init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void) {
+    init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void, onDelete: @escaping (Destination) -> Void) {
         _viewModel = State(initialValue: EditDestinationViewModel(
             destination: destination,
             isSaved: isSaved,
-            onSave: onSave
+            onSave: onSave,
+            onDelete: onDelete
         ))
     }
 
@@ -36,6 +37,20 @@ struct EditDestinationView: View {
             }
             .navigationTitle("\(viewModel.isSaved ? "Edit" : "New") Destination")
             .navigationBarTitleDisplayMode(.large)
+            .overlay(alignment: .bottomTrailing) {
+                if viewModel.isSaved {
+                    Button {
+                        viewModel.showDeleteConfirmation()
+                    } label: {
+                        Image(systemName: "trash.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 75, height: 75)
+                            .foregroundStyle(.red)
+                    }
+                    .padding(20)
+                }
+            }
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     Button("Cancel") {
@@ -55,6 +70,14 @@ struct EditDestinationView: View {
         .alert("A name is required to save a destination.", isPresented: $viewModel.isShowingEmptyTitleAlert) {
             Button("OK", role: .cancel) {}
         }
+        .alert("Are you sure you want to delete this destination?", isPresented: $viewModel.isShowingDeleteConfirmationAlert) {
+            Button("Yes", role: .destructive) {
+                viewModel.deleteDestination()
+                dismiss()
+            }
+
+            Button("No", role: .cancel) {}
+        }
     }
 }
 
@@ -64,6 +87,7 @@ struct EditDestinationView: View {
     return EditDestinationView(
         destination: laneStadiumDestination,
         isSaved: false,
-        onSave: { _ in }
+        onSave: { _ in },
+        onDelete: { _ in }
     )
 }
