@@ -13,8 +13,6 @@ struct DestinationsListView: View {
     @Environment(ExploreViewModel.self) var viewModel
     
     var body: some View {
-        NavigationStack {
-            if !viewModel.destinations.isEmpty {
                 List(viewModel.destinations, id: \.self) { destination in
                     Button {
                         viewModel.selectDestinationFromList(destination)
@@ -44,14 +42,7 @@ struct DestinationsListView: View {
                         .tint(.yellow)
                     }
                 }
-            } else {
-                ContentUnavailableView(
-                    "No Destinations saved!",
-                    systemImage: "mappin.slash.circle",
-                    description: Text("You have not saved any locations yet. Check out the Map \(Image(systemName: "map")) and add one.")
-                )
-            }
-        }
+
     }
 }
 

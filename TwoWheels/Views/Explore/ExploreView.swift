@@ -83,15 +83,17 @@ struct ExploreView: View {
                     .frame(minWidth: 45, minHeight: 45)
                     .background(Color(UIColor.systemBackground))
                     .cornerRadius(5)
-                    
-                    Button {
-                        viewModel.isListSheetPresented.toggle()
-                    } label: {
-                        Image(systemName: "list.bullet")
+
+                    if !viewModel.destinations.isEmpty {
+                        Button {
+                            viewModel.isListSheetPresented.toggle()
+                        } label: {
+                            Image(systemName: "list.bullet")
+                        }
+                        .frame(minWidth: 45, minHeight: 45)
+                        .background(Color(UIColor.systemBackground))
+                        .cornerRadius(5)
                     }
-                    .frame(minWidth: 45, minHeight: 45)
-                    .background(Color(UIColor.systemBackground))
-                    .cornerRadius(5)
                 }
                 .padding(.trailing, 5)
                 .padding(.bottom, 20)
