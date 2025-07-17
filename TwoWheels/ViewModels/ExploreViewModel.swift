@@ -91,7 +91,7 @@ class ExploreViewModel {
     }
 
     func removePin(_ pin: Destination) {
-        tappedLocations.removeAll { $0 === pin }
+        tappedLocations.removeAll { $0 == pin }
         isInfoSheetPresented = false
     }
     
