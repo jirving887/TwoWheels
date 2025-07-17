@@ -122,7 +122,9 @@ struct DestinationInfoView: View {
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled)
         .sheet(isPresented: $viewModel.isDirectionsSheetPresented) {
-            DirectionsOverviewView()
+            if let route = viewModel.route {
+                DirectionsOverviewView(route: route)
+            }
         }
         .alert("Directions Unavailable", isPresented: $viewModel.isDirectionsAlertPresented) {
             Button("OK", role: .cancel) {}

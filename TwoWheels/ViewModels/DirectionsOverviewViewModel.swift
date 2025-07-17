@@ -7,9 +7,7 @@
 
 import Foundation
 
-@MainActor
-@Observable
-class DirectionsOverviewViewModel {
+struct DirectionsOverviewViewModel {
     func calculateDistance(with meters: Double) -> String {
         let miles = meters / 1609.34
         return String(format: "%.2f mi", miles)
