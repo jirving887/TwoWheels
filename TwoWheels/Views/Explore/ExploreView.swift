@@ -129,6 +129,8 @@ struct ExploreView: View {
         } content: {
             EditDestinationView(destination: $0, isSaved: viewModel.isSaved($0)) {
                 viewModel.addDestination($0)
+            } onDelete: {
+                viewModel.deleteDestination($0)
             }
         }
         .sheet(isPresented: $viewModel.isInfoSheetPresented) {

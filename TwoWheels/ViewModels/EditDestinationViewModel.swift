@@ -12,6 +12,7 @@ import Foundation
 class EditDestinationViewModel {
     private let destination: Destination
     private let onSave: (Destination) -> Void
+    private let onDelete: (Destination) -> Void
 
     var title: String
     var address: String
@@ -19,10 +20,15 @@ class EditDestinationViewModel {
     var isShowingEmptyTitleAlert = false
     var isShowingDeleteConfirmationAlert = false
 
-    init(destination: Destination, isSaved: Bool, onSave: @escaping (Destination) -> Void) {
+    init(
+        destination: Destination, isSaved: Bool,
+        onSave: @escaping (Destination) -> Void,
+        onDelete: @escaping (Destination) -> Void
+    ) {
         self.destination = destination
         self.isSaved = isSaved
         self.onSave = onSave
+        self.onDelete = onDelete
         title = destination.title
         address = destination.address
     }
@@ -38,6 +44,12 @@ class EditDestinationViewModel {
 
     func showDeleteConfirmation() {
         isShowingDeleteConfirmationAlert = true
+    }
+
+    func deleteDestination() {
+        if isSaved {
+            onDelete(destination)
+        }
     }
 
     private func save() {
