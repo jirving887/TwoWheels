@@ -36,6 +36,19 @@ struct EditDestinationView: View {
             }
             .navigationTitle("\(viewModel.isSaved ? "Edit" : "New") Destination")
             .navigationBarTitleDisplayMode(.large)
+            .overlay(alignment: .bottomTrailing) {
+                if viewModel.isSaved {
+                    Button {
+                    } label: {
+                        Image(systemName: "trash.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 75, height: 75)
+                            .foregroundStyle(.red)
+                    }
+                    .padding(20)
+                }
+            }
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     Button("Cancel") {
