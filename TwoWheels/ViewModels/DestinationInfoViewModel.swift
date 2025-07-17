@@ -30,11 +30,11 @@ class DestinationInfoViewModel {
     }
 
     func showDirections(to destination: Destination) async {
-        let placemark = MKPlacemark(coordinate: destination.coordinate)
-        let destination = MKMapItem(placemark: placemark)
+        let destinationPlacemark = MKPlacemark(coordinate: destination.coordinate)
+        let destinationItem = MKMapItem(placemark: destinationPlacemark)
         let request = MKDirections.Request()
         request.source = try? await directionsService.getUserMapItem()
-        request.destination = destination
+        request.destination = destinationItem
         do {
             route = try await directionsService.getDirections(with: request)
         } catch {
