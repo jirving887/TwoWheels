@@ -143,7 +143,8 @@ struct ExploreView: View {
             }
         }
         .sheet(isPresented: $viewModel.isListSheetPresented) {
-            DestinationsListView()
+            DestinationsListView(destinations: viewModel.destinations) { viewModel.selectDestinationFromList($0)
+            }
         }
         .alert("Navigation Coming Soon", isPresented: $viewModel.isNavigationAlertPresented) {
             Button("OK", role: .cancel) {}

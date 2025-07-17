@@ -7,15 +7,15 @@
 
 import MapKit
 import SwiftUI
-import SwiftData
 
 struct DestinationsListView: View {
-    @Environment(ExploreViewModel.self) var viewModel
-    
+    let destinations: [Destination]
+    let tappedDestination: (Destination) -> Void
+
     var body: some View {
-        List(viewModel.destinations, id: \.self) { destination in
+        List(destinations) { destination in
             Button {
-                viewModel.selectDestinationFromList(destination)
+                tappedDestination(destination)
             } label: {
                 HStack {
                     Image(systemName: "mappin.circle")
@@ -32,27 +32,11 @@ struct DestinationsListView: View {
 }
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container: ModelContainer
-    do {
-        container = try ModelContainer(for: Destination.self, configurations: config)
-    } catch {
-        fatalError("Failed to create in-memory container: \(error)")
-    }
-    
+    var destinations: [Destination] = []
     for _ in 1..<10 {
         let laneStadiumDestination = Destination(latitude: 38.22001, longitude: -81.41804, title: "Lane Stadium")
-        
-        container.mainContext.insert(laneStadiumDestination)
+        destinations.append(laneStadiumDestination)
     }
     
-    let dataService = DataService<Destination>(modelContainer: container)
-    let viewModel = ExploreViewModel(
-        dataService: dataService,
-        geocoder: CLGeocoder()
-    )
-    
-    return DestinationsListView()
-        .modelContainer(container)
-        .environment(viewModel)
+    return DestinationsListView(destinations: destinations) { _ in }
 }
