@@ -13,36 +13,21 @@ struct DestinationsListView: View {
     @Environment(ExploreViewModel.self) var viewModel
     
     var body: some View {
-                List(viewModel.destinations, id: \.self) { destination in
-                    Button {
-                        viewModel.selectDestinationFromList(destination)
-                    } label: {
-                        HStack {
-                            Image(systemName: "mappin.circle")
-                                .imageScale(.large)
-                            
-                            Text(destination.title)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .swipeActions(edge: .trailing) {
-                        Button(role: .destructive) {
-                            viewModel.deleteDestination(destination)
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                        }
-                        
-                        Button {
-                            viewModel.editingDestination = destination
-                        } label: {
-                            Label("Edit", systemImage: "pencil")
-                        }
-                        .tint(.yellow)
-                    }
-                }
+        List(viewModel.destinations, id: \.self) { destination in
+            Button {
+                viewModel.selectDestinationFromList(destination)
+            } label: {
+                HStack {
+                    Image(systemName: "mappin.circle")
+                        .imageScale(.large)
 
+                    Text(destination.title)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
     }
 }
 
