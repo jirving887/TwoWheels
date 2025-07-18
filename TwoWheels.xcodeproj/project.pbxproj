@@ -11,6 +11,7 @@
 		AB01378A2E22E19000ACB55E /* EditDestinationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0137892E22E19000ACB55E /* EditDestinationViewModel.swift */; };
 		AB0FEACE2CF52ED800524E8D /* TwoWheels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */; };
 		AB0FEAD02CF5324200524E8D /* TwoWheelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */; };
+		AB203FF22E2A9E3C005198D7 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB203FF12E2A9E3C005198D7 /* Mode.swift */; };
 		AB2F3B272DD8F849004E22D1 /* DirectionsOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2F3B262DD8F849004E22D1 /* DirectionsOverviewView.swift */; };
 		AB2F3B292DD900F5004E22D1 /* DirectionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2F3B282DD900F5004E22D1 /* DirectionsService.swift */; };
 		AB31698F2DBFD10900579E00 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31698E2DBFD10900579E00 /* ExploreView.swift */; };
@@ -46,6 +47,7 @@
 		AB0137892E22E19000ACB55E /* EditDestinationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDestinationViewModel.swift; sourceTree = "<group>"; };
 		AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheels.swift; sourceTree = "<group>"; };
 		AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheelsTests.swift; sourceTree = "<group>"; };
+		AB203FF12E2A9E3C005198D7 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		AB2F3B262DD8F849004E22D1 /* DirectionsOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsOverviewView.swift; sourceTree = "<group>"; };
 		AB2F3B282DD900F5004E22D1 /* DirectionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsService.swift; sourceTree = "<group>"; };
 		AB2F577F2CCA7A1F00ADB10E /* TwoWheelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwoWheelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				ABD94A882CA3366000ED21D3 /* Destination.swift */,
+				AB203FF12E2A9E3C005198D7 /* Mode.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				AB0137502E229D0700ACB55E /* SearchViewModel.swift in Sources */,
 				AB2F3B272DD8F849004E22D1 /* DirectionsOverviewView.swift in Sources */,
 				ABC291622B61CE7900EC1393 /* SearchSheetView.swift in Sources */,
+				AB203FF22E2A9E3C005198D7 /* Mode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
