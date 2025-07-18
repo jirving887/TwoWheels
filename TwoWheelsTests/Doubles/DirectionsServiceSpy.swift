@@ -9,20 +9,25 @@ import MapKit
 @testable import TwoWheels
 
 class DirectionsServiceSpy: Directing {
-    var error: (any Error)?
+    var directionsError: (any Error)?
+    var locationError: (any Error)?
     var errorCount = 0
     var expectedRoute = MKRoute()
     var expectedUserLocation = MKMapItem()
-    
+
     func getDirections(with request: MKDirections.Request) async throws -> MKRoute? {
-        if let error {
+        if let directionsError {
             errorCount += 1
-            throw error
+            throw directionsError
         }
         return expectedRoute
     }
-    
+
     func getUserMapItem() async throws -> MKMapItem? {
-        expectedUserLocation
+        if let locationError {
+            errorCount += 1
+            throw locationError
+        }
+        return expectedUserLocation
     }
 }

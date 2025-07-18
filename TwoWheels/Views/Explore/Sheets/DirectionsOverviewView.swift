@@ -10,38 +10,40 @@ import SwiftData
 import SwiftUI
 
 struct DirectionsOverviewView: View {
-    @Environment(ExploreViewModel.self) var viewModel
-    
+    @Environment(ExploreViewModel.self) var twoWheelsViewModel
+
+    private let viewModel = DirectionsOverviewViewModel()
+
+    let route: MKRoute
+
     var body: some View {
         VStack {
-            Map() {
-                if let route = viewModel.route {
-                    MapPolyline(route)
-                        .stroke(.blue, style: StrokeStyle(
-                                lineWidth: 5,
-                                lineCap: .round,
-                                lineJoin: .round
-                            )
+            Map {
+                MapPolyline(route)
+                    .stroke(.blue, style: StrokeStyle(
+                            lineWidth: 5,
+                            lineCap: .round,
+                            lineJoin: .round
                         )
-                }
+                    )
             }
             .cornerRadius(20)
-            
+
             HStack {
                 VStack {
                     Text("Distance:")
                         .font(.headline)
-                    Text(viewModel.routeDistance)
+                    Text(viewModel.calculateDistance(with: route.distance))
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.red.opacity(0.3))
                 .cornerRadius(20)
-                
+
                 VStack {
                     Text("Time:")
                         .font(.headline)
-                    Text(viewModel.routeTime)
+                    Text(viewModel.calculateTime(with: route.expectedTravelTime))
                         .lineLimit(1)
                         .minimumScaleFactor(0.01)
                 }
@@ -49,11 +51,11 @@ struct DirectionsOverviewView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.orange.opacity(0.3))
                 .cornerRadius(20)
-                
+
                 VStack {
                     Text("ETA:")
                         .font(.headline)
-                    Text(viewModel.eta)
+                    Text(viewModel.calculateEta(with: route.expectedTravelTime))
                 }
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -62,9 +64,9 @@ struct DirectionsOverviewView: View {
             }
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxHeight: UIScreen.main.bounds.height * 0.1)
-            
+
             Button {
-                viewModel.startNavigation()
+                twoWheelsViewModel.startNavigation()
             } label: {
                 Text("Go")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -86,23 +88,13 @@ struct DirectionsOverviewView: View {
     } catch {
         fatalError("Failed to create in-memory container: \(error)")
     }
-    
+
     let dataService = DataService<Destination>(modelContainer: container)
-    let viewModel = ExploreViewModel(
+    let exploreViewModel = ExploreViewModel(
         dataService: dataService,
-        searchService: SearchService { MKLocalSearch(request: $0) },
-        geocoder: CLGeocoder(),
-        directionsService: DirectionsService {
-            MKDirections(request: $0)
-        } updates: {
-            CLLocationUpdate.liveUpdates()
-        }
+        geocoder: CLGeocoder()
     )
-    
-    viewModel.routeDistance = "80.00 mi"
-    viewModel.routeTime = "10d, 23h, 59m"
-    viewModel.eta = "11:59 PM"
-    
-    return DirectionsOverviewView()
-        .environment(viewModel)
+
+    return DirectionsOverviewView(route: .init())
+        .environment(exploreViewModel)
 }

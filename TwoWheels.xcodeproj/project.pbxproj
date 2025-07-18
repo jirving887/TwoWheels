@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB0137502E229D0700ACB55E /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB01374F2E229D0700ACB55E /* SearchViewModel.swift */; };
+		AB01378A2E22E19000ACB55E /* EditDestinationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0137892E22E19000ACB55E /* EditDestinationViewModel.swift */; };
 		AB0FEACE2CF52ED800524E8D /* TwoWheels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */; };
 		AB0FEAD02CF5324200524E8D /* TwoWheelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */; };
 		AB2F3B272DD8F849004E22D1 /* DirectionsOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2F3B262DD8F849004E22D1 /* DirectionsOverviewView.swift */; };
@@ -14,18 +16,20 @@
 		AB31698F2DBFD10900579E00 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31698E2DBFD10900579E00 /* ExploreView.swift */; };
 		AB3169912DBFD46000579E00 /* ExploreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3169902DBFD46000579E00 /* ExploreViewModel.swift */; };
 		AB3169992DBFED9500579E00 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3169982DBFED9500579E00 /* DataService.swift */; };
-		AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3406102BE32C550061BB16 /* LocationInfoView.swift */; };
+		AB3406112BE32C550061BB16 /* DestinationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3406102BE32C550061BB16 /* DestinationInfoView.swift */; };
 		AB3A41552DB98F9F00DDACDA /* EditDestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3A41542DB98F9F00DDACDA /* EditDestinationView.swift */; };
 		AB5EB6BF2E15DDAF00EABE23 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5EB6BE2E15DDAF00EABE23 /* NavigationView.swift */; };
 		AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */; };
 		AB8BCFD52B48AE2A003AE1DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */; };
 		AB8BCFD82B48AE2A003AE1DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB8BCFD72B48AE2A003AE1DC /* Preview Assets.xcassets */; };
+		ABB9D7DB2E25A5A80068AB6D /* DestinationInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB9D7DA2E25A5A80068AB6D /* DestinationInfoViewModel.swift */; };
 		ABC291622B61CE7900EC1393 /* SearchSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC291612B61CE7900EC1393 /* SearchSheetView.swift */; };
 		ABC892B82DCFDEC8008FE692 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC892B72DCFDEC8008FE692 /* Geocoding.swift */; };
 		ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A882CA3366000ED21D3 /* Destination.swift */; };
 		ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */; };
 		ABD980562DBB07D60073EA06 /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD980552DBB07D60073EA06 /* TabSelection.swift */; };
 		ABE6E9122D875EAB0043872D /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE6E9112D875EAB0043872D /* SearchService.swift */; };
+		ABEFFDD82E28615100818D6B /* DirectionsOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEFFDD72E28615100818D6B /* DirectionsOverviewViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB01374F2E229D0700ACB55E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		AB0137892E22E19000ACB55E /* EditDestinationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDestinationViewModel.swift; sourceTree = "<group>"; };
 		AB0FEACD2CF52ED800524E8D /* TwoWheels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheels.swift; sourceTree = "<group>"; };
 		AB0FEACF2CF5324200524E8D /* TwoWheelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheelsTests.swift; sourceTree = "<group>"; };
 		AB2F3B262DD8F849004E22D1 /* DirectionsOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsOverviewView.swift; sourceTree = "<group>"; };
@@ -47,13 +53,14 @@
 		AB31698E2DBFD10900579E00 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
 		AB3169902DBFD46000579E00 /* ExploreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewModel.swift; sourceTree = "<group>"; };
 		AB3169982DBFED9500579E00 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
-		AB3406102BE32C550061BB16 /* LocationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoView.swift; sourceTree = "<group>"; };
+		AB3406102BE32C550061BB16 /* DestinationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationInfoView.swift; sourceTree = "<group>"; };
 		AB3A41542DB98F9F00DDACDA /* EditDestinationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDestinationView.swift; sourceTree = "<group>"; };
 		AB5EB6BE2E15DDAF00EABE23 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		AB8BCFCD2B48AE29003AE1DC /* TwoWheels.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwoWheels.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB8BCFD02B48AE29003AE1DC /* TwoWheelsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoWheelsApp.swift; sourceTree = "<group>"; };
 		AB8BCFD42B48AE2A003AE1DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB8BCFD72B48AE2A003AE1DC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		ABB9D7DA2E25A5A80068AB6D /* DestinationInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationInfoViewModel.swift; sourceTree = "<group>"; };
 		ABC291612B61CE7900EC1393 /* SearchSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSheetView.swift; sourceTree = "<group>"; };
 		ABC892B72DCFDEC8008FE692 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		ABD94A882CA3366000ED21D3 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
@@ -61,6 +68,7 @@
 		ABD980552DBB07D60073EA06 /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
 		ABE6E9112D875EAB0043872D /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		ABEE50D62CE18E3600F1753A /* TwoWheelsTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TwoWheelsTests.xctestplan; sourceTree = "<group>"; };
+		ABEFFDD72E28615100818D6B /* DirectionsOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsOverviewViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -89,6 +97,10 @@
 			isa = PBXGroup;
 			children = (
 				AB3169902DBFD46000579E00 /* ExploreViewModel.swift */,
+				AB01374F2E229D0700ACB55E /* SearchViewModel.swift */,
+				AB0137892E22E19000ACB55E /* EditDestinationViewModel.swift */,
+				ABB9D7DA2E25A5A80068AB6D /* DestinationInfoViewModel.swift */,
+				ABEFFDD72E28615100818D6B /* DirectionsOverviewViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -125,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				ABC291612B61CE7900EC1393 /* SearchSheetView.swift */,
-				AB3406102BE32C550061BB16 /* LocationInfoView.swift */,
+				AB3406102BE32C550061BB16 /* DestinationInfoView.swift */,
 				AB3A41542DB98F9F00DDACDA /* EditDestinationView.swift */,
 				ABD94A8D2CA33ECA00ED21D3 /* DestinationsListView.swift */,
 				AB2F3B262DD8F849004E22D1 /* DirectionsOverviewView.swift */,
@@ -204,6 +216,7 @@
 				AB2F577B2CCA7A1F00ADB10E /* Sources */,
 				AB2F577C2CCA7A1F00ADB10E /* Frameworks */,
 				AB2F577D2CCA7A1F00ADB10E /* Resources */,
+				ABE306902E29B993004E0A57 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -225,6 +238,7 @@
 			buildConfigurationList = AB8BCFDB2B48AE2A003AE1DC /* Build configuration list for PBXNativeTarget "TwoWheels" */;
 			buildPhases = (
 				AB8BCFC92B48AE29003AE1DC /* Sources */,
+				ABE3068F2E29B977004E0A57 /* Run SwiftLint */,
 				AB8BCFCA2B48AE29003AE1DC /* Frameworks */,
 				AB8BCFCB2B48AE29003AE1DC /* Resources */,
 			);
@@ -294,6 +308,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		ABE3068F2E29B977004E0A57 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n    swiftlint --fix\n    swiftlint\nfi\n\n";
+			showEnvVarsInLog = 0;
+		};
+		ABE306902E29B993004E0A57 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n    swiftlint --fix\n    swiftlint\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AB2F577B2CCA7A1F00ADB10E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -307,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB31698F2DBFD10900579E00 /* ExploreView.swift in Sources */,
+				ABEFFDD82E28615100818D6B /* DirectionsOverviewViewModel.swift in Sources */,
 				ABC892B82DCFDEC8008FE692 /* Geocoding.swift in Sources */,
 				AB0FEAD02CF5324200524E8D /* TwoWheelsTests.swift in Sources */,
 				ABD980562DBB07D60073EA06 /* TabSelection.swift in Sources */,
@@ -318,9 +375,12 @@
 				AB3169912DBFD46000579E00 /* ExploreViewModel.swift in Sources */,
 				AB8BCFD12B48AE29003AE1DC /* TwoWheelsApp.swift in Sources */,
 				ABD94A8E2CA33ECA00ED21D3 /* DestinationsListView.swift in Sources */,
+				ABB9D7DB2E25A5A80068AB6D /* DestinationInfoViewModel.swift in Sources */,
 				ABE6E9122D875EAB0043872D /* SearchService.swift in Sources */,
 				ABD94A892CA3366000ED21D3 /* Destination.swift in Sources */,
-				AB3406112BE32C550061BB16 /* LocationInfoView.swift in Sources */,
+				AB01378A2E22E19000ACB55E /* EditDestinationViewModel.swift in Sources */,
+				AB3406112BE32C550061BB16 /* DestinationInfoView.swift in Sources */,
+				AB0137502E229D0700ACB55E /* SearchViewModel.swift in Sources */,
 				AB2F3B272DD8F849004E22D1 /* DirectionsOverviewView.swift in Sources */,
 				ABC291622B61CE7900EC1393 /* SearchSheetView.swift in Sources */,
 			);
@@ -343,6 +403,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
@@ -378,6 +439,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
@@ -545,6 +607,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TwoWheels/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TwoWheels/Info.plist;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
@@ -599,6 +662,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TwoWheels/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TwoWheels/Info.plist;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;

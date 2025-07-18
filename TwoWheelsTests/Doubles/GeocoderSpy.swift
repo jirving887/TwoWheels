@@ -13,7 +13,7 @@ class GeocoderSpy: Geocoding {
     var expectedPlacemarks: [CLPlacemark] = []
     var error: (any Error)?
     var errorCount = 0
-    
+
     func reverseGeocodeLocation(_ location: CLLocation) async throws -> [CLPlacemark] {
         if let error {
             errorCount += 1

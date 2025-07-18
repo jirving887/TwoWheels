@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TwoWheelsTests: App {
-    
+
     var body: some Scene {
         WindowGroup {}
     }
