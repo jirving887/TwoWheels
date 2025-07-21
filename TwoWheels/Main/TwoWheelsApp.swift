@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct TwoWheelsApp: App {
+    @State private var twoWheelsViewModel = TwoWheelsViewModel()
+
     private let dataService: any DataManipulating<Destination>
 
     init() {
@@ -23,7 +25,12 @@ struct TwoWheelsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ExploreView(dataService: dataService)
+            if twoWheelsViewModel.mode == .exploring {
+                ExploreView(dataService: dataService)
+            } else {
+                NavigationView()
+            }
         }
+        .environment(twoWheelsViewModel)
     }
 }

@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 struct DirectionsOverviewView: View {
-    @Environment(ExploreViewModel.self) var twoWheelsViewModel
+    @Environment(TwoWheelsViewModel.self) var twoWheelsViewModel
 
     private let viewModel = DirectionsOverviewViewModel()
 
@@ -66,7 +66,7 @@ struct DirectionsOverviewView: View {
             .frame(maxHeight: UIScreen.main.bounds.height * 0.1)
 
             Button {
-                twoWheelsViewModel.startNavigation()
+                twoWheelsViewModel.navigate()
             } label: {
                 Text("Go")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
