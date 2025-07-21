@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import MapKit
 
 @Observable
 class TwoWheelsViewModel {
-    var mode: Mode = .exploring
+    var route: MKRoute?
 
-    func navigate() {
-        mode = .navigating
+    func navigate(route: MKRoute) {
+        self.route = route
     }
 }

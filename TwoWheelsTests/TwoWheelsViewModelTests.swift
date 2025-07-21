@@ -5,6 +5,7 @@
 //  Created by Jonathan Irving on 7/18/25.
 //
 
+import MapKit
 import Testing
 @testable import TwoWheels
 
@@ -14,16 +15,16 @@ struct TwoWheelsViewModelTests {
     func init_shouldBeInExploreMode() {
         let sut = TwoWheelsViewModel()
 
-        #expect(sut.mode == .exploring)
+        #expect(sut.route == nil)
     }
 
     @Test
-    func navigate_shouldSetModeToNavigating() {
+    func navigate_shouldSetRoute() {
         let sut = TwoWheelsViewModel()
+        let route = MKRoute()
 
-        sut.navigate()
+        sut.navigate(route: route)
 
-        #expect(sut.mode == .navigating)
+        #expect(sut.route == route)
     }
-
 }

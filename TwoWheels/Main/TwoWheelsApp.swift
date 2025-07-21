@@ -25,10 +25,10 @@ struct TwoWheelsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if twoWheelsViewModel.mode == .exploring {
-                ExploreView(dataService: dataService)
+            if let route = twoWheelsViewModel.route {
+                NavigationView(route: route)
             } else {
-                NavigationView()
+                ExploreView(dataService: dataService)
             }
         }
         .environment(twoWheelsViewModel)
