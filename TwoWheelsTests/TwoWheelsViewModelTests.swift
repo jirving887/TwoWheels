@@ -17,4 +17,13 @@ struct TwoWheelsViewModelTests {
         #expect(sut.mode == .exploring)
     }
 
+    @Test
+    func navigate_shouldSetModeToNavigating() {
+        let sut = TwoWheelsViewModel()
+
+        sut.navigate()
+
+        #expect(sut.mode == .navigating)
+    }
+
 }

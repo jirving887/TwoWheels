@@ -10,4 +10,8 @@ import Foundation
 @Observable
 class TwoWheelsViewModel {
     var mode: Mode = .exploring
+
+    func navigate() {
+        mode = .navigating
+    }
 }
