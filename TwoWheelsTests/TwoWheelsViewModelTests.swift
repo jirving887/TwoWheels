@@ -27,4 +27,14 @@ struct TwoWheelsViewModelTests {
 
         #expect(sut.route == route)
     }
+
+    @Test
+    func endNavigation_shouldSetRouteNil() {
+        let sut = TwoWheelsViewModel()
+        sut.route = MKRoute()
+
+        sut.endNavigation()
+
+        #expect(sut.route == nil)
+    }
 }

@@ -15,4 +15,8 @@ class TwoWheelsViewModel {
     func navigate(route: MKRoute) {
         self.route = route
     }
+
+    func endNavigation() {
+        route = nil
+    }
 }
