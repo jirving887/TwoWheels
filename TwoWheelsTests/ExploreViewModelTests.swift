@@ -5,6 +5,7 @@
 //  Created by Jonathan Irving on 7/12/25.
 //
 
+import _MapKit_SwiftUI
 import Testing
 @testable import TwoWheels
 
@@ -22,6 +23,8 @@ struct ExploreViewModelTests {
         #expect(locationManagerSpy.requestCallCount == 1)
     }
 
-        #expect(clLocationManagerSpy.requestCallCount == 1)
+    @Test
+    func init_shouldSetMapCameraPosition() {
+        #expect(sut.mapPosition == MapCameraPosition.userLocation(fallback: .automatic))
     }
 }

@@ -6,11 +6,13 @@
 //
 
 import Foundation
-import CoreLocation
+import _MapKit_SwiftUI
 
 @Observable
 final class ExploreViewModel {
-    let locationManager: any Locating
+    private let locationManager: any Locating
+
+    var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
 
     init(locationManager: any Locating) {
         self.locationManager = locationManager
