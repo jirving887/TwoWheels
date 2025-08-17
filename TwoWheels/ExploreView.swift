@@ -8,8 +8,14 @@
 import MapKit
 import SwiftUI
 
-struct ExploreView: View {
+struct ExploreView<DetailSheet: View>: View {
+    private let makeDetailSheet: () -> DetailSheet
+
     @State private var viewModel = ExploreViewModel(locationManager: CLLocationManager())
+
+    init(@ViewBuilder detailSheet makeDetailSheet: @escaping () -> DetailSheet) {
+        self.makeDetailSheet = makeDetailSheet
+    }
 
     var body: some View {
         NavigationStack {
@@ -19,9 +25,14 @@ struct ExploreView: View {
             .edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
         }
+        .sheet(isPresented: $viewModel.isShowingDetailSheet) {
+            viewModel.didDismissDetailSheet()
+        } content: {
+            makeDetailSheet()
+        }
     }
 }
 
 #Preview {
-    ExploreView()
+    ExploreView { Text("Detail Sheet") }
 }

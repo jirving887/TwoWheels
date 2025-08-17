@@ -28,4 +28,39 @@ struct ExploreViewModelTests {
         #expect(sut.mapPosition == MapCameraPosition.userLocation(fallback: .automatic))
         #expect(sut.selectedLocation == nil)
     }
+
+    @Test
+    func init_shouldNotShowDetailSheet() {
+        #expect(!sut.isShowingDetailSheet)
+    }
+
+    @Test
+    func didUpdateSelectedLocation_withNil_shouldNotShowDetailSheet() {
+        sut.selectedLocation = nil
+
+        #expect(!sut.isShowingDetailSheet)
+    }
+
+    @Test
+    func didUpdateSelectedLocation_withLocation_shouldShowDetailSheet() {
+        sut.selectedLocation = MapSelection<MapLocation>(MapLocation())
+
+        #expect(sut.isShowingDetailSheet)
+    }
+
+    @Test
+    func didUpdateselectedLocation_withNilFeatureAndMapLocation_shouldNotShowDetailSheet() {
+        sut.selectedLocation = MapSelection<MapLocation>(nil)
+
+        #expect(!sut.isShowingDetailSheet)
+    }
+
+    @Test
+    func didDismissDetailSheet_shouldDeselectLocation() {
+        sut.selectedLocation = MapSelection<MapLocation>(MapLocation())
+
+        sut.didDismissDetailSheet()
+
+        #expect(sut.selectedLocation == nil)
+    }
 }

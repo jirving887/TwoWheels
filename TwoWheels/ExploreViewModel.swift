@@ -13,11 +13,34 @@ final class ExploreViewModel {
     private let locationManager: any Locating
 
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
-    var selectedLocation: MapFeature?
+    var isShowingDetailSheet = false
+
+    var selectedLocation: MapSelection<MapLocation>? {
+        didSet {
+            didUpdateMapSelection()
+        }
+    }
 
     init(locationManager: any Locating) {
         self.locationManager = locationManager
         self.locationManager.requestWhenInUseAuthorization()
+    }
+
+    func didDismissDetailSheet() {
+        selectedLocation = nil
+    }
+
+    private func didUpdateMapSelection() {
+        guard let newLocation = selectedLocation else {
+            isShowingDetailSheet = false
+            return
+        }
+
+        if newLocation.feature == nil && newLocation.value == nil {
+            isShowingDetailSheet = false
+        } else {
+            isShowingDetailSheet = true
+        }
     }
 }
 
