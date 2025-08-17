@@ -9,21 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct TwoWheelsApp: App {
-    private let dataService: any DataManipulating<Destination>
-
-    init() {
-        let container: ModelContainer
-        do {
-            container = try ModelContainer(for: Destination.self)
-        } catch {
-            fatalError("Failed to create ModelContainer for Destination.")
-        }
-        dataService = DataService(modelContainer: container)
-    }
 
     var body: some Scene {
         WindowGroup {
-            ExploreView(dataService: dataService)
+
         }
     }
 }
