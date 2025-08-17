@@ -13,6 +13,7 @@ final class ExploreViewModel {
     private let locationManager: any Locating
 
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
+    var selectedLocation: MapFeature?
 
     init(locationManager: any Locating) {
         self.locationManager = locationManager

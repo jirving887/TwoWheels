@@ -27,4 +27,9 @@ struct ExploreViewModelTests {
     func init_shouldSetMapCameraPosition() {
         #expect(sut.mapPosition == MapCameraPosition.userLocation(fallback: .automatic))
     }
+
+    @Test
+    func init_shouldSetSelectionNil() {
+        #expect(sut.selectedLocation == nil)
+    }
 }
