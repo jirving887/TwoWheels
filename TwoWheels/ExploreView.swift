@@ -9,6 +9,8 @@ import MapKit
 import SwiftUI
 
 struct ExploreView: View {
+    @State private var viewModel = ExploreViewModel(locationManager: CLLocationManager())
+
     var body: some View {
         NavigationStack {
             Map()

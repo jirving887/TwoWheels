@@ -10,7 +10,10 @@ import Testing
 
 struct ExploreViewModelTests {
     @Test
-    func testZero() {
-        #expect(true)
+    func init_shouldCreateLocationManager() {
+        let clLocationManagerSpy = CLLocationManagerSpy()
+        _ = ExploreViewModel(locationManager: clLocationManagerSpy)
+
+        #expect(clLocationManagerSpy.requestCallCount == 1)
     }
 }
