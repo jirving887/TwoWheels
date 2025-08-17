@@ -13,9 +13,11 @@ struct ExploreView: View {
 
     var body: some View {
         NavigationStack {
-            Map()
-                .edgesIgnoringSafeArea(.all)
-                .navigationBarHidden(true)
+            Map {
+                UserAnnotation()
+            }
+            .edgesIgnoringSafeArea(.all)
+            .navigationBarHidden(true)
         }
     }
 }
