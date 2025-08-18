@@ -47,6 +47,19 @@ struct SearchCompleterTests {
         #expect(completer.queryFragment == "Lane Stadium")
     }
 
+    @Test
+    func completerDidUpdateResults_shouldCallClosure() {
+        let completer = MKLocalSearchCompleter()
+        var searchCompletions: [MKLocalSearchCompletion]?
+        let sut = makeSUT(completer: completer) { completions in
+            searchCompletions = completions
+        }
+
+        sut.completerDidUpdateResults(completer)
+
+        #expect(searchCompletions != nil)
+    }
+
     // MARK: Helpers
 
     func makeSUT(

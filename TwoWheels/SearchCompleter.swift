@@ -33,5 +33,7 @@ class SearchCompleter: NSObject, SearchCompleting {
         completer.queryFragment = queryFragment
     }
 
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {}
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        didUpdateCompletions(completer.results)
+    }
 }
