@@ -19,6 +19,8 @@ class SearchCompleter: NSObject, SearchCompleting {
 
     init(completer: MKLocalSearchCompleter) {
         self.completer = completer
+        super.init()
+        self.completer.delegate = self
     }
 
     func update(region: MKCoordinateRegion) {

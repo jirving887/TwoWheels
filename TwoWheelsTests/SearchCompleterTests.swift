@@ -10,19 +10,22 @@ import Testing
 @testable import TwoWheels
 
 struct SearchCompleterTests {
+    let completer: MKLocalSearchCompleter
+    let sut: SearchCompleter
+
+    init() {
+        completer = MKLocalSearchCompleter()
+        sut = SearchCompleter(completer: completer)
+    }
 
     @Test
     func init_shouldSetCompleter() {
-        let completer = MKLocalSearchCompleter()
-        let sut = SearchCompleter(completer: completer)
-
         #expect(sut.completer == completer)
+        #expect(sut.completer.delegate === sut)
     }
 
     @Test
     func updateRegion_shouldUpdateCompleterRegion() {
-        let completer = MKLocalSearchCompleter()
-        let sut = SearchCompleter(completer: completer)
         let region = MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804),
             latitudinalMeters: 10,
@@ -33,5 +36,4 @@ struct SearchCompleterTests {
 
         #expect(completer.region == region)
     }
-
 }
