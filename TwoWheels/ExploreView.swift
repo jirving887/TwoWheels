@@ -12,6 +12,7 @@ struct ExploreView<DetailSheet: View>: View {
     private let makeDetailSheet: () -> DetailSheet
 
     @State private var viewModel = ExploreViewModel(locationManager: CLLocationManager())
+    @State private var searchText = ""
 
     init(@ViewBuilder detailSheet makeDetailSheet: @escaping () -> DetailSheet) {
         self.makeDetailSheet = makeDetailSheet
@@ -23,7 +24,11 @@ struct ExploreView<DetailSheet: View>: View {
                 UserAnnotation()
             }
             .edgesIgnoringSafeArea(.all)
-            .navigationBarHidden(true)
+        }
+        .searchable(text: $viewModel.searchText) {
+            ForEach(viewModel.searchResults, id: \.self) { searchResult in
+                Text(searchResult)
+            }
         }
         .sheet(isPresented: $viewModel.isShowingDetailSheet) {
             viewModel.didDismissDetailSheet()

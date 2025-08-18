@@ -14,6 +14,8 @@ final class ExploreViewModel {
 
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
     var isShowingDetailSheet = false
+    var searchText = ""
+    var searchResults: [String] = []
 
     var selectedLocation: MapSelection<MapLocation>? {
         didSet {
