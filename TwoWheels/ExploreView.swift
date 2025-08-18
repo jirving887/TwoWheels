@@ -31,9 +31,19 @@ struct ExploreView<DetailSheet: View>: View {
         .searchable(text: $viewModel.searchText) {
             if let completions = viewModel.searchCompletions {
                 ForEach(completions, id: \.self) { completion in
-                    Text(completion.title)
+                    Button {
+                        print("Tapped")
+                    } label: {
+                        Text(completion.title)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
                 }
             }
+        }
+        .onSubmit(of: .search) {
+            print("Submitted")
         }
         .sheet(isPresented: $viewModel.isShowingDetailSheet) {
             viewModel.didDismissDetailSheet()
