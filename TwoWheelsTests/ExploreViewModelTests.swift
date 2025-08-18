@@ -11,11 +11,13 @@ import Testing
 
 struct ExploreViewModelTests {
     let locationManagerSpy: CLLocationManagerSpy
+    let searchCompleterSpy: SearchCompleterSpy
     let sut: ExploreViewModel
 
     init() {
         locationManagerSpy = CLLocationManagerSpy()
-        sut = ExploreViewModel(locationManager: locationManagerSpy)
+        searchCompleterSpy = SearchCompleterSpy()
+        sut = ExploreViewModel(locationManager: locationManagerSpy, searchCompleter: searchCompleterSpy)
     }
 
     @Test
@@ -64,5 +66,12 @@ struct ExploreViewModelTests {
         sut.didDismissDetailSheet()
 
         #expect(sut.selectedLocation == nil)
+    }
+
+    @Test
+    func didUpdateSearchText_shouldUpdateSearchCompleter() {
+        sut.searchText = "Lane Stadium"
+
+        #expect(searchCompleterSpy.queryFragment == "Lane Stadium")
     }
 }

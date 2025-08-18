@@ -11,7 +11,10 @@ import SwiftUI
 struct ExploreView<DetailSheet: View>: View {
     private let makeDetailSheet: () -> DetailSheet
 
-    @State private var viewModel = ExploreViewModel(locationManager: CLLocationManager())
+    @State private var viewModel = ExploreViewModel(
+        locationManager: CLLocationManager(),
+        searchCompleter: SearchCompleter()
+    )
     @State private var searchText = ""
 
     init(@ViewBuilder detailSheet makeDetailSheet: @escaping () -> DetailSheet) {

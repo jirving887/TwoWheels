@@ -11,10 +11,10 @@ import _MapKit_SwiftUI
 @Observable
 final class ExploreViewModel {
     private let locationManager: any Locating
+    private let searchCompleter: any SearchCompleting
 
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
     var isShowingDetailSheet = false
-    var searchText = ""
     var searchResults: [String] = []
 
     var selectedLocation: MapSelection<MapLocation>? {
@@ -23,8 +23,15 @@ final class ExploreViewModel {
         }
     }
 
-    init(locationManager: any Locating) {
+    var searchText = "" {
+        didSet {
+            didUpdateSearchText()
+        }
+    }
+
+    init(locationManager: any Locating, searchCompleter: any SearchCompleting) {
         self.locationManager = locationManager
+        self.searchCompleter = searchCompleter
         self.locationManager.requestWhenInUseAuthorization()
     }
 
@@ -44,6 +51,10 @@ final class ExploreViewModel {
             isShowingDetailSheet = true
         }
     }
+
+    private func didUpdateSearchText() {
+        searchCompleter.update(queryFragment: searchText)
+    }
 }
 
 protocol Locating {
@@ -51,3 +62,17 @@ protocol Locating {
 }
 
 extension CLLocationManager: Locating {}
+
+protocol SearchCompleting: MKLocalSearchCompleterDelegate {
+    func update(region: MKCoordinateRegion)
+    func update(queryFragment: String)
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter)
+}
+
+class SearchCompleter: NSObject, SearchCompleting {
+    func update(region: MKCoordinateRegion) {}
+
+    func update(queryFragment: String) {}
+
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {}
+}
