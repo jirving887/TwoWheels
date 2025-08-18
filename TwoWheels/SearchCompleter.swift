@@ -15,7 +15,15 @@ protocol SearchCompleting: MKLocalSearchCompleterDelegate {
 }
 
 class SearchCompleter: NSObject, SearchCompleting {
-    func update(region: MKCoordinateRegion) {}
+    let completer: MKLocalSearchCompleter
+
+    init(completer: MKLocalSearchCompleter) {
+        self.completer = completer
+    }
+
+    func update(region: MKCoordinateRegion) {
+        completer.region = region
+    }
 
     func update(queryFragment: String) {}
 
