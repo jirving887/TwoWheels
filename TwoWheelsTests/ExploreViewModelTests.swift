@@ -74,4 +74,35 @@ struct ExploreViewModelTests {
 
         #expect(searchCompleterSpy.queryFragment == "Lane Stadium")
     }
+
+    @Test
+    func didUpdateMapPosition_shouldUpdateSearchCompleter() {
+        let region = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804),
+            latitudinalMeters: 10,
+            longitudinalMeters: 10
+        )
+        
+        sut.mapPosition = MapCameraPosition.region(region)
+
+        #expect(searchCompleterSpy.region == region)
+    }
+}
+
+extension MKCoordinateRegion: @retroactive Equatable {
+    static func == (lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
+        lhs.center == rhs.center && lhs.span == rhs.span
+    }
+}
+
+extension CLLocationCoordinate2D: @retroactive Equatable {
+    static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+    }
+}
+
+extension MKCoordinateSpan: @retroactive Equatable {
+    static func == (lhs: MKCoordinateSpan, rhs: MKCoordinateSpan) -> Bool {
+        lhs.latitudeDelta == rhs.latitudeDelta && lhs.longitudeDelta == rhs.longitudeDelta
+    }
 }

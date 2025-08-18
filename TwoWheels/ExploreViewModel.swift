@@ -13,7 +13,6 @@ final class ExploreViewModel {
     private let locationManager: any Locating
     private let searchCompleter: any SearchCompleting
 
-    var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
     var isShowingDetailSheet = false
     var searchResults: [String] = []
 
@@ -26,6 +25,12 @@ final class ExploreViewModel {
     var searchText = "" {
         didSet {
             didUpdateSearchText()
+        }
+    }
+
+    var mapPosition = MapCameraPosition.userLocation(fallback: .automatic) {
+        didSet {
+            didUpdateMapPosition()
         }
     }
 
@@ -54,6 +59,11 @@ final class ExploreViewModel {
 
     private func didUpdateSearchText() {
         searchCompleter.update(queryFragment: searchText)
+    }
+
+    private func didUpdateMapPosition() {
+        guard let region = mapPosition.region else { return }
+        searchCompleter.update(region: region)
     }
 }
 
