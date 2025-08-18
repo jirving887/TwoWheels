@@ -29,8 +29,10 @@ struct ExploreView<DetailSheet: View>: View {
             .edgesIgnoringSafeArea(.all)
         }
         .searchable(text: $viewModel.searchText) {
-            ForEach(viewModel.searchResults, id: \.self) { searchResult in
-                Text(searchResult)
+            if let completions = viewModel.searchCompletions {
+                ForEach(completions, id: \.self) { completion in
+                    Text(completion.title)
+                }
             }
         }
         .sheet(isPresented: $viewModel.isShowingDetailSheet) {

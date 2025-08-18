@@ -30,7 +30,7 @@ struct ExploreViewModelTests {
         #expect(sut.mapPosition == MapCameraPosition.userLocation(fallback: .automatic))
         #expect(sut.selectedLocation == nil)
         #expect(sut.searchText.isEmpty)
-        #expect(sut.searchResults.isEmpty)
+        #expect(sut.searchCompletions == nil)
     }
 
     @Test

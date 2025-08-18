@@ -14,7 +14,7 @@ final class ExploreViewModel {
     private let searchCompleter: any SearchCompleting
 
     var isShowingDetailSheet = false
-    var searchResults: [String] = []
+    var searchCompletions: [MKLocalSearchCompletion]?
 
     var selectedLocation: MapSelection<MapLocation>? {
         didSet {
