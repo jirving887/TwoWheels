@@ -27,7 +27,9 @@ class SearchCompleter: NSObject, SearchCompleting {
         completer.region = region
     }
 
-    func update(queryFragment: String) {}
+    func update(queryFragment: String) {
+        completer.queryFragment = queryFragment
+    }
 
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {}
 }

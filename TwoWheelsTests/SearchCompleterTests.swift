@@ -36,4 +36,11 @@ struct SearchCompleterTests {
 
         #expect(completer.region == region)
     }
+
+    @Test
+    func updateQueryFragment_shouldUpdateCompleterQueryFragment() {
+        sut.update(queryFragment: "Lane Stadium")
+
+        #expect(completer.queryFragment == "Lane Stadium")
+    }
 }
