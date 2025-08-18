@@ -48,21 +48,21 @@ struct ExploreViewModelTests {
 
     @Test
     func didUpdateSelectedLocation_withLocation_shouldShowDetailSheet() {
-        sut.selectedLocation = MapSelection<MapLocation>(MapLocation())
+        sut.selectedLocation = MapSelection<MKMapItem>(MKMapItemDummy())
 
         #expect(sut.isShowingDetailSheet)
     }
 
     @Test
     func didUpdateselectedLocation_withNilFeatureAndMapLocation_shouldNotShowDetailSheet() {
-        sut.selectedLocation = MapSelection<MapLocation>(nil)
+        sut.selectedLocation = MapSelection<MKMapItem>(nil)
 
         #expect(!sut.isShowingDetailSheet)
     }
 
     @Test
     func didDismissDetailSheet_shouldDeselectLocation() {
-        sut.selectedLocation = MapSelection<MapLocation>(MapLocation())
+        sut.selectedLocation = MapSelection<MKMapItem>(MKMapItemDummy())
 
         sut.didDismissDetailSheet()
 
@@ -114,3 +114,5 @@ extension MKCoordinateSpan: @retroactive Equatable {
         lhs.latitudeDelta == rhs.latitudeDelta && lhs.longitudeDelta == rhs.longitudeDelta
     }
 }
+
+class MKMapItemDummy: MKMapItem {}

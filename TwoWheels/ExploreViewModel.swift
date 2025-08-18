@@ -16,7 +16,7 @@ final class ExploreViewModel {
     var isShowingDetailSheet = false
     var searchCompletions: [MKLocalSearchCompletion]?
 
-    var selectedLocation: MapSelection<MapLocation>? {
+    var selectedLocation: MapSelection<MKMapItem>? {
         didSet {
             didUpdateMapSelection()
         }
