@@ -15,10 +15,12 @@ protocol SearchCompleting: MKLocalSearchCompleterDelegate {
 }
 
 class SearchCompleter: NSObject, SearchCompleting {
+    private let didUpdateCompletions: ([MKLocalSearchCompletion]) -> Void
     let completer: MKLocalSearchCompleter
 
-    init(completer: MKLocalSearchCompleter) {
+    init(completer: MKLocalSearchCompleter, didUpdateCompletions: @escaping ([MKLocalSearchCompletion]) -> Void) {
         self.completer = completer
+        self.didUpdateCompletions = didUpdateCompletions
         super.init()
         self.completer.delegate = self
     }
