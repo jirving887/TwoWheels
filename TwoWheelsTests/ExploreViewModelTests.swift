@@ -5,19 +5,27 @@
 //  Created by Jonathan Irving on 7/12/25.
 //
 
+import ExpectToEventuallyEqual
 import _MapKit_SwiftUI
 import Testing
 @testable import TwoWheels
 
+@MainActor
 struct ExploreViewModelTests {
     let locationManagerSpy: CLLocationManagerSpy
+    let searchServiceSpy: SearchServiceSpy
     let searchCompleterSpy: SearchCompleterSpy
     let sut: ExploreViewModel
 
     init() {
         locationManagerSpy = CLLocationManagerSpy()
         searchCompleterSpy = SearchCompleterSpy()
-        sut = ExploreViewModel(locationManager: locationManagerSpy, searchCompleter: searchCompleterSpy)
+        searchServiceSpy = SearchServiceSpy()
+        sut = ExploreViewModel(
+            locationManager: locationManagerSpy,
+            searchService: searchServiceSpy,
+            searchCompleter: searchCompleterSpy
+        )
     }
 
     @Test
@@ -32,6 +40,7 @@ struct ExploreViewModelTests {
         #expect(sut.searchText.isEmpty)
         #expect(sut.searchCompletions == nil)
         #expect(sut.searchCompleter.didUpdateCompletions != nil)
+        #expect(sut.searchResults == [])
     }
 
     @Test
@@ -95,6 +104,18 @@ struct ExploreViewModelTests {
 
         #expect(sut.searchCompletions != nil)
     }
+
+    @Test
+    func search_withCompletionAndSingleResult_shouldCallSearchServiceOnce() async throws {
+        let completion = MKLocalSearchCompletion()
+
+        sut.search(with: completion)
+
+        try await expectToEventuallyEqual(
+            actual: { searchServiceSpy.callCount },
+            expected: 1
+        )
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
@@ -115,4 +136,10 @@ extension MKCoordinateSpan: @retroactive Equatable {
     }
 }
 
-class MKMapItemDummy: MKMapItem {}
+class MKMapItemDummy: MKMapItem {
+    var dummyTitle = ""
+}
+
+class MKLocalSearchCompletionDummy: MKLocalSearchCompletion {
+    var dummyTitle = ""
+}

@@ -13,6 +13,7 @@ struct ExploreView<DetailSheet: View>: View {
 
     @State private var viewModel = ExploreViewModel(
         locationManager: CLLocationManager(),
+        searchService: SearchService(),
         searchCompleter: SearchCompleter(completer: MKLocalSearchCompleter())
     )
     @State private var searchText = ""
@@ -32,7 +33,7 @@ struct ExploreView<DetailSheet: View>: View {
             if let completions = viewModel.searchCompletions {
                 ForEach(completions, id: \.self) { completion in
                     Button {
-                        print("Tapped")
+                        viewModel.search(with: completion)
                     } label: {
                         Text(completion.title)
                             .frame(maxWidth: .infinity, alignment: .leading)
