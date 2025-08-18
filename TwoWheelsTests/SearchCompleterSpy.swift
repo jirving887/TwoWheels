@@ -10,6 +10,7 @@ import MapKit
 @testable import TwoWheels
 
 class SearchCompleterSpy: NSObject, SearchCompleting {
+    var didUpdateCompletions: (([MKLocalSearchCompletion]) -> Void)?
     var queryFragment = ""
     var region = MKCoordinateRegion()
 

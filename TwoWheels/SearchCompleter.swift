@@ -9,18 +9,18 @@ import Foundation
 import MapKit
 
 protocol SearchCompleting: MKLocalSearchCompleterDelegate {
+    var didUpdateCompletions: (([MKLocalSearchCompletion]) -> Void)? { get set }
     func update(region: MKCoordinateRegion)
     func update(queryFragment: String)
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter)
 }
 
 class SearchCompleter: NSObject, SearchCompleting {
-    private let didUpdateCompletions: ([MKLocalSearchCompletion]) -> Void
+    var didUpdateCompletions: (([MKLocalSearchCompletion]) -> Void)?
     let completer: MKLocalSearchCompleter
 
-    init(completer: MKLocalSearchCompleter, didUpdateCompletions: @escaping ([MKLocalSearchCompletion]) -> Void) {
+    init(completer: MKLocalSearchCompleter) {
         self.completer = completer
-        self.didUpdateCompletions = didUpdateCompletions
         super.init()
         self.completer.delegate = self
     }
@@ -34,6 +34,7 @@ class SearchCompleter: NSObject, SearchCompleting {
     }
 
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        guard let didUpdateCompletions else { return }
         didUpdateCompletions(completer.results)
     }
 }

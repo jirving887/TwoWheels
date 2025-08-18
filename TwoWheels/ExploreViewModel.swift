@@ -11,8 +11,8 @@ import _MapKit_SwiftUI
 @Observable
 final class ExploreViewModel {
     private let locationManager: any Locating
-    private let searchCompleter: any SearchCompleting
 
+    let searchCompleter: any SearchCompleting
     var isShowingDetailSheet = false
     var searchCompletions: [MKLocalSearchCompletion]?
 
@@ -34,14 +34,21 @@ final class ExploreViewModel {
         }
     }
 
-    init(locationManager: any Locating, searchCompleter: any SearchCompleting) {
+    init(locationManager: any Locating, searchCompleter: (any SearchCompleting)? = nil) {
         self.locationManager = locationManager
-        self.searchCompleter = searchCompleter
+        self.searchCompleter = searchCompleter ?? SearchCompleter(completer: MKLocalSearchCompleter())
+        self.searchCompleter.didUpdateCompletions = { [weak self] completions in
+            self?.recieveCompleter(update: completions)
+        }
         self.locationManager.requestWhenInUseAuthorization()
     }
 
     func didDismissDetailSheet() {
         selectedLocation = nil
+    }
+
+    func recieveCompleter(update: [MKLocalSearchCompletion]) {
+        searchCompletions = update
     }
 
     private func didUpdateMapSelection() {

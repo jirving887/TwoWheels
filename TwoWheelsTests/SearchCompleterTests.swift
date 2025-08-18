@@ -10,22 +10,22 @@ import Testing
 @testable import TwoWheels
 
 struct SearchCompleterTests {
+    let completer: MKLocalSearchCompleter
+    let sut: SearchCompleter
+
+    init() {
+        completer = MKLocalSearchCompleter()
+        sut = SearchCompleter(completer: completer)
+    }
 
     @Test
     func init_shouldSetCompleter() {
-        let completer = MKLocalSearchCompleter()
-
-        let sut = makeSUT(completer: completer)
-
         #expect(sut.completer == completer)
         #expect(sut.completer.delegate === sut)
     }
 
     @Test
     func updateRegion_shouldUpdateCompleterRegion() {
-        let completer = MKLocalSearchCompleter()
-        let sut = makeSUT(completer: completer)
-
         let region = MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804),
             latitudinalMeters: 10,
@@ -39,9 +39,6 @@ struct SearchCompleterTests {
 
     @Test
     func updateQueryFragment_shouldUpdateCompleterQueryFragment() {
-        let completer = MKLocalSearchCompleter()
-        let sut = makeSUT(completer: completer)
-
         sut.update(queryFragment: "Lane Stadium")
 
         #expect(completer.queryFragment == "Lane Stadium")
@@ -49,24 +46,14 @@ struct SearchCompleterTests {
 
     @Test
     func completerDidUpdateResults_shouldCallClosure() {
-        let completer = MKLocalSearchCompleter()
         var searchCompletions: [MKLocalSearchCompletion]?
-        let sut = makeSUT(completer: completer) { completions in
+        sut.didUpdateCompletions = { completions in
             searchCompletions = completions
         }
 
         sut.completerDidUpdateResults(completer)
 
         #expect(searchCompletions != nil)
-    }
-
-    // MARK: Helpers
-
-    func makeSUT(
-        completer: MKLocalSearchCompleter,
-        didUpdateCompletions: @escaping ([MKLocalSearchCompletion]) -> Void = { _ in }
-    ) -> SearchCompleter {
-        SearchCompleter(completer: completer, didUpdateCompletions: didUpdateCompletions)
     }
 
 }

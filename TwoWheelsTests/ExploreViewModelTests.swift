@@ -31,6 +31,7 @@ struct ExploreViewModelTests {
         #expect(sut.selectedLocation == nil)
         #expect(sut.searchText.isEmpty)
         #expect(sut.searchCompletions == nil)
+        #expect(sut.searchCompleter.didUpdateCompletions != nil)
     }
 
     @Test
@@ -82,10 +83,17 @@ struct ExploreViewModelTests {
             latitudinalMeters: 10,
             longitudinalMeters: 10
         )
-        
+
         sut.mapPosition = MapCameraPosition.region(region)
 
         #expect(searchCompleterSpy.region == region)
+    }
+
+    @Test
+    func recieveCompleterUpdate_shouldSetSearchCompletions() {
+        sut.recieveCompleter(update: [MKLocalSearchCompletion()])
+
+        #expect(sut.searchCompletions != nil)
     }
 }
 
