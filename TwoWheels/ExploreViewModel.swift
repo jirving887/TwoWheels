@@ -40,11 +40,12 @@ final class ExploreViewModel {
     init(
         locationManager: any Locating,
         searchService: any Searching,
-        searchCompleter: (any SearchCompleting)? = nil
+        searchCompleter: any SearchCompleting
     ) {
         self.locationManager = locationManager
         self.searchService = searchService
-        self.searchCompleter = searchCompleter ?? SearchCompleter(completer: MKLocalSearchCompleter())
+        self.searchCompleter = searchCompleter
+
         self.searchCompleter.didUpdateCompletions = { [weak self] completions in
             self?.recieveCompleter(update: completions)
         }
