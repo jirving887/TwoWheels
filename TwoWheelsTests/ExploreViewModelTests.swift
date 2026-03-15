@@ -5,26 +5,18 @@
 //  Created by Jonathan Irving on 7/12/25.
 //
 
-import ExpectToEventuallyEqual
 import _MapKit_SwiftUI
 import Testing
 @testable import TwoWheels
 
-@MainActor
 struct ExploreViewModelTests {
     let locationManagerSpy: CLLocationManagerSpy
-    let searchServiceSpy: SearchServiceSpy
-    let searchCompleterSpy: SearchCompleterSpy
     let sut: ExploreViewModel
 
     init() {
         locationManagerSpy = CLLocationManagerSpy()
-        searchCompleterSpy = SearchCompleterSpy()
-        searchServiceSpy = SearchServiceSpy()
         sut = ExploreViewModel(
-            locationManager: locationManagerSpy,
-            searchService: searchServiceSpy,
-            searchCompleter: searchCompleterSpy
+            locationManager: locationManagerSpy
         )
     }
 
@@ -39,7 +31,6 @@ struct ExploreViewModelTests {
         #expect(sut.selectedLocation == nil)
         #expect(sut.searchText.isEmpty)
         #expect(sut.searchCompletions == nil)
-        #expect(sut.searchCompleter.didUpdateCompletions != nil)
         #expect(sut.searchResults == [])
     }
 
@@ -79,42 +70,10 @@ struct ExploreViewModelTests {
     }
 
     @Test
-    func didUpdateSearchText_shouldUpdateSearchCompleter() {
-        sut.searchText = "Lane Stadium"
-
-        #expect(searchCompleterSpy.queryFragment == "Lane Stadium")
-    }
-
-    @Test
-    func didUpdateMapPosition_shouldUpdateSearchCompleter() {
-        let region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 37.22001, longitude: -80.41804),
-            latitudinalMeters: 10,
-            longitudinalMeters: 10
-        )
-
-        sut.mapPosition = MapCameraPosition.region(region)
-
-        #expect(searchCompleterSpy.region == region)
-    }
-
-    @Test
     func recieveCompleterUpdate_shouldSetSearchCompletions() {
         sut.recieveCompleter(update: [MKLocalSearchCompletion()])
 
         #expect(sut.searchCompletions != nil)
-    }
-
-    @Test
-    func search_withCompletionAndSingleResult_shouldCallSearchServiceOnce() async throws {
-        let completion = MKLocalSearchCompletion()
-
-        sut.search(with: completion)
-
-        try await expectToEventuallyEqual(
-            actual: { searchServiceSpy.callCount },
-            expected: 1
-        )
     }
 }
 
@@ -136,10 +95,10 @@ extension MKCoordinateSpan: @retroactive Equatable {
     }
 }
 
-class MKMapItemDummy: MKMapItem {
+nonisolated class MKMapItemDummy: MKMapItem {
     var dummyTitle = ""
 }
 
-class MKLocalSearchCompletionDummy: MKLocalSearchCompletion {
+nonisolated class MKLocalSearchCompletionDummy: MKLocalSearchCompletion {
     var dummyTitle = ""
 }

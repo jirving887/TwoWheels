@@ -12,9 +12,7 @@ struct ExploreView<DetailSheet: View>: View {
     private let makeDetailSheet: () -> DetailSheet
 
     @State private var viewModel = ExploreViewModel(
-        locationManager: CLLocationManager(),
-        searchService: SearchService(),
-        searchCompleter: SearchCompleter(completer: MKLocalSearchCompleter())
+        locationManager: CLLocationManager()
     )
     @State private var searchText = ""
 

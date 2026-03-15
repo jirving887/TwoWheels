@@ -12,9 +12,7 @@ import _MapKit_SwiftUI
 @Observable
 final class ExploreViewModel {
     private let locationManager: any Locating
-    private let searchService: any Searching
 
-    let searchCompleter: any SearchCompleting
     var isShowingDetailSheet = false
     var searchCompletions: [MKLocalSearchCompletion]?
     var searchResults: [MKMapItem] = []
@@ -39,16 +37,8 @@ final class ExploreViewModel {
 
     init(
         locationManager: any Locating,
-        searchService: any Searching,
-        searchCompleter: any SearchCompleting
     ) {
         self.locationManager = locationManager
-        self.searchService = searchService
-        self.searchCompleter = searchCompleter
-
-        self.searchCompleter.didUpdateCompletions = { [weak self] completions in
-            self?.recieveCompleter(update: completions)
-        }
         self.locationManager.requestWhenInUseAuthorization()
     }
 
@@ -62,11 +52,6 @@ final class ExploreViewModel {
 
     func search(with completion: MKLocalSearchCompletion) {
         let request = MKLocalSearch.Request(completion: completion)
-        Task {
-            do {
-                searchResults = try await searchService.search(with: request)
-            } catch {}
-        }
     }
 
     private func didUpdateMapSelection() {
@@ -83,12 +68,10 @@ final class ExploreViewModel {
     }
 
     private func didUpdateSearchText() {
-        searchCompleter.update(queryFragment: searchText)
     }
 
     private func didUpdateMapPosition() {
         guard let region = mapPosition.region else { return }
-        searchCompleter.update(region: region)
     }
 }
 
