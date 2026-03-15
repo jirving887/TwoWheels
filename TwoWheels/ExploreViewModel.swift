@@ -5,14 +5,11 @@
 //  Created by Jonathan Irving on 8/17/25.
 //
 
-import Foundation
 import _MapKit_SwiftUI
+import Foundation
 
-@MainActor
 @Observable
 final class ExploreViewModel {
-    private let locationManager: any Locating
-
     var isShowingDetailSheet = false
     var searchCompletions: [MKLocalSearchCompletion]?
     var searchResults: [MKMapItem] = []
@@ -22,25 +19,8 @@ final class ExploreViewModel {
             didUpdateMapSelection()
         }
     }
-
-    var searchText = "" {
-        didSet {
-            didUpdateSearchText()
-        }
-    }
-
-    var mapPosition = MapCameraPosition.userLocation(fallback: .automatic) {
-        didSet {
-            didUpdateMapPosition()
-        }
-    }
-
-    init(
-        locationManager: any Locating,
-    ) {
-        self.locationManager = locationManager
-        self.locationManager.requestWhenInUseAuthorization()
-    }
+    var searchText = ""
+    var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
 
     func didDismissDetailSheet() {
         selectedLocation = nil
@@ -66,17 +46,4 @@ final class ExploreViewModel {
             isShowingDetailSheet = true
         }
     }
-
-    private func didUpdateSearchText() {
-    }
-
-    private func didUpdateMapPosition() {
-        guard let region = mapPosition.region else { return }
-    }
 }
-
-protocol Locating {
-    func requestWhenInUseAuthorization()
-}
-
-extension CLLocationManager: Locating {}

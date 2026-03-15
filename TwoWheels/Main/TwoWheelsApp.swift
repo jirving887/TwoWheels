@@ -5,10 +5,15 @@
 //  Created by Jonathan Irving on 1/5/24.
 //
 
+import CoreLocation
 import SwiftUI
-import SwiftData
 
 struct TwoWheelsApp: App {
+    private let locationManager = CLLocationManager()
+
+    init() {
+        locationManager.requestWhenInUseAuthorization()
+    }
 
     var body: some Scene {
         WindowGroup {
