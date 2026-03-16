@@ -52,6 +52,13 @@ struct ExploreViewModelTests {
     }
 
     @Test
+    func didUpdateMapSelection_withLocation_shouldSetSelectedLocation() {
+        sut.mapSelection = MapSelection(laneStadiumLocation)
+
+        #expect(sut.selectedLocation == laneStadiumLocation)
+    }
+
+    @Test
     func didDismissDetailSheet_shouldDeselectLocation() {
         sut.mapSelection = MapSelection(laneStadiumLocation)
 

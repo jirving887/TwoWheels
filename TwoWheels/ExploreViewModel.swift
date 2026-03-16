@@ -17,6 +17,15 @@ final class ExploreViewModel {
             didUpdateMapSelection()
         }
     }
+
+    var selectedLocation: Location? {
+        guard let mapSelection else { return nil }
+        if let value = mapSelection.value {
+            return value
+        }
+        return nil
+    }
+
     var searchText = ""
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
 
