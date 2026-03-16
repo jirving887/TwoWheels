@@ -17,31 +17,18 @@ struct ExploreView: View {
             Map(position: $viewModel.mapPosition, selection: $viewModel.mapSelection) {
                 UserAnnotation()
             }
-            .edgesIgnoringSafeArea(.all)
-        }
-        .searchable(text: $viewModel.searchText) {
-            if let completions = viewModel.searchCompletions {
-                ForEach(completions, id: \.self) { completion in
-                    Button {
-                        viewModel.search(with: completion)
-                    } label: {
-                        Text(completion.title)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                }
+            .searchable(text: $viewModel.searchText) {
+                Text("Search View")
             }
-        }
-        .onSubmit(of: .search) {
-            print("Submitted")
-        }
-        .sheet(isPresented: $viewModel.isShowingDetailSheet) {
-            viewModel.didDismissDetailSheet()
-        } content: {
-            if let selection = viewModel.selectedLocation,
-               let feature = selection.feature, let title = feature.title {
-                LocationDetailSheet(title: title)
+            .onSubmit(of: .search) {
+                print("Searching")
+            }
+            .sheet(isPresented: $viewModel.isShowingDetailSheet) {
+                viewModel.didDismissDetailSheet()
+            } content: {
+                if let selection = viewModel.selectedLocation {
+                   LocationDetailSheet(title: selection.name)
+                }
             }
         }
     }

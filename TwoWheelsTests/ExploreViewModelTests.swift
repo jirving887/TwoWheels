@@ -22,6 +22,7 @@ struct ExploreViewModelTests {
     func init_shouldSetInitialValues() {
         #expect(sut.mapPosition == MapCameraPosition.userLocation(fallback: .automatic))
         #expect(sut.mapSelection == nil)
+        #expect(sut.selectedLocation == nil)
         #expect(sut.searchText.isEmpty)
     }
 
@@ -35,13 +36,15 @@ struct ExploreViewModelTests {
         sut.mapSelection = nil
 
         #expect(!sut.isShowingDetailSheet)
+        #expect(sut.selectedLocation == nil)
     }
 
     @Test
-    func didUpdateMapSelection_withLocation_shouldShowDetailSheet() {
+    func didUpdateMapSelection_withLocation_shouldSetSelectedLocation() {
         sut.mapSelection = MapSelection(laneStadiumLocation)
 
         #expect(sut.isShowingDetailSheet)
+        #expect(sut.selectedLocation == laneStadiumLocation)
     }
 
     @Test
@@ -49,13 +52,7 @@ struct ExploreViewModelTests {
         sut.mapSelection = MapSelection(nil)
 
         #expect(!sut.isShowingDetailSheet)
-    }
-
-    @Test
-    func didUpdateMapSelection_withLocation_shouldSetSelectedLocation() {
-        sut.mapSelection = MapSelection(laneStadiumLocation)
-
-        #expect(sut.selectedLocation == laneStadiumLocation)
+        #expect(sut.selectedLocation == nil)
     }
 
     @Test
@@ -65,5 +62,6 @@ struct ExploreViewModelTests {
         sut.didDismissDetailSheet()
 
         #expect(sut.mapSelection == nil)
+        #expect(sut.selectedLocation == nil)
     }
 }

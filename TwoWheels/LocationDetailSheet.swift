@@ -28,10 +28,10 @@ struct LocationDetailSheet: View {
         }
         .padding()
         .presentationDetents([.medium])
+        .presentationBackgroundInteraction(.enabled)
     }
 }
 
 #Preview {
-
-    return LocationDetailSheet(title: "Lane Stadium")
+    ExploreView()
 }
