@@ -8,15 +8,9 @@
 import MapKit
 import SwiftUI
 
-struct ExploreView<DetailSheet: View>: View {
-    private let makeDetailSheet: () -> DetailSheet
-
+struct ExploreView: View {
     @State private var viewModel = ExploreViewModel()
     @State private var searchText = ""
-
-    init(@ViewBuilder detailSheet makeDetailSheet: @escaping () -> DetailSheet) {
-        self.makeDetailSheet = makeDetailSheet
-    }
 
     var body: some View {
         NavigationStack {
@@ -45,11 +39,15 @@ struct ExploreView<DetailSheet: View>: View {
         .sheet(isPresented: $viewModel.isShowingDetailSheet) {
             viewModel.didDismissDetailSheet()
         } content: {
-            makeDetailSheet()
+            if let selection = viewModel.selectedLocation,
+               let location = selection.value {
+                LocationDetailSheet(mapItem: location)
+            }
+
         }
     }
 }
 
 #Preview {
-    ExploreView { Text("Detail Sheet") }
+    ExploreView()
 }
