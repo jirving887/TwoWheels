@@ -9,18 +9,29 @@ import MapKit
 import SwiftUI
 
 struct LocationDetailSheet: View {
-    let mapItem: MKMapItem
+    let title: String
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.title2)
+                .fontWeight(.semibold)
+
+            Button {
+                print("Navigating")
+            } label: {
+                Label("Navigate", systemImage: "bicycle")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+        }
+        .padding()
+        .presentationDetents([.medium])
     }
 }
 
 #Preview {
-    LocationDetailSheet()
-    let item = MKMapItem(
-        location: CLLocation(latitude: 37.7749, longitude: -122.4194),
-        address: MKAddress(fullAddress: "123 Main St\nSan Francisco, CA 94105", shortAddress: "123 Main St, San Francisco")
-    )
-    item.name = "Golden Gate Cyclery"
-    return LocationDetailSheet(mapItem: item)
+
+    return LocationDetailSheet(title: "Lane Stadium")
 }

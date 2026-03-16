@@ -40,10 +40,9 @@ struct ExploreView: View {
             viewModel.didDismissDetailSheet()
         } content: {
             if let selection = viewModel.selectedLocation,
-               let location = selection.value {
-                LocationDetailSheet(mapItem: location)
+               let feature = selection.feature, let title = feature.title {
+                LocationDetailSheet(title: title)
             }
-
         }
     }
 }
