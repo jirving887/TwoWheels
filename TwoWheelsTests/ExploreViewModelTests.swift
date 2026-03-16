@@ -10,9 +10,11 @@ import Testing
 @testable import TwoWheels
 
 struct ExploreViewModelTests {
+    let laneStadiumLocation: Location
     let sut: ExploreViewModel
 
     init() {
+        laneStadiumLocation = Location(name: "Lane Stadium", latitude: 37.219940, longitude: -80.418055)
         sut = ExploreViewModel()
     }
 
@@ -21,8 +23,6 @@ struct ExploreViewModelTests {
         #expect(sut.mapPosition == MapCameraPosition.userLocation(fallback: .automatic))
         #expect(sut.selectedLocation == nil)
         #expect(sut.searchText.isEmpty)
-        #expect(sut.searchCompletions == nil)
-        #expect(sut.searchResults == [])
     }
 
     @Test
@@ -39,35 +39,24 @@ struct ExploreViewModelTests {
 
     @Test
     func didUpdateSelectedLocation_withLocation_shouldShowDetailSheet() {
-        sut.selectedLocation = MapSelection<MKMapItem>(MKMapItemDummy())
+        sut.selectedLocation = MapSelection(laneStadiumLocation)
 
         #expect(sut.isShowingDetailSheet)
     }
 
     @Test
     func didUpdateselectedLocation_withNilFeatureAndMapLocation_shouldNotShowDetailSheet() {
-        sut.selectedLocation = MapSelection<MKMapItem>(nil)
+        sut.selectedLocation = MapSelection(nil)
 
         #expect(!sut.isShowingDetailSheet)
     }
 
     @Test
     func didDismissDetailSheet_shouldDeselectLocation() {
-        sut.selectedLocation = MapSelection<MKMapItem>(MKMapItemDummy())
+        sut.selectedLocation = MapSelection(laneStadiumLocation)
 
         sut.didDismissDetailSheet()
 
         #expect(sut.selectedLocation == nil)
     }
-
-    @Test
-    func recieveCompleterUpdate_shouldSetSearchCompletions() {
-        sut.recieveCompleter(update: [MKLocalSearchCompletion()])
-
-        #expect(sut.searchCompletions != nil)
-    }
-}
-
-nonisolated class MKMapItemDummy: MKMapItem {
-    var dummyTitle = ""
 }
