@@ -12,7 +12,7 @@ import Foundation
 final class ExploreViewModel {
     var isShowingDetailSheet = false
 
-    var selectedLocation: MapSelection<Location>? {
+    var mapSelection: MapSelection<Location>? {
         didSet {
             didUpdateMapSelection()
         }
@@ -21,11 +21,11 @@ final class ExploreViewModel {
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
 
     func didDismissDetailSheet() {
-        selectedLocation = nil
+        mapSelection = nil
     }
 
     private func didUpdateMapSelection() {
-        guard let selection = selectedLocation else {
+        guard let selection = mapSelection else {
             isShowingDetailSheet = false
             return
         }

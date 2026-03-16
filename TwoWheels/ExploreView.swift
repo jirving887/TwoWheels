@@ -14,7 +14,7 @@ struct ExploreView: View {
 
     var body: some View {
         NavigationStack {
-            Map(position: $viewModel.mapPosition, selection: $viewModel.selectedLocation) {
+            Map(position: $viewModel.mapPosition, selection: $viewModel.mapSelection) {
                 UserAnnotation()
             }
             .edgesIgnoringSafeArea(.all)

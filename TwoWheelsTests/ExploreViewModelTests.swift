@@ -21,7 +21,7 @@ struct ExploreViewModelTests {
     @Test
     func init_shouldSetInitialValues() {
         #expect(sut.mapPosition == MapCameraPosition.userLocation(fallback: .automatic))
-        #expect(sut.selectedLocation == nil)
+        #expect(sut.mapSelection == nil)
         #expect(sut.searchText.isEmpty)
     }
 
@@ -31,32 +31,32 @@ struct ExploreViewModelTests {
     }
 
     @Test
-    func didUpdateSelectedLocation_withNil_shouldNotShowDetailSheet() {
-        sut.selectedLocation = nil
+    func didUpdateMapSelection_withNil_shouldNotShowDetailSheet() {
+        sut.mapSelection = nil
 
         #expect(!sut.isShowingDetailSheet)
     }
 
     @Test
-    func didUpdateSelectedLocation_withLocation_shouldShowDetailSheet() {
-        sut.selectedLocation = MapSelection(laneStadiumLocation)
+    func didUpdateMapSelection_withLocation_shouldShowDetailSheet() {
+        sut.mapSelection = MapSelection(laneStadiumLocation)
 
         #expect(sut.isShowingDetailSheet)
     }
 
     @Test
-    func didUpdateselectedLocation_withNilFeatureAndMapLocation_shouldNotShowDetailSheet() {
-        sut.selectedLocation = MapSelection(nil)
+    func didUpdateMapSelection_withNilFeatureAndMapLocation_shouldNotShowDetailSheet() {
+        sut.mapSelection = MapSelection(nil)
 
         #expect(!sut.isShowingDetailSheet)
     }
 
     @Test
     func didDismissDetailSheet_shouldDeselectLocation() {
-        sut.selectedLocation = MapSelection(laneStadiumLocation)
+        sut.mapSelection = MapSelection(laneStadiumLocation)
 
         sut.didDismissDetailSheet()
 
-        #expect(sut.selectedLocation == nil)
+        #expect(sut.mapSelection == nil)
     }
 }
