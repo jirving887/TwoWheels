@@ -9,11 +9,11 @@ import MapKit
 import SwiftUI
 
 struct LocationDetailSheet: View {
-    let title: String
+    let location: Location
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(title)
+            Text(location.name)
                 .font(.title2)
                 .fontWeight(.semibold)
 

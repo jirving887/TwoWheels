@@ -26,8 +26,8 @@ struct ExploreView: View {
             .sheet(isPresented: $viewModel.isShowingDetailSheet) {
                 viewModel.didDismissDetailSheet()
             } content: {
-                if let selection = viewModel.selectedLocation {
-                   LocationDetailSheet(title: selection.name)
+                if let location = viewModel.selectedLocation {
+                    LocationDetailSheet(location: location)
                 }
             }
         }
