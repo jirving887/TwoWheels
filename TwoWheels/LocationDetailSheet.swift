@@ -27,8 +27,6 @@ struct LocationDetailSheet: View {
             .controlSize(.large)
         }
         .padding()
-        .presentationDetents([.medium])
-        .presentationBackgroundInteraction(.enabled)
     }
 }
 

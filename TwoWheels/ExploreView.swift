@@ -28,6 +28,8 @@ struct ExploreView: View {
             } content: {
                 if let location = viewModel.selectedLocation {
                     LocationDetailSheet(location: location)
+                        .presentationDetents([.medium])
+                        .presentationBackgroundInteraction(.enabled)
                 }
             }
         }
