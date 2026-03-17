@@ -36,22 +36,40 @@ struct ExploreViewModelTests {
         sut.mapSelection = nil
 
         #expect(!sut.isShowingDetailSheet)
+    }
+
+    @Test
+    func didUpdateMapSelection_withNil_shouldNotSetSelectedLocation() {
+        sut.mapSelection = nil
+
         #expect(sut.selectedLocation == nil)
+    }
+
+    @Test
+    func didUpdateMapSelection_withLocation_shouldShowDetailSheet() {
+        sut.mapSelection = MapSelection(laneStadiumLocation)
+
+        #expect(sut.isShowingDetailSheet)
     }
 
     @Test
     func didUpdateMapSelection_withLocation_shouldSetSelectedLocation() {
         sut.mapSelection = MapSelection(laneStadiumLocation)
 
-        #expect(sut.isShowingDetailSheet)
         #expect(sut.selectedLocation == laneStadiumLocation)
     }
 
     @Test
-    func didUpdateMapSelection_withNilFeatureAndMapLocation_shouldNotShowDetailSheet() {
+    func didUpdateMapSelection_withNilFeatureAndLocation_shouldNotShowDetailSheet() {
         sut.mapSelection = MapSelection(nil)
 
         #expect(!sut.isShowingDetailSheet)
+    }
+
+    @Test
+    func didUpdateMapSelection_withNilFeatureAndLocation_shouldNotSetSelectedLocation() {
+        sut.mapSelection = MapSelection(nil)
+
         #expect(sut.selectedLocation == nil)
     }
 
