@@ -126,12 +126,3 @@ extension MKCoordinateSpan: @retroactive Equatable {
         lhs.latitudeDelta == rhs.latitudeDelta && lhs.longitudeDelta == rhs.longitudeDelta
     }
 }
-
-final class SearchServiceSpy: MapSearching {
-    var recievedSearchRequests: [MKLocalSearch.Request] = []
-
-    func search(with request: MKLocalSearch.Request) async throws -> [Location] {
-        recievedSearchRequests.append(request)
-        return []
-    }
-}
