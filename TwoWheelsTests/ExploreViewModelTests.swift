@@ -26,6 +26,7 @@ struct ExploreViewModelTests {
         #expect(sut.mapSelection == nil)
         #expect(sut.selectedLocation == nil)
         #expect(sut.searchText.isEmpty)
+        #expect(sut.searchResults.isEmpty)
     }
 
     @Test

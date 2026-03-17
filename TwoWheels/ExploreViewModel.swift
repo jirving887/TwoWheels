@@ -15,6 +15,7 @@ final class ExploreViewModel {
     var isShowingDetailSheet = false
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
     var searchText = ""
+    var searchResults: [Location] = []
     var visibleRegion: MKCoordinateRegion = MKCoordinateRegion()
 
     var mapSelection: MapSelection<Location>? {
