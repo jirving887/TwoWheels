@@ -9,7 +9,7 @@ import MapKit
 import SwiftUI
 
 struct ExploreView: View {
-    @State private var viewModel = ExploreViewModel()
+    @State private var viewModel = ExploreViewModel(searchDataSource: nil)
     @State private var searchText = ""
 
     var body: some View {

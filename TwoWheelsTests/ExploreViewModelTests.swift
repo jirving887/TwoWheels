@@ -11,11 +11,13 @@ import Testing
 
 struct ExploreViewModelTests {
     let laneStadiumLocation: Location
+    let searchServiceSpy: SearchServiceSpy
     let sut: ExploreViewModel
 
     init() {
         laneStadiumLocation = Location(name: "Lane Stadium", latitude: 37.219940, longitude: -80.418055)
-        sut = ExploreViewModel()
+        searchServiceSpy = SearchServiceSpy()
+        sut = ExploreViewModel(searchDataSource: searchServiceSpy)
     }
 
     @Test
@@ -81,5 +83,55 @@ struct ExploreViewModelTests {
 
         #expect(sut.mapSelection == nil)
         #expect(sut.selectedLocation == nil)
+    }
+
+    @Test
+    func search_shouldCallSearchServiceOnce() async throws {
+        let searchText = "Lane Stadium"
+        let coordinate = CLLocationCoordinate2D(latitude: 37.219940, longitude: -80.418055)
+        let latitudinalMeters = CLLocationDistance(100)
+        let longitudinalMeters = CLLocationDistance(100)
+        let visibleRegion = MKCoordinateRegion(
+            center: coordinate,
+            latitudinalMeters: latitudinalMeters,
+            longitudinalMeters: longitudinalMeters
+        )
+        sut.searchText = searchText
+        sut.mapPosition = .region(visibleRegion)
+        sut.searchText = searchText
+        sut.visibleRegion = visibleRegion
+
+        await sut.search()
+
+        try #require(searchServiceSpy.recievedSearchRequests.count == 1)
+        #expect(searchServiceSpy.recievedSearchRequests[0].naturalLanguageQuery == searchText)
+        #expect(searchServiceSpy.recievedSearchRequests[0].region == visibleRegion)
+    }
+}
+
+extension MKCoordinateRegion: @retroactive Equatable {
+    static func == (lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
+        lhs.center == rhs.center && lhs.span == rhs.span
+    }
+}
+
+extension CLLocationCoordinate2D: @retroactive Equatable {
+    static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+    }
+}
+
+extension MKCoordinateSpan: @retroactive Equatable {
+    static func == (lhs: MKCoordinateSpan, rhs: MKCoordinateSpan) -> Bool {
+        lhs.latitudeDelta == rhs.latitudeDelta && lhs.longitudeDelta == rhs.longitudeDelta
+    }
+}
+
+final class SearchServiceSpy: MapSearching {
+    var recievedSearchRequests: [MKLocalSearch.Request] = []
+
+    func search(with request: MKLocalSearch.Request) async throws -> [Location] {
+        recievedSearchRequests.append(request)
+        return []
     }
 }

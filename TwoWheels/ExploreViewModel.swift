@@ -10,7 +10,12 @@ import Foundation
 
 @Observable
 final class ExploreViewModel {
+    private var searchDataSource: any MapSearching
+
     var isShowingDetailSheet = false
+    var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
+    var searchText = ""
+    var visibleRegion: MKCoordinateRegion = MKCoordinateRegion()
 
     var mapSelection: MapSelection<Location>? {
         didSet {
@@ -28,11 +33,22 @@ final class ExploreViewModel {
         return nil
     }
 
-    var searchText = ""
-    var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
+    init(searchDataSource: (any MapSearching)?) {
+        self.searchDataSource = searchDataSource!
+    }
 
     func didDismissDetailSheet() {
         mapSelection = nil
+    }
+
+    func search() async {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = searchText
+        request.region = visibleRegion
+
+        do {
+            _ = try await searchDataSource.search(with: request)
+        } catch {}
     }
 
     private func didUpdateMapSelection() {
