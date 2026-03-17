@@ -10,9 +10,10 @@ import MapKit
 
 final class SearchServiceSpy: MapSearching {
     var recievedSearchRequests: [MKLocalSearch.Request] = []
+    var dummyResults: [Location] = []
 
     func search(with request: MKLocalSearch.Request) async throws -> [Location] {
         recievedSearchRequests.append(request)
-        return []
+        return dummyResults
     }
 }

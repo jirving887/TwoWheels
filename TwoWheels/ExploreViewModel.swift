@@ -48,7 +48,7 @@ final class ExploreViewModel {
         request.region = visibleRegion
 
         do {
-            _ = try await searchDataSource.search(with: request)
+            searchResults = try await searchDataSource.search(with: request)
         } catch {}
     }
 

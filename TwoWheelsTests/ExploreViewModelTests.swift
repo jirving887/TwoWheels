@@ -108,6 +108,16 @@ struct ExploreViewModelTests {
         #expect(searchServiceSpy.recievedSearchRequests[0].naturalLanguageQuery == searchText)
         #expect(searchServiceSpy.recievedSearchRequests[0].region == visibleRegion)
     }
+
+    @Test
+    func search_shouldSetSearchResults() async {
+        let dummySearchResult = Location(name: "Burruss Hall", latitude: 37.229000, longitude: -80.423710)
+        searchServiceSpy.dummyResults = [dummySearchResult]
+
+        await sut.search()
+
+        #expect(sut.searchResults == [dummySearchResult])
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
