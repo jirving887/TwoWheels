@@ -13,6 +13,7 @@ final class ExploreViewModel {
     private var searchDataSource: any MapSearching
 
     var isShowingDetailSheet = false
+    var isShowingSearchErrorAlert = false
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
     var searchText = ""
     var searchResults: [Location] = []
