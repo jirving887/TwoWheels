@@ -11,9 +11,13 @@ import MapKit
 final class SearchServiceSpy: MapSearching {
     var recievedSearchRequests: [MKLocalSearch.Request] = []
     var dummyResults: [Location] = []
+    var error: (any Error)?
 
     func search(with request: MKLocalSearch.Request) async throws -> [Location] {
         recievedSearchRequests.append(request)
+        if let error {
+            throw error
+        }
         return dummyResults
     }
 }

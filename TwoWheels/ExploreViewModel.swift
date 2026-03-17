@@ -49,7 +49,9 @@ final class ExploreViewModel {
 
         do {
             searchResults = try await searchDataSource.search(with: request)
-        } catch {}
+        } catch {
+            searchResults = []
+        }
     }
 
     private func didUpdateMapSelection() {

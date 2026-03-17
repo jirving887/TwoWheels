@@ -118,6 +118,18 @@ struct ExploreViewModelTests {
 
         #expect(sut.searchResults == [dummySearchResult])
     }
+
+    @Test
+    func search_withError_shouldNotSetSearchResults() async {
+        let dummySearchResult = Location(name: "Burruss Hall", latitude: 37.229000, longitude: -80.423710)
+        searchServiceSpy.dummyResults = [dummySearchResult]
+        searchServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
+        sut.searchResults = [laneStadiumLocation]
+
+        await sut.search()
+
+        #expect(sut.searchResults.isEmpty)
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
