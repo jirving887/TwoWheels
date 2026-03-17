@@ -52,6 +52,7 @@ final class ExploreViewModel {
             searchResults = try await searchDataSource.search(with: request)
         } catch {
             searchResults = []
+            isShowingSearchErrorAlert = true
         }
     }
 

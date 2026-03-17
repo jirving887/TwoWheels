@@ -121,7 +121,7 @@ struct ExploreViewModelTests {
     }
 
     @Test
-    func search_withError_shouldNotSetSearchResults() async {
+    func search_withError_shouldShowAlertAndNotSetSearchResults() async {
         let dummySearchResult = Location(name: "Burruss Hall", latitude: 37.229000, longitude: -80.423710)
         searchServiceSpy.dummyResults = [dummySearchResult]
         searchServiceSpy.error = NSError(domain: "", code: 0, userInfo: nil)
@@ -129,6 +129,7 @@ struct ExploreViewModelTests {
 
         await sut.search()
 
+        #expect(sut.isShowingSearchErrorAlert)
         #expect(sut.searchResults.isEmpty)
     }
 }
