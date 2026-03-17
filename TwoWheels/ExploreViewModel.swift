@@ -23,7 +23,7 @@ final class ExploreViewModel {
         if let value = mapSelection.value {
             return value
         } else if let feature = mapSelection.feature {
-            return Location(feature)
+            return Location(from: feature)
         }
         return nil
     }

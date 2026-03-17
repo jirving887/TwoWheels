@@ -8,7 +8,7 @@
 import _MapKit_SwiftUI
 
 extension Location {
-    init(_ feature: MapFeature) {
+    init(from feature: MapFeature) {
         self.init(
             name: feature.title ?? "Unknown Location",
             latitude: feature.coordinate.latitude,
