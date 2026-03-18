@@ -9,7 +9,7 @@ import MapKit
 import SwiftUI
 
 struct ExploreView: View {
-    @State private var viewModel = ExploreViewModel(searchDataSource: nil)
+    @State private var viewModel = ExploreViewModel(searchDataSource: MapSearchDataSource())
 
     var body: some View {
         NavigationStack {

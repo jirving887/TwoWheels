@@ -35,8 +35,8 @@ final class ExploreViewModel {
         return nil
     }
 
-    init(searchDataSource: (any MapSearching)?) {
-        self.searchDataSource = searchDataSource!
+    init(searchDataSource: (any MapSearching)) {
+        self.searchDataSource = searchDataSource
     }
 
     func didDismissDetailSheet() {

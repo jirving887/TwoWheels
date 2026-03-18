@@ -10,3 +10,9 @@ import MapKit
 protocol MapSearching {
     func search(with request: MKLocalSearch.Request) async throws -> [Location]
 }
+
+final class MapSearchDataSource: MapSearching {
+    func search(with request: MKLocalSearch.Request) async throws -> [Location] {
+        []
+    }
+}
