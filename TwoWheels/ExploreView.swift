@@ -16,11 +16,16 @@ struct ExploreView: View {
             Map(position: $viewModel.mapPosition, selection: $viewModel.mapSelection) {
                 UserAnnotation()
             }
+            .onMapCameraChange(frequency: .onEnd) { newPos in
+                viewModel.visibleRegion = newPos.region
+            }
             .searchable(text: $viewModel.searchText) {
                 Text("Search View")
             }
             .onSubmit(of: .search) {
-                print("Searching")
+                Task {
+                    await viewModel.search()
+                }
             }
             .sheet(isPresented: $viewModel.isShowingDetailSheet) {
                 viewModel.didDismissDetailSheet()
