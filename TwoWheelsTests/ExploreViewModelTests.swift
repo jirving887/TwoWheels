@@ -88,6 +88,30 @@ struct ExploreViewModelTests {
     }
 
     @Test
+    func submitSearch_shouldCallSearchServiceOnceWithRequest() async throws {
+        let searchText = "Lane Stadium"
+        let coordinate = CLLocationCoordinate2D(latitude: 37.219940, longitude: -80.418055)
+        let latitudinalMeters = CLLocationDistance(100)
+        let longitudinalMeters = CLLocationDistance(100)
+        let visibleRegion = MKCoordinateRegion(
+            center: coordinate,
+            latitudinalMeters: latitudinalMeters,
+            longitudinalMeters: longitudinalMeters
+        )
+        sut.searchText = searchText
+        sut.mapPosition = .region(visibleRegion)
+        sut.searchText = searchText
+        sut.visibleRegion = visibleRegion
+
+        sut.submitSearch()
+        await Task.yield()
+
+        try #require(searchServiceSpy.receivedSearchRequests.count == 1)
+        #expect(searchServiceSpy.receivedSearchRequests[0].naturalLanguageQuery == searchText)
+        #expect(searchServiceSpy.receivedSearchRequests[0].region == visibleRegion)
+    }
+
+    @Test
     func search_shouldCallSearchServiceOnce() async throws {
         let searchText = "Lane Stadium"
         let coordinate = CLLocationCoordinate2D(latitude: 37.219940, longitude: -80.418055)

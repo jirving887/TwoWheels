@@ -43,6 +43,15 @@ final class ExploreViewModel {
         mapSelection = nil
     }
 
+    func submitSearch() {
+        Task {
+            let request = MKLocalSearch.Request()
+            request.naturalLanguageQuery = searchText
+            request.region = visibleRegion
+            _ = try? await searchDataSource.search(with: request)
+        }
+    }
+
     func search() async {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = searchText
