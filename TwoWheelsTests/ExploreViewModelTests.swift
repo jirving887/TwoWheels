@@ -105,9 +105,9 @@ struct ExploreViewModelTests {
 
         await sut.search()
 
-        try #require(searchServiceSpy.recievedSearchRequests.count == 1)
-        #expect(searchServiceSpy.recievedSearchRequests[0].naturalLanguageQuery == searchText)
-        #expect(searchServiceSpy.recievedSearchRequests[0].region == visibleRegion)
+        try #require(searchServiceSpy.receivedSearchRequests.count == 1)
+        #expect(searchServiceSpy.receivedSearchRequests[0].naturalLanguageQuery == searchText)
+        #expect(searchServiceSpy.receivedSearchRequests[0].region == visibleRegion)
     }
 
     @Test
