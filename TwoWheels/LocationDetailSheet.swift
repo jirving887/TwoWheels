@@ -31,5 +31,7 @@ struct LocationDetailSheet: View {
 }
 
 #Preview {
-    ExploreView(viewModel: MockExploreViewModel())
+    ExploreView(viewModel: MockExploreViewModel()) { location in
+        LocationDetailSheet(location: location)
+    }
 }

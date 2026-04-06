@@ -29,4 +29,8 @@ final class MockExploreViewModel: ExploreViewModelProtocol {
     func search() {
         print("search")
     }
+
+    func didDismissDetailSheet() {
+        print("Dismissed detail sheet")
+    }
 }

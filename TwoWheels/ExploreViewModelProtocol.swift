@@ -17,4 +17,5 @@ protocol ExploreViewModelProtocol: AnyObject, Observable {
     var isShowingDetailSheet: Bool { get set }
 
     func search()
+    func didDismissDetailSheet()
 }
