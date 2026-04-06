@@ -8,8 +8,8 @@
 import MapKit
 import SwiftUI
 
-struct ExploreView: View {
-    @State private var viewModel = ExploreViewModel(searchDataSource: MapSearchDataSource())
+struct ExploreView<ViewModel: ExploreViewModelProtocol>: View {
+    @Bindable var viewModel: ViewModel
 
     var body: some View {
         NavigationStack {
@@ -25,16 +25,7 @@ struct ExploreView: View {
             }
             .onSubmit(of: .search) {
                 Task {
-                    await viewModel.search()
-                }
-            }
-            .sheet(isPresented: $viewModel.isShowingDetailSheet) {
-                viewModel.didDismissDetailSheet()
-            } content: {
-                if let location = viewModel.selectedLocation {
-                    LocationDetailSheet(location: location)
-                        .presentationDetents([.medium])
-                        .presentationBackgroundInteraction(.enabled)
+                    viewModel.search()
                 }
             }
         }
@@ -42,5 +33,5 @@ struct ExploreView: View {
 }
 
 #Preview {
-    ExploreView()
+    ExploreView(viewModel: MockExploreViewModel())
 }

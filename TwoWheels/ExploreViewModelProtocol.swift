@@ -9,15 +9,12 @@ import Foundation
 import _MapKit_SwiftUI
 
 protocol ExploreViewModelProtocol: AnyObject, Observable {
-    associatedtype MapLocation: Hashable
-
     var mapPosition: MapCameraPosition { get set }
-    var mapSelection: MapSelection<MapLocation>? { get set }
-    var visibleRegion: MKCoordinateRegion? { get set }
+    var mapSelection: MapSelection<Location>? { get set }
+    var visibleRegion: MKCoordinateRegion { get set }
     var searchText: String { get set }
-    var selectedLocation: MapLocation { get set }
+    var selectedLocation: Location? { get }
     var isShowingDetailSheet: Bool { get set }
 
     func search()
-    func didDismissDetailSheet()
 }

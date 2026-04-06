@@ -17,7 +17,7 @@ struct TwoWheelsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ExploreView()
+            ExploreView(viewModel: MockExploreViewModel())
         }
     }
 }
