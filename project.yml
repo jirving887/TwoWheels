@@ -121,9 +121,8 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         CODE_SIGN_STYLE: Automatic
         CURRENT_PROJECT_VERSION: 1
-        DEVELOPMENT_ASSET_PATHS: "\"TwoWheels/Preview Content\""
+        DEVELOPMENT_ASSET_PATHS: "\"TwoWheels/Preview Content/Preview Assets.xcassets\""
         DEVELOPMENT_TEAM: VWR86Y33PH
-        ENABLE_PREVIEWS: YES
         ENABLE_USER_SCRIPT_SANDBOXING: NO
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_FILE: TwoWheels/Info.plist
@@ -148,6 +147,9 @@ targets:
         SWIFT_EMIT_LOC_STRINGS: YES
         SWIFT_VERSION: "6.0"
         TARGETED_DEVICE_FAMILY: "1"
+      configs:
+        Debug:
+          ENABLE_PREVIEWS: YES
       groups:
         - swift6-concurrency
     postCompileScripts:
