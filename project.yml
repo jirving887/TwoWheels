@@ -1,5 +1,6 @@
 name: TwoWheels
 options:
+  defaultSourceDirectoryType: syncedFolder
   deploymentTarget:
     iOS: "26.0"
   xcodeVersion: "2600"
