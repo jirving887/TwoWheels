@@ -19,7 +19,8 @@ struct ExploreView: View {
             .onMapCameraChange(frequency: .onEnd) { newPos in
                 viewModel.visibleRegion = newPos.region
             }
-            .searchable(text: $viewModel.searchText) {
+            .searchable(text: $viewModel.searchText)
+            .searchSuggestions {
                 Text("Search View")
             }
             .onSubmit(of: .search) {
