@@ -16,14 +16,19 @@ final class MockExploreViewModel: ExploreViewModelProtocol {
     var searchText: String
     var selectedLocation: Location?
     var isShowingDetailSheet: Bool
+    var searchCompletions: [SearchCompletionInformation]
 
-    init() {
+    init(populateResults: Bool = true) {
         self.mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
         self.mapSelection = nil
         self.visibleRegion = MKCoordinateRegion()
         self.searchText = ""
         self.selectedLocation = nil
         self.isShowingDetailSheet = false
+        self.searchCompletions = populateResults ? Array(
+            repeating: SearchCompletionInformation(title: "Lane Stadium", subtitle: "We suck at football"),
+            count: 10
+        ) : []
     }
 
     func search() {

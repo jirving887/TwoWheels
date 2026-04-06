@@ -22,7 +22,14 @@ struct ExploreView<ViewModel: ExploreViewModelProtocol, LocationDetailView: View
             }
             .searchable(text: $viewModel.searchText)
             .searchSuggestions {
-                Text("Search View")
+                if viewModel.searchText.isEmpty {
+                    Label("No results, yet...", systemImage: "magnifyingglass")
+                } else {
+                    ForEach(viewModel.searchCompletions) { completionInfo in
+                        SearchCompletionView(completionInfo: completionInfo)
+                            .searchCompletion(completionInfo.title)
+                    }
+                }
             }
             .onSubmit(of: .search) {
                 Task {

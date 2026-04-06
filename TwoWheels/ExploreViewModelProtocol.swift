@@ -15,6 +15,7 @@ protocol ExploreViewModelProtocol: AnyObject, Observable {
     var searchText: String { get set }
     var selectedLocation: Location? { get }
     var isShowingDetailSheet: Bool { get set }
+    var searchCompletions: [SearchCompletionInformation] { get }
 
     func search()
     func didDismissDetailSheet()
