@@ -51,7 +51,7 @@ final class ExploreViewModel {
             latitudeDelta: visibleRegion.span.latitudeDelta,
             longitudeDelta: visibleRegion.span.longitudeDelta
         )
-        _ = try? await searchUseCase.search(for: query)
+        searchResults = (try? await searchUseCase.search(for: query)) ?? []
     }
 
     private func didUpdateMapSelection() {

@@ -10,9 +10,10 @@ import Foundation
 
 final class SearchUseCaseSpy: SearchUseCase {
     var searchedQueries = [SearchQuery]()
+    var results = [Location]()
 
     func search(for query: SearchQuery) async throws -> [Location] {
         searchedQueries.append(query)
-        return []
+        return results
     }
 }

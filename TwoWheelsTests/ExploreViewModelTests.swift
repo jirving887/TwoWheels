@@ -114,6 +114,15 @@ struct ExploreViewModelTests {
         #expect(searchedQuery.latitudeDelta == 100)
         #expect(searchedQuery.longitudeDelta == 100)
     }
+
+    @Test
+    func `search with success should update search results`() async {
+        spySearchUseCase.results = [laneStadiumLocation]
+
+        await sut.search()
+
+        #expect(sut.searchResults == [laneStadiumLocation])
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {
