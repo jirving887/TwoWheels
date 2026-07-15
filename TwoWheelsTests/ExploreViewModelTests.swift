@@ -123,6 +123,16 @@ struct ExploreViewModelTests {
 
         #expect(sut.searchResults == [laneStadiumLocation])
     }
+
+    @Test
+    func `search with error should empty search results`() async {
+        spySearchUseCase.shouldThrowError = true
+        sut.searchResults = [laneStadiumLocation]
+
+        await sut.search()
+
+        #expect(sut.searchResults.isEmpty)
+    }
 }
 
 extension MKCoordinateRegion: @retroactive Equatable {

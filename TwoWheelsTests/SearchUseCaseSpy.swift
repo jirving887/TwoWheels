@@ -11,8 +11,12 @@ import Foundation
 final class SearchUseCaseSpy: SearchUseCase {
     var searchedQueries = [SearchQuery]()
     var results = [Location]()
+    var shouldThrowError = false
 
     func search(for query: SearchQuery) async throws -> [Location] {
+        if shouldThrowError {
+            throw NSError(domain: "SearchUseCaseSpy", code: 0)
+        }
         searchedQueries.append(query)
         return results
     }
