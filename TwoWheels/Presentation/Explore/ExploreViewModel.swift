@@ -10,7 +10,7 @@ import Foundation
 
 @Observable
 final class ExploreViewModel {
-    private var searchDataSource: any MapSearching
+    private var searchUseCase: any SearchUseCase
 
     var isShowingDetailSheet = false
     var isShowingSearchErrorAlert = false
@@ -35,8 +35,8 @@ final class ExploreViewModel {
         return nil
     }
 
-    init(searchDataSource: (any MapSearching)) {
-        self.searchDataSource = searchDataSource
+    init(searchUseCase: any SearchUseCase) {
+        self.searchUseCase = searchUseCase
     }
 
     func didDismissDetailSheet() {
@@ -44,16 +44,14 @@ final class ExploreViewModel {
     }
 
     func search() async {
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = searchText
-        request.region = visibleRegion
-
-        do {
-            searchResults = try await searchDataSource.search(with: request)
-        } catch {
-            searchResults = []
-            isShowingSearchErrorAlert = true
-        }
+        let query = SearchQuery(
+            queryString: searchText,
+            latitude: visibleRegion.center.latitude,
+            longitude: visibleRegion.center.longitude,
+            latitudeDelta: visibleRegion.span.latitudeDelta,
+            longitudeDelta: visibleRegion.span.longitudeDelta
+        )
+        _ = try? await searchUseCase.search(for: query)
     }
 
     private func didUpdateMapSelection() {
