@@ -90,54 +90,25 @@ struct ExploreViewModelTests {
 
     @Test
     func `search should call search use case with search text and region`() async throws {
-        let searchText = "Lane Stadium"
-        let coordinate = CLLocationCoordinate2D(latitude: 37.219940, longitude: -80.418055)
-        let latitudinalMeters = CLLocationDistance(100)
-        let longitudinalMeters = CLLocationDistance(100)
-        let span = MKCoordinateSpan(
-            latitudeDelta: latitudinalMeters,
-            longitudeDelta: longitudinalMeters
+        sut.searchText = "Lane Stadium"
+        sut.visibleRegion = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 37.219940, longitude: -80.418055),
+            span: MKCoordinateSpan(latitudeDelta: 100, longitudeDelta: 100)
         )
-        let visibleRegion = MKCoordinateRegion(
-            center: coordinate,
-            span: span
-        )
-        sut.searchText = searchText
-        sut.visibleRegion = visibleRegion
 
         sut.search()
 
-        try await expectToEventuallyEqual(actual: { spySearchUseCase.searchedQueries.count }, expected: 1)
-        try await expectToEventuallyEqual(actual: {
-            if let searchedQuery = spySearchUseCase.searchedQueries.first {
-                return searchedQuery.queryString
-            }
-            return ""
-        }, expected: "Lane Stadium")
-        try await expectToEventuallyEqual(actual: {
-            if let searchedQuery = spySearchUseCase.searchedQueries.first {
-                return searchedQuery.latitude
-            }
-            return 0
-        }, expected: 37.219940)
-        try await expectToEventuallyEqual(actual: {
-            if let searchedQuery = spySearchUseCase.searchedQueries.first {
-                return searchedQuery.longitude
-            }
-            return 0
-        }, expected: -80.418055)
-        try await expectToEventuallyEqual(actual: {
-            if let searchedQuery = spySearchUseCase.searchedQueries.first {
-                return searchedQuery.latitudeDelta
-            }
-            return 0
-        }, expected: 100)
-        try await expectToEventuallyEqual(actual: {
-            if let searchedQuery = spySearchUseCase.searchedQueries.first {
-                return searchedQuery.longitudeDelta
-            }
-            return 0
-        }, expected: 100)
+        let expectedQuery = SearchQuery(
+            queryString: "Lane Stadium",
+            latitude: 37.219940,
+            longitude: -80.418055,
+            latitudeDelta: 100,
+            longitudeDelta: 100
+        )
+        try await expectToEventuallyEqual(
+            actual: { spySearchUseCase.searchedQueries },
+            expected: [expectedQuery]
+        )
     }
 
     @Test

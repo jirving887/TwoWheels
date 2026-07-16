@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchQuery {
+struct SearchQuery: Equatable {
     let queryString: String
     let latitude: Double
     let longitude: Double
