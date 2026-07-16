@@ -5,6 +5,7 @@
 //  Created by Jonathan Irving on 7/12/25.
 //
 
+import ExpectToEventuallyEqual
 import _MapKit_SwiftUI
 import Testing
 @testable import TwoWheels
@@ -104,34 +105,67 @@ struct ExploreViewModelTests {
         sut.searchText = searchText
         sut.visibleRegion = visibleRegion
 
-        await sut.search()
+        sut.search()
 
-        #expect(spySearchUseCase.searchedQueries.count == 1)
-        let searchedQuery = try #require(spySearchUseCase.searchedQueries.first)
-        #expect(searchedQuery.queryString == "Lane Stadium")
-        #expect(searchedQuery.latitude == 37.219940)
-        #expect(searchedQuery.longitude == -80.418055)
-        #expect(searchedQuery.latitudeDelta == 100)
-        #expect(searchedQuery.longitudeDelta == 100)
+        try await expectToEventuallyEqual(actual: { spySearchUseCase.searchedQueries.count }, expected: 1)
+        try await expectToEventuallyEqual(actual: {
+            if let searchedQuery = spySearchUseCase.searchedQueries.first {
+                return searchedQuery.queryString
+            }
+            return ""
+        }, expected: "Lane Stadium")
+        try await expectToEventuallyEqual(actual: {
+            if let searchedQuery = spySearchUseCase.searchedQueries.first {
+                return searchedQuery.latitude
+            }
+            return 0
+        }, expected: 37.219940)
+        try await expectToEventuallyEqual(actual: {
+            if let searchedQuery = spySearchUseCase.searchedQueries.first {
+                return searchedQuery.longitude
+            }
+            return 0
+        }, expected: -80.418055)
+        try await expectToEventuallyEqual(actual: {
+            if let searchedQuery = spySearchUseCase.searchedQueries.first {
+                return searchedQuery.latitudeDelta
+            }
+            return 0
+        }, expected: 100)
+        try await expectToEventuallyEqual(actual: {
+            if let searchedQuery = spySearchUseCase.searchedQueries.first {
+                return searchedQuery.longitudeDelta
+            }
+            return 0
+        }, expected: 100)
     }
 
     @Test
-    func `search with success should update search results`() async {
+    func `search with success should update search results`() async throws {
         spySearchUseCase.results = [laneStadiumLocation]
 
-        await sut.search()
+        sut.search()
 
-        #expect(sut.searchResults == [laneStadiumLocation])
+        try await expectToEventuallyEqual(actual: { sut.searchResults }, expected: [laneStadiumLocation])
     }
 
     @Test
-    func `search with error should empty search results`() async {
+    func `search with error should empty search results`() async throws {
         spySearchUseCase.shouldThrowError = true
         sut.searchResults = [laneStadiumLocation]
 
-        await sut.search()
+        sut.search()
 
-        #expect(sut.searchResults.isEmpty)
+        try await expectToEventuallyEqual(actual: { sut.searchResults.isEmpty }, expected: true)
+    }
+
+    @Test
+    func `search with error should show alert`() async throws {
+        spySearchUseCase.shouldThrowError = true
+
+        sut.search()
+
+        try await expectToEventuallyEqual(actual: { sut.isShowingSearchErrorAlert }, expected: true)
     }
 }
 

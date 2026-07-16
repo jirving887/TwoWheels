@@ -43,7 +43,7 @@ final class ExploreViewModel {
         mapSelection = nil
     }
 
-    func search() async {
+    func search() {
         let query = SearchQuery(
             queryString: searchText,
             latitude: visibleRegion.center.latitude,
@@ -51,7 +51,14 @@ final class ExploreViewModel {
             latitudeDelta: visibleRegion.span.latitudeDelta,
             longitudeDelta: visibleRegion.span.longitudeDelta
         )
-        searchResults = (try? await searchUseCase.search(for: query)) ?? []
+        Task {
+            do {
+                searchResults = try await searchUseCase.search(for: query)
+            } catch {
+                searchResults = []
+                isShowingSearchErrorAlert = true
+            }
+        }
     }
 
     private func didUpdateMapSelection() {
