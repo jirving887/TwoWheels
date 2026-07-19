@@ -9,6 +9,7 @@ import Foundation
 import _MapKit_SwiftUI
 
 protocol ExploreViewModelProtocol: AnyObject, Observable {
+    var searchState: SearchState { get }
     var mapPosition: MapCameraPosition { get set }
     var mapSelection: MapSelection<Location>? { get set }
     var visibleRegion: MKCoordinateRegion { get set }

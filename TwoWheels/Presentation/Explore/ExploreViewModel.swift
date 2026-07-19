@@ -12,6 +12,7 @@ import Foundation
 final class ExploreViewModel {
     private var searchUseCase: any SearchUseCase
 
+    var searchState = SearchState.idle
     var isShowingDetailSheet = false
     var isShowingSearchErrorAlert = false
     var mapPosition = MapCameraPosition.userLocation(fallback: .automatic)

@@ -10,6 +10,7 @@ import _MapKit_SwiftUI
 
 @Observable
 final class MockExploreViewModel: ExploreViewModelProtocol {
+    var searchState: SearchState
     var mapPosition: MapCameraPosition
     var mapSelection: MapSelection<Location>?
     var visibleRegion: MKCoordinateRegion
@@ -19,6 +20,7 @@ final class MockExploreViewModel: ExploreViewModelProtocol {
     var searchCompletions: [SearchCompletionInformation]
 
     init(populateResults: Bool = true) {
+        self.searchState = .idle
         self.mapPosition = MapCameraPosition.userLocation(fallback: .automatic)
         self.mapSelection = nil
         self.visibleRegion = MKCoordinateRegion()

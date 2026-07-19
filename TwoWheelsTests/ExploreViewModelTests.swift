@@ -23,6 +23,7 @@ struct ExploreViewModelTests {
 
     @Test
     func init_shouldSetInitialValues() {
+        #expect(sut.searchState == .idle)
         #expect(sut.mapPosition == MapCameraPosition.userLocation(fallback: .automatic))
         #expect(sut.mapSelection == nil)
         #expect(sut.selectedLocation == nil)
