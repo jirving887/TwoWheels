@@ -45,6 +45,7 @@ final class ExploreViewModel {
     }
 
     func search() {
+        searchState = .searching
         let query = SearchQuery(
             queryString: searchText,
             latitude: visibleRegion.center.latitude,

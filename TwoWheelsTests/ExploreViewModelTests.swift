@@ -90,6 +90,13 @@ struct ExploreViewModelTests {
     }
 
     @Test
+    func `search with idle state should set search state to searching`() {
+        sut.search()
+
+        #expect(sut.searchState == .searching)
+    }
+
+    @Test
     func `search should call search use case with search text and region`() async throws {
         sut.searchText = "Lane Stadium"
         sut.visibleRegion = MKCoordinateRegion(
